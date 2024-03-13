@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.DeviceSearchView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:beh="clr-namespace:CMMMobileMaui.Behevior"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:mod="clr-namespace:CMMMobileMaui.MODEL"
+    xmlns:sel="clr-namespace:CMMMobileMaui.SELECTORS"
+    xmlns:telerikPrimitives="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="mainPage2"
+    Title="Szukaj urządzenia"
+    x:DataType="vm:VMDeviceSearch"
+    x:TypeArguments="vm:VMDeviceSearch"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="devTemp" x:DataType="mod:DeviceModel">
+                <Grid
+                    x:Name="gMain"
+                    Padding="2,0,0,0"
+                    BackgroundColor="{Binding Converter={cv:DeviceStateColorConv}, Path=BaseItem.StateID}">
+                    <Grid.Behaviors>
+                        <xct:AnimationBehavior Command="{Binding Path=TakeDeviceCommand}" CommandParameter="{Binding .}">
+                            <xct:AnimationBehavior.AnimationType>
+                                <xct:FadeAnimation />
+                            </xct:AnimationBehavior.AnimationType>
+                        </xct:AnimationBehavior>
+                    </Grid.Behaviors>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="32" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout
+                        Grid.Row="0"
+                        Orientation="Vertical"
+                        Spacing="0"
+                        VerticalOptions="Center">
+
+                        <Label Style="{StaticResource lblListHeaderStyle}" Text="{Binding Path=BaseItem.AssetNo, Mode=OneTime}" />
+
+                        <Label Style="{StaticResource lblListSubHeaderStyle}" Text="{Binding Path=BaseItem.DeviceCategory, StringFormat='[{0}]', Mode=OneTime}" />
+                    </StackLayout>
+
+                    <telerikPrimitives:RadWrapLayout
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label IsVisible="{Binding Path=BaseItem.Type, Mode=OneTime, Converter={xct:IsStringNotNullOrEmptyConverter}}" Text="{Binding Path=BaseItem.Type, StringFormat='[{0}]', Mode=OneTime}" />
+                        <Label IsVisible="{Binding Path=BaseItem.SerialNo, Mode=OneTime, Converter={xct:IsStringNotNullOrEmptyConverter}}" Text="{Binding Path=BaseItem.SerialNo, StringFormat='[{0}]', Mode=OneTime}" />
+
+                    </telerikPrimitives:RadWrapLayout>
+
+                    <cust:LabelIconButton
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        Command="{Binding Path=TakeDeviceCommand}"
+                        CommandParameter="{Binding .}"
+                        Text="more_horiz" />
+
+                    <telerikPrimitives:RadBusyIndicator
+                        x:Name="busyIndicator"
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="2"
+                        AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                        AnimationContentHeightRequest="30"
+                        AnimationContentWidthRequest="30"
+                        AnimationType="Animation1"
+                        HorizontalOptions="Center"
+                        IsBusy="{Binding Path=IsBusy, Mode=OneWay}"
+                        IsVisible="{Binding Path=IsBusy, Mode=OneWay}"
+                        VerticalOptions="Center" />
+                </Grid>
+            </DataTemplate>
+            <sel:DeviceTemplateSelector x:Key="ssDevice" DeviceTemplate="{StaticResource devTemp}" />
+        </ResourceDictionary>
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="gridSearch" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="2,5,2,5"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    WidthRequest="32" />
+
+                <cust:CustomFrameEntry
+                    Title="{cv:Translate search_by,
+                                         IsUpper=True}"
+                    Grid.Column="1"
+                    Margin="2,2,2,2"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    ReturnCommand="{Binding Path=FilterDeviceCommand}"
+                    Text="{Binding Path=FilterText, Mode=TwoWay}" />
+
+                <cust:LabelIconButton
+                    Grid.Column="2"
+                    Margin="0,0,10,0"
+                    Command="{Binding Path=FilterDeviceCommand}"
+                    Text="search" />
+
+                <cust:LabelIconButton
+                    Grid.Column="3"
+                    Margin="0,0,10,0"
+                    Command="{Binding Path=ScanSerialNoCommand}"
+                    Text="qr_code" />
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <cust:CustomGroupHeader Title="{cv:Translate dev_list, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <CollectionView
+                    x:Name="lvDeviceSearch"
+                    Grid.Row="1"
+                    ItemTemplate="{StaticResource devTemp}"
+                    ItemsSource="{Binding Path=DeviceList}"
+                    RemainingItemsThreshold="10"
+                    RemainingItemsThresholdReachedCommand="{Binding Path=LoadNextItemsCommand}"
+                    SelectedItem="{Binding Path=CurrentDevice}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

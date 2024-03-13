@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="CMMMobileMaui.CUST.WOActivityPop"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="Transparent"
+    CloseWhenBackgroundIsClicked="False">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame Style="{StaticResource frameStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Label Style="{StaticResource lblGroupHeaderStyle}" Text="{cv:Translate wo_act_new, IsUpper=True}" />
+
+                <cust:CustomListPicker
+                    x:Name="cboxActCat"
+                    Title="{cv:Translate wo_category,
+                                         IsUpper=True}"
+                    Grid.Row="1"
+                    Margin="4,0"
+                    DisplayPath="Name"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    ItemsSource="{Binding Path=ActCatList}"
+                    SelectedItem="{Binding Path=ActCat, Mode=TwoWay}" />
+
+                <cust:CustomFrameNumericEntry
+                    Title="{cv:Translate wo_act_work}"
+                    Grid.Row="2"
+                    Margin="4,0"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    NumericValue="{Binding Path=WorkLoad, Mode=TwoWay}"
+                    NumericValueFormat="0.##" />
+
+                <cust:CustomFrameEditor
+                    Title="{cv:Translate wo_desc}"
+                    Grid.Row="3"
+                    Margin="4,0,4,2"
+                    FontSize="12"
+                    HorizontalOptions="FillAndExpand"
+                    IsRequired="True"
+                    Text="{Binding Path=Description, Mode=TwoWay}"
+                    VerticalOptions="FillAndExpand" />
+
+                <Grid
+                    Grid.Row="4"
+                    Margin="0,0,0,-2"
+                    ColumnDefinitions="*, *">
+                    <cust:SKIAImageTextButton
+                        Grid.Column="0"
+                        ButtonCommand="{Binding Path=SaveCommand}"
+                        ImageSource="save"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate save,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=CloseCommand}"
+                        ImageSource="cancel"
+                        Style="{x:StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate close,
+                                            IsUpper=True}" />
+
+                </Grid>
+
+            </Grid>
+
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.CUST.CustomFrameNumericEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Margin="0"
+    Padding="1"
+    BackgroundColor="Transparent">
+
+    <Frame x:Name="border" Style="{StaticResource customControlFrame}">
+        <Grid
+            x:Name="gMain"
+            ColumnDefinitions="*, AUTO"
+            RowDefinitions="13, *"
+            RowSpacing="0">
+            <Label
+                x:Name="lblTitle"
+                Margin="6,0,6,0"
+                Padding="0,0,0,-2"
+                FontAttributes="Bold"
+                FontSize="10"
+                HorizontalTextAlignment="Start"
+                LineBreakMode="TailTruncation"
+                TextColor="#9e9e9e"
+                VerticalTextAlignment="Center" />
+            <cust:NumericTextBox
+                x:Name="tboxText"
+                Grid.Row="1"
+                Margin="4,0,4,-10"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Start"
+                Keyboard="Numeric"
+                VerticalOptions="FillAndExpand"
+                VerticalTextAlignment="Center" />
+
+            <Image
+                x:Name="btnClear"
+                Grid.RowSpan="2"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                Source="delete.png"
+                WidthRequest="30" />
+        </Grid>
+    </Frame>
+</Grid>

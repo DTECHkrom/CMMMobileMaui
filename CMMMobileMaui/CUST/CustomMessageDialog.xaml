@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="CMMMobileMaui.CUST.CustomMessageDialog"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    x:Name="custDialog"
+    BackgroundColor="Transparent"
+    CloseWhenBackgroundIsClicked="False">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Bottom"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <Grid
+        Padding="0,0,0,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Frame
+            x:Name="frameMsgMain"
+            Grid.Row="1"
+            BackgroundColor="WhiteSmoke"
+            HorizontalOptions="FillAndExpand"
+            IsClippedToBounds="true"
+            Style="{StaticResource frameStyle}"
+            VerticalOptions="Center">
+
+            <Grid
+                Margin="1,0,1,1"
+                Padding="0,0,0,0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <ScrollView
+                    Grid.Row="1"
+                    Padding="10"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center"
+                    VerticalScrollBarVisibility="Default">
+                    <Label
+                        x:Name="lblCustomText"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        VerticalOptions="Center" />
+                </ScrollView>
+
+                <Grid
+                    Grid.Row="0"
+                    ColumnDefinitions="*, *"
+                    HorizontalOptions="FillAndExpand">
+
+                    <BoxView
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{Binding Source={x:Reference btnMsgCancel}, Path=ButtonBackgroundColor}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand" />
+
+                    <cust:SKIAImageTextButton
+                        x:Name="btnMsgOK"
+                        Grid.Column="0"
+                        ButtonCommand="{Binding Path=ConfirmCommand}"
+                        ImageSource="done_outline"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate confirm,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        x:Name="btnMsgCancel"
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=CloseCommand}"
+                        ImageSource="cancel"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate close,
+                                            IsUpper=True}" />
+
+                </Grid>
+
+            </Grid>
+        </Frame>
+
+        <Frame
+            Grid.Row="0"
+            Padding="14"
+            BackgroundColor="White"
+            CornerRadius="90"
+            HorizontalOptions="Center"
+            IsClippedToBounds="True"
+            Style="{StaticResource frameStyle}"
+            TranslationY="40"
+            VerticalOptions="Center">
+            <Image
+                x:Name="msgImageMain"
+                Aspect="Fill"
+                BackgroundColor="White"
+                HeightRequest="36"
+                HorizontalOptions="Center"
+                VerticalOptions="Start"
+                WidthRequest="36">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Source" Value="warning" />
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Source={x:Reference custDialog}, Path=DialogType}"
+                                TargetType="Image"
+                                Value="0">
+                                <Setter Property="Source" Value="help" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding Source={x:Reference custDialog}, Path=DialogType}"
+                                TargetType="Image"
+                                Value="1">
+                                <Setter Property="Source" Value="info" />
+                            </DataTrigger>
+                            <DataTrigger
+                                Binding="{Binding Source={x:Reference custDialog}, Path=DialogType}"
+                                TargetType="Image"
+                                Value="2">
+                                <Setter Property="Source" Value="warning" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Frame>
+
+    </Grid>
+</pages:PopupPage>

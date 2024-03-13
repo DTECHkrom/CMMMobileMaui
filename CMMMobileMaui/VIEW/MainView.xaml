@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.MainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:dbm="clr-namespace:DBMain.Model;assembly=CMMMobileMaui.LocalDB"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="viewMainPage"
+    x:DataType="vm:VMMainView"
+    x:TypeArguments="vm:VMMainView"
+    Shell.NavBarIsVisible="False">
+
+    <view:PageBase.Content>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout Grid.Row="0">
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="10,5,10,5"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    WidthRequest="32" />
+            </StackLayout>
+
+
+            <Grid Grid.Row="1" Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate main_info1, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <Grid Grid.Row="1">
+
+                    <ListView
+                        x:Name="lvDeviceHist"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding Path=HistoryList}"
+                        SelectedItem="{Binding Path=CurrentHistory}"
+                        SelectionMode="None">
+
+                        <ListView.Resources>
+                            <ResourceDictionary>
+                                <cv:ListItemIndexConv x:Key="cvListIndex" />
+                            </ResourceDictionary>
+                        </ListView.Resources>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <cust:DeviceHistViewCell />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate main_info2, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    x:Name="lvFile"
+                    Grid.Row="1"
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Path=FilesHistoryList}"
+                    SelectedItem="{Binding Path=CurrentFileHistory}">
+                    <ListView.Resources>
+                        <ResourceDictionary>
+                            <cv:ListItemIndexConv x:Key="cvListIndex" />
+                        </ResourceDictionary>
+                    </ListView.Resources>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="dbm:History">
+                            <ViewCell>
+                                <Grid ColumnSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="25" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Grid.Column="0"
+                                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_2}}"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding ., Converter={StaticResource cvListIndex}, ConverterParameter={x:Reference lvFile}}"
+                                        VerticalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center" />
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackLayout
+                                            Grid.Column="0"
+                                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Vertical"
+                                            Spacing="0">
+
+                                            <Label
+                                                Margin="2,1,2,0"
+                                                HorizontalOptions="FillAndExpand"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Path=Mod_Date, StringFormat='[{0:yyyy-MM-dd}]'}"
+                                                VerticalTextAlignment="Center" />
+
+                                            <Label
+                                                Margin="2,0,2,1"
+                                                HorizontalOptions="FillAndExpand"
+                                                HorizontalTextAlignment="Center"
+                                                Text="{Binding Path=Mod_Date, StringFormat='[{0:HH:mm}]'}"
+                                                VerticalTextAlignment="Center" />
+
+                                        </StackLayout>
+
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="1"
+                                            FontAttributes="Bold"
+                                            Text="{Binding Path=Name}"
+                                            VerticalOptions="Center"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+
+                                    <cust:LabelIconButton
+                                        Grid.Column="2"
+                                        Command="{Binding Path=BindingContext.ShowFileCommand, Source={x:Reference viewMainPage}}"
+                                        CommandParameter="{Binding .}"
+                                        Text="more_horiz" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

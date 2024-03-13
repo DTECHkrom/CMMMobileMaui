@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.CUST.CustomFrameDatePicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:telerikInput="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Margin="0"
+    Padding="1"
+    BackgroundColor="Transparent">
+    <Frame x:Name="border" Style="{StaticResource customControlFrame}">
+        <Grid
+            x:Name="gMain"
+            ColumnDefinitions="*, AUTO"
+            RowDefinitions="13, *">
+            <Grid.Resources>
+                <Style x:Key="displayLabelStyle" TargetType="Label">
+                    <Setter Property="TextColor" Value="Black" />
+                    <Setter Property="VerticalTextAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="4, 0" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HeightRequest" Value="20" />
+                </Style>
+            </Grid.Resources>
+            <Label
+                x:Name="lblTitle"
+                Margin="6,0"
+                FontAttributes="Bold"
+                FontSize="10"
+                HorizontalTextAlignment="Start"
+                LineBreakMode="TailTruncation"
+                TextColor="#9e9e9e"
+                VerticalTextAlignment="Center" />
+
+            <telerikInput:RadDateTimePicker
+                x:Name="tboxText"
+                Grid.Row="1"
+                Margin="4,-4,4,0"
+                BorderThickness="0"
+                DisplayLabelStyle="{StaticResource displayLabelStyle}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+
+            <Image
+                x:Name="btnClear"
+                Grid.RowSpan="2"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                Source="delete.png"
+                WidthRequest="30" />
+        </Grid>
+    </Frame>
+</Grid>

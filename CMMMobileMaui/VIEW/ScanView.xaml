@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.ScanView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:telerikPrimitives="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:zebra="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+    xmlns:zx="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+    x:DataType="vm:VMScan"
+    x:TypeArguments="vm:VMScan"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Content>
+        <Grid
+            ColumnDefinitions="*"
+            HorizontalOptions="FillAndExpand"
+            RowDefinitions="*"
+            VerticalOptions="FillAndExpand">
+
+
+            <zebra:CameraBarcodeReaderView
+                x:Name="codeScanner"
+                HorizontalOptions="FillAndExpand"
+                IsDetecting="{Binding Path=IsScanning, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand" />
+
+            <!--<zx:CameraView
+                x:Name="codeScanner"
+                BarCodeDetectionEnabled="{Binding Path=IsScanning, Mode=TwoWay}"
+                CamerasLoaded="codeScanner_CamerasLoaded"
+                ControlBarcodeResultDuplicate="True"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+            <zx:CameraView />-->
+
+            <telerikPrimitives:RadBusyIndicator
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="50"
+                AnimationContentWidthRequest="50"
+                AnimationType="Animation1"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                IsBusy="{Binding Path=IsBusy, Mode=OneWay}"
+                IsVisible="{Binding Path=IsBusy, Mode=OneWay}"
+                VerticalOptions="Center"
+                WidthRequest="60" />
+
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

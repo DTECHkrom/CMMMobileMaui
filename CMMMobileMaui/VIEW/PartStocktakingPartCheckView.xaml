@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PartStocktakingPartCheckView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Resources>
+        <cv:ListItemIndexConv x:Key="cvIndex" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid ColumnDefinitions="*, *">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=CloseCheckedItemsCommand}"
+                    ImageSource="cancel"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate close,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=SaveCheckedItemsCommand}"
+                    ImageSource="save"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <Frame Grid.Row="1" Style="{StaticResource frameStyle}">
+                <Grid Margin="2,1,2,1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        Margin="-1,0"
+                        Style="{StaticResource lblGroupHeaderStyle}"
+                        Text="{cv:Translate part_list_conf,
+                                            IsUpper=True}" />
+
+                    <ListView
+                        x:Name="lbStackCheckPart"
+                        Grid.Row="1"
+                        HasUnevenRows="True"
+                        IsRefreshing="{Binding Path=IsBusy}"
+                        ItemsSource="{Binding Path=StackPartCheckedList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.RowSpan="3"
+                                            Grid.Column="0"
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lbStackCheckPart}}"
+                                            VerticalOptions="Center" />
+
+                                        <Label
+                                            Grid.Column="1"
+                                            FontAttributes="Bold"
+                                            FontSize="18"
+                                            Text="{Binding Path=Part_No}" />
+
+                                        <Frame
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Padding="0"
+                                            BorderColor="Black"
+                                            IsClippedToBounds="true">
+
+                                            <StackLayout>
+
+                                                <Label
+                                                    Margin="4,0,4,0"
+                                                    FontAttributes="Bold"
+                                                    Text="{cv:Translate part_inv_pro}" />
+
+                                                <Grid
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Margin="1,0,1,0"
+                                                    Padding="3,0,3,0"
+                                                    BackgroundColor="{Binding Converter={cv:CurrentOldStackConv}}"
+                                                    IsClippedToBounds="False"
+                                                    RowDefinitions="*, *">
+
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{cv:Translate part_stock_during}" />
+                                                                <Span FontAttributes="Bold" Text="{Binding Path=Old_Value, StringFormat=': {0:0.##}'}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label Grid.Row="1">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{cv:Translate part_stock_level}" />
+                                                                <Span FontAttributes="Bold" Text="{Binding Path=_Org_Value, StringFormat=': {0:0.##}'}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                </Grid>
+                                            </StackLayout>
+                                        </Frame>
+
+                                        <Grid Grid.Row="2" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Grid.Column="0" VerticalOptions="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{cv:Translate part_inv_org}" />
+                                                        <Span Text=": " />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <cust:NumericTextBox
+                                                Grid.Column="1"
+                                                HorizontalOptions="FillAndExpand"
+                                                Keyboard="Numeric"
+                                                NumericValue="{Binding Path=_New_Value, Mode=TwoWay}"
+                                                NumericValueFormat="0.#"
+                                                Placeholder="{cv:Translate part_quantity,
+                                                                           IsUpper=True}" />
+
+                                            <Label Grid.Column="2" VerticalOptions="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="[" />
+                                                        <Span Text="{Binding Path=UnitName}" />
+                                                        <Span Text="]" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <cust:NumericTextBox
+                                                Grid.Column="3"
+                                                HorizontalOptions="FillAndExpand"
+                                                Keyboard="Numeric"
+                                                NumericValue="{Binding Path=Unit_Price, Mode=TwoWay}"
+                                                NumericValueFormat="0.#"
+                                                Placeholder="{cv:Translate value,
+                                                                           IsUpper=True}" />
+
+                                            <Label
+                                                Grid.Column="4"
+                                                Text="{Binding Path=CurrencyName, StringFormat='[{0}]'}"
+                                                VerticalOptions="Center" />
+
+                                        </Grid>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Frame>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.BIANOR.MouldCalendarChange"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bia="clr-namespace:CMMMobileMaui.BIANOR"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="bia:VMMouldCalendarChange"
+    x:TypeArguments="bia:VMMouldCalendarChange"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="10,5,10,5"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    WidthRequest="32" />
+
+                <ImageButton
+                    Margin="0,5,10,5"
+                    Command="{Binding Path=SelectDeviceCommand}"
+                    HeightRequest="32"
+                    HorizontalOptions="EndAndExpand"
+                    Source="search"
+                    Style="{StaticResource ibStyleMain}"
+                    WidthRequest="32" />
+            </StackLayout>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate mould, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <Label
+                    Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource lblListHeaderStyle}"
+                    Text="{Binding Path=CurrentDevice.AssetNo}" />
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate mc_old,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    Style="{StaticResource cghStyle}"
+                    VerticalOptions="Center" />
+
+                <StackLayout
+                    Grid.Row="3"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="Center"
+                        Style="{StaticResource lblListHeaderStyle}"
+                        Text="{Binding Path=CurrentData.Calendar_Year}" />
+                    <Label HorizontalOptions="Center" Text="{Binding Path=CurrentData.New_Calendar_Year, StringFormat='[NEW {0}]'}">
+                        <Label.Style>
+                            <Style BasedOn="{StaticResource lblListHeaderStyle}" TargetType="Label">
+                                <Setter Property="IsVisible" Value="true" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Path=CurrentData.New_Calendar_Year, Converter={xct:IsStringNullOrEmptyConverter}}"
+                                        TargetType="Label"
+                                        Value="true">
+                                        <Setter Property="IsVisible" Value="false" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </StackLayout>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate mc_new,
+                                         IsUpper=True}"
+                    Grid.Row="4"
+                    Style="{StaticResource cghStyle}"
+                    VerticalOptions="Center" />
+
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:CustomFrameNumericEntry
+                        Title="{cv:Translate Text=mc_val,
+                                             IsUpper=True}"
+                        HeightRequest="40"
+                        NumericValue="{Binding Path=NewCalendarYear, Mode=TwoWay}"
+                        NumericValueFormat="N0" />
+
+                    <ImageButton
+                        Grid.Column="1"
+                        Margin="0,5,10,5"
+                        Command="{Binding Path=SaveCurrentDataCommand}"
+                        HeightRequest="32"
+                        Source="save"
+                        Style="{StaticResource ibStyleMain}"
+                        WidthRequest="32" />
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

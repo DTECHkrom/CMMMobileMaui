@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.CUST.ZebraScanIcon"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:skia="clr-namespace:SkiaSharp;assembly=SkiaSharp"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    HorizontalOptions="Center"
+    VerticalOptions="Center">
+    <Border
+        x:Name="border"
+        Grid.Row="0"
+        Margin="0"
+        Padding="0"
+        BackgroundColor="Transparent"
+        HorizontalOptions="FillAndExpand"
+        Stroke="Black"
+        StrokeThickness="2"
+        VerticalOptions="FillAndExpand">
+        <Grid>
+
+            <!--<magic:GradientView x:Name="gvMain" Grid.Row="0">
+                <magic:GradientView.Triggers>
+                    <magic:AnimationTrigger IsRunning="{Binding Path=IsRunning}">
+                        <magic:Storyboard RepeatBehavior="Forever" Duration="1000">
+                            <magic:OffsetAnimation
+                                magic:Storyboard.BeginAt="0"
+                                magic:Storyboard.FinishAt="1"
+                                AutoReverse="True"
+                                Target="{x:Reference gsTarget2}"
+                                TargetProperty="magic:GradientStop.Offset"
+                                From="1"
+                                To="0" />
+
+                        </magic:Storyboard>
+
+                    </magic:AnimationTrigger>
+                </magic:GradientView.Triggers>
+                <magic:GradientView.GradientSource>
+                    <magic:LinearGradient Angle="0">
+                        <magic:GradientStop Offset="0" Color="White" />
+                        <magic:GradientStop
+                            x:Name="gsTarget2"
+                            Offset="1"
+                            Color="{Binding Source={x:Static com:SConsts.COLOR_3}}" />
+                        <magic:GradientStop
+                            x:Name="gsTargetWhite"
+                            Offset="1"
+                            Color="White" />
+
+                        <magic:GradientStop Offset="1" Color="White" />
+                    </magic:LinearGradient>
+                </magic:GradientView.GradientSource>
+            </magic:GradientView>-->
+
+            <Label
+                Margin="0"
+                Padding="0"
+                FontSize="26"
+                Style="{StaticResource lblImage}"
+                Text="qr_code_scanner" />
+
+        </Grid>
+
+    </Border>
+</Grid>

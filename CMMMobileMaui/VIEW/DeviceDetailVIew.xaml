@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.DeviceDetailVIew"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:devRes="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:DataType="vm:VMDeviceDetail"
+    x:TypeArguments="vm:VMDeviceDetail"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" IsVisible="{Binding Path=IsWarr}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate dev_warrenty,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    x:Name="lvDevWarr"
+                    Grid.Row="1"
+                    Margin="1,0,1,0"
+                    HasUnevenRows="True"
+                    HeightRequest="40"
+                    ItemsSource="{Binding Path=WarrList}"
+                    VerticalOptions="Start">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="devRes:GetDeviceWarrantyResponse">
+                            <ViewCell>
+                                <StackLayout
+                                    Margin="0"
+                                    Padding="0"
+                                    BackgroundColor="{Binding Path=., Converter={cv:DeviceWarrColorConv}}"
+                                    Orientation="Horizontal">
+                                    <Label Text="{Binding Path=Description}" />
+                                    <Label Text="{Binding Path=Param1, StringFormat='[{0}]'}" />
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{cv:Translate dev_left}" />
+                                                <Span Text="= " />
+                                                <Span Text="{Binding Converter={cv:DeviceWarrValueConv}}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label>
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="Text" Value="{cv:Translate dev_days}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=WarrantyID}"
+                                                        TargetType="Label"
+                                                        Value="1">
+                                                        <Setter Property="Text" Value="{cv:Translate dev_cycle}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=WarrantyID}"
+                                                        TargetType="Label"
+                                                        Value="3">
+                                                        <Setter Property="Text" Value="{cv:Translate dev_cycle}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate dev_details,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    x:Name="lvDevDet"
+                    Grid.Row="1"
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Path=ItemsList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="devRes:GetDeviceDetailsResponse">
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Grid.Column="0"
+                                        Margin="2,0,0,0"
+                                        FontAttributes="Bold"
+                                        Text="{Binding Path=DisplayName, StringFormat='{}{0}:'}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <ContentView
+                                        Grid.Column="1"
+                                        BindingContext="{Binding .}"
+                                        VerticalOptions="Center">
+                                        <ContentView.Style>
+                                            <Style TargetType="ContentView">
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="String">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="Boolean">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <CheckBox IsChecked="{TemplateBinding Path=Parent.BindingContext.Property_Value, Converter={cv:ValueToBoolCOnv}, ConverterParameter='bool'}" IsEnabled="False" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="DateTime">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value, Converter={cv:ValueToDateConv}}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="Int32">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="Int64">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Property_Type}"
+                                                        TargetType="ContentView"
+                                                        Value="Decimal">
+                                                        <Setter Property="ControlTemplate">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value, Converter={cv:ValueToDecConv}}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentView.Style>
+                                    </ContentView>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.NewDeviceView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="mainPage"
+    Title="Nowe urządzenie"
+    x:DataType="vm:VMNewDevice"
+    x:TypeArguments="vm:VMNewDevice"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <cv:FileImageConv x:Key="cvFileImage" />
+        </ResourceDictionary>
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+
+        <Grid RowDefinitions="auto, auto, *">
+
+            <Grid
+                x:Name="stackDevNew"
+                Grid.Row="0"
+                ColumnDefinitions="*, *, *, *"
+                HorizontalOptions="Fill">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=TakePictureCommand}"
+                    ImageSource="camera"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate picture,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=SelectPictureCommand}"
+                    ImageSource="collections"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate lib,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="2"
+                    ButtonCommand="{Binding Path=CancelCommand}"
+                    ImageSource="recycling"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate clear,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="3"
+                    ButtonCommand="{Binding Path=SaveCommand}"
+                    ImageSource="save"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <Image
+                Grid.Row="1"
+                Margin="0,0,0,0"
+                Aspect="AspectFill"
+                HeightRequest="200"
+                IsVisible="{Binding Path=DeviceImg, Converter={xct:IsNotNullConverter}}"
+                Source="{Binding Path=DeviceImg, Converter={StaticResource cvFileImage}}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=OpenImageCommand}" NumberOfTapsRequired="2" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Frame
+                Grid.Row="1"
+                HorizontalOptions="End"
+                IsVisible="{Binding Path=DeviceImg, Converter={xct:IsNotNullConverter}}"
+                Style="{StaticResource imagePanelFrameStyle}"
+                VerticalOptions="Start">
+
+                <cust:LabelIconButton
+                    Command="{Binding Path=DeleteImageCommand}"
+                    Text="cancel"
+                    TextColor="Red" />
+
+            </Frame>
+
+            <ScrollView Grid.Row="2">
+
+                <VerticalStackLayout>
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate data,
+                                             IsUpper=True}"
+                        BorderColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        FontSize="16"
+                        TextColor="{Binding Source={x:Static com:SConsts.COLOR_1}}" />
+
+                    <StackLayout Margin="1" Orientation="Vertical">
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate category,
+                                                 IsUpper=True}"
+                            DisplayPath="Name"
+                            HeightRequest="40"
+                            IsRequired="True"
+                            ItemsSource="{Binding Path=CategoryList}"
+                            SelectedItem="{Binding Path=CurrentCategory, Mode=TwoWay}" />
+
+                        <cust:CustomFrameEntry
+                            Title="{cv:Translate dev_asset_no,
+                                                 IsUpper=True}"
+                            HeightRequest="40"
+                            IsRequired="True"
+                            Text="{Binding Path=CurrentDevice.AssetNo, Mode=TwoWay}" />
+
+                        <cust:CustomFrameEntry
+                            Title="{cv:Translate dev_asset_no_short,
+                                                 IsUpper=True}"
+                            HeightRequest="40"
+                            Text="{Binding Path=CurrentDevice.AssetNoShort, Mode=TwoWay}" />
+
+                        <cust:CustomFrameEntry
+                            x:Name="tbxSerialNo"
+                            Title="{cv:Translate dev_serial_no,
+                                                 IsUpper=True}"
+                            HeightRequest="40"
+                            Text="{Binding Path=CurrentDevice.SerialNo, Mode=TwoWay}" />
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate dev_producent,
+                                                 IsUpper=True}"
+                            DisplayPath="Name"
+                            HeightRequest="40"
+                            ItemsSource="{Binding Path=ProducentList}"
+                            SelectedItem="{Binding Path=CurrentProducent, Mode=TwoWay}" />
+
+                    </StackLayout>
+
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate dev_location,
+                                             IsUpper=True}"
+                        BorderColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        FontSize="16"
+                        TextColor="{Binding Source={x:Static com:SConsts.COLOR_1}}" />
+
+                    <StackLayout Margin="1" Orientation="Vertical">
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate dev_branch,
+                                                 IsUpper=True}"
+                            DisplayPath="Branch_Name"
+                            HeightRequest="40"
+                            IsRequired="True"
+                            ItemsSource="{Binding Path=BranchList}"
+                            SelectedItem="{Binding Path=CurrentBranch, Mode=TwoWay}" />
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate dev_place,
+                                                 IsUpper=True}"
+                            DisplayPath="Location_Name"
+                            HeightRequest="40"
+                            IsRequired="True"
+                            ItemsSource="{Binding Path=LocationList}"
+                            SelectedItem="{Binding Path=CurrentLocation, Mode=TwoWay}" />
+
+                    </StackLayout>
+                </VerticalStackLayout>
+
+            </ScrollView>
+
+
+        </Grid>
+
+    </view:PageBase.Content>
+</view:PageBase>

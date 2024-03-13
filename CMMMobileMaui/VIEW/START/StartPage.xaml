@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.START.StartPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="clr-namespace:CMMMobileMaui"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:DataType="vm:VMStartPage"
+    x:TypeArguments="vm:VMStartPage"
+    Shell.FlyoutItemIsVisible="False"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical"
+            VerticalOptions="FillAndExpand">
+
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+
+                <Image
+                    HeightRequest="300"
+                    HorizontalOptions="Center"
+                    Source="image001.png"
+                    VerticalOptions="Center"
+                    WidthRequest="190" />
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="CMM Mobile"
+                    VerticalOptions="StartAndExpand" />
+
+                <Label
+                    Margin="0"
+                    FontAttributes="Bold"
+                    FontSize="Small"
+                    HorizontalOptions="CenterAndExpand"
+                    Text="{Binding Source={x:Static app:App.Version}}"
+                    VerticalOptions="StartAndExpand" />
+
+                <ProgressBar
+                    Progress="{Binding Path=ProgressValue}"
+                    ProgressColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                    WidthRequest="200" />
+
+                <Label
+                    FontAttributes="Italic"
+                    HorizontalOptions="Center"
+                    Text="{Binding Path=ProgressMessage}"
+                    TextColor="LightGray" />
+
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</view:PageBase>

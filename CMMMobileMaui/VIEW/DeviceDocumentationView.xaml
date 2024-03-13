@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.DeviceDocumentationView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:objects1="clr-namespace:CMMMobileMaui.API.Contracts;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:responses="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:Name="mainPage"
+    x:DataType="vm:VMDeviceDocumentation"
+    x:TypeArguments="vm:VMDeviceDocumentation"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Content>
+        <Grid Margin="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <StackLayout
+                x:Name="stackDevDoc"
+                Grid.Row="1"
+                FlowDirection="RightToLeft"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal">
+
+                <cust:LabelIconButton
+                    Margin="10,2,2,2"
+                    Command="{Binding Path=HomeCommand}"
+                    IsEnabled="{Binding Path=ISPrevEnable}"
+                    Text="home" />
+
+                <cust:LabelIconButton
+                    Margin="5,2,10,2"
+                    Command="{Binding Path=MoveBackCommand}"
+                    IsEnabled="{Binding Path=ISPrevEnable}"
+                    Text="arrow_back" />
+
+                <Label
+                    Grid.Row="0"
+                    FontAttributes="Bold"
+                    HorizontalOptions="EndAndExpand"
+                    LineBreakMode="MiddleTruncation"
+                    MaxLines="2"
+                    Text="{Binding Path=CurrentPath}"
+                    VerticalOptions="Center" />
+
+            </StackLayout>
+
+            <ListView
+                x:Name="lvDevDoc"
+                Grid.Row="2"
+                HasUnevenRows="true"
+                ItemsSource="{Binding Path=DocsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="responses:GetDirectoryFilesResponse">
+                        <ViewCell>
+                            <Grid>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="BackgroundColor" Value="{x:Static com:SConsts.COLOR_3}" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding Path=IsDir}"
+                                                TargetType="Grid"
+                                                Value="false">
+                                                <Setter Property="BackgroundColor" Value="{x:Static com:SConsts.COLOR_4}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Column="0"
+                                    Margin="2,0,0,0"
+                                    Text="{Binding Path=Name}"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=IsDir}"
+                                                    TargetType="Label"
+                                                    Value="false">
+                                                    <Setter Property="FontAttributes" Value="Bold" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                                <cust:LabelIconButton
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Command="{Binding Source={x:Reference mainPage}, Path=BindingContext.OpenDocCommand}"
+                                    CommandParameter="{Binding .}"
+                                    FlexLayout.AlignSelf="Center">
+                                    <cust:LabelIconButton.Style>
+                                        <Style TargetType="cust:LabelIconButton">
+                                            <Setter Property="Text" Value="arrow_forward" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=IsDir}"
+                                                    TargetType="cust:LabelIconButton"
+                                                    Value="false">
+                                                    <Setter Property="Text" Value="more_horiz" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </cust:LabelIconButton.Style>
+                                </cust:LabelIconButton>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

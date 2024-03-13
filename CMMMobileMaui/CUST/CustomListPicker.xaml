@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.CUST.CustomListPicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Margin="0"
+    Padding="1"
+    BackgroundColor="Transparent">
+
+    <Frame x:Name="border" Style="{StaticResource customControlFrame}">
+        <Grid
+            x:Name="gMain"
+            ColumnDefinitions="*, AUTO, AUTO"
+            RowDefinitions="13, *">
+            <Grid.Behaviors>
+                <xct:AnimationBehavior>
+                    <xct:AnimationBehavior.AnimationType>
+                        <xct:FadeAnimation />
+                    </xct:AnimationBehavior.AnimationType>
+                </xct:AnimationBehavior>
+            </Grid.Behaviors>
+            <Label
+                x:Name="lblTitle"
+                Margin="6,0"
+                FontAttributes="Bold"
+                FontSize="10"
+                HorizontalTextAlignment="Start"
+                LineBreakMode="TailTruncation"
+                TextColor="#9e9e9e"
+                VerticalTextAlignment="Center" />
+            <Label
+                x:Name="lblValue"
+                Grid.Row="1"
+                Margin="8,0"
+                HorizontalTextAlignment="Start"
+                LineBreakMode="TailTruncation"
+                VerticalTextAlignment="Center" />
+
+            <Image
+                x:Name="btnImage"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                WidthRequest="30" />
+
+            <Image
+                x:Name="btnClear"
+                Grid.RowSpan="2"
+                Grid.Column="2"
+                HeightRequest="30"
+                HorizontalOptions="End"
+                Source="delete"
+                WidthRequest="30" />
+        </Grid>
+    </Frame>
+</Grid>

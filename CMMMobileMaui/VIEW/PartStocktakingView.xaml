@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PartStocktakingView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:part="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Part;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMPartStocktaking"
+    x:TypeArguments="vm:VMPartStocktaking"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Resources>
+        <cv:ListItemIndexConv x:Key="cvIndex" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <cust:SKIAImageTextButton
+                ButtonCommand="{Binding Path=AddStocktakingCommand}"
+                ImageSource="add"
+                Style="{StaticResource skiaBtnStyle}"
+                Text="{cv:Translate inv_new,
+                                    IsUpper=True}" />
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate stocktakings,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Style="{StaticResource cghStyle}" />
+
+                <RefreshView
+                    Grid.Row="1"
+                    Command="{Binding Path=LoadCommand}"
+                    IsRefreshing="{Binding Path=IsBusy, Mode=TwoWay}">
+                    <CollectionView
+                        x:Name="lvPartStack"
+                        Grid.Row="1"
+                        ItemsSource="{Binding Path=StackList}"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="part:GetStocktakingViewResponse">
+
+                                <Grid ColumnDefinitions="20, *, 32">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="BackgroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_GREEN}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=EndDate, Converter={cv:NullToBoolConv}}"
+                                                    TargetType="Grid"
+                                                    Value="false">
+                                                    <Setter Property="BackgroundColor" Value="White" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <Label
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lvPartStack}}"
+                                        VerticalOptions="Center" />
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.Behaviors>
+                                            <xct:AnimationBehavior Command="{Binding Source={x:Reference lvPartStack}, Path=BindingContext.ShowItemCommand}" CommandParameter="{Binding .}">
+                                                <xct:AnimationBehavior.AnimationType>
+                                                    <xct:FadeAnimation />
+                                                </xct:AnimationBehavior.AnimationType>
+                                            </xct:AnimationBehavior>
+                                        </Grid.Behaviors>
+
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Label
+                                            Grid.Row="0"
+                                            FontAttributes="Bold"
+                                            FontSize="16">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Path=StocktakingName}" />
+                                                    <Span Text="    [" />
+                                                    <Span Text="{Binding Path=WarehouseName}" />
+                                                    <Span Text="]" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label Grid.Row="1" FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="[" />
+                                                    <Span Text="{Binding Path=ModDate, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                                                    <Span Text="]" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label Grid.Row="2" FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{cv:Translate user_mod}" />
+                                                    <Span Text=": " />
+                                                    <Span Text="{Binding Path=AddPersonName}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label
+                                            Grid.Row="3"
+                                            FontSize="12"
+                                            IsVisible="{Binding Path=EndDate, Converter={cv:NullToBoolConv}}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{cv:Translate date_end}" />
+                                                    <Span Text=": " />
+                                                    <Span Text="{Binding Path=EndDate, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                    </Grid>
+
+                                    <VerticalStackLayout Grid.Column="2">
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartStack}, Path=BindingContext.ShowItemCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="more_horiz" />
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartStack}, Path=BindingContext.EndStocktakingCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IsVisible="{Binding Path=EndDate, Converter={cv:NullToBoolConv}, ConverterParameter=1}"
+                                            Text="check" />
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartStack}, Path=BindingContext.DeleteItemCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IsVisible="{Binding Path=EndDate, Converter={cv:NullToBoolConv}, ConverterParameter=1}"
+                                            Text="cancel" />
+
+                                    </VerticalStackLayout>
+
+                                </Grid>
+
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </RefreshView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

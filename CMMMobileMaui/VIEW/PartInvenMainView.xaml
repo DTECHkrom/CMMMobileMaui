@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PartInvenMainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:part="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Part;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMPartInvenMain"
+    x:TypeArguments="vm:VMPartInvenMain"
+    NavigationPage.HasNavigationBar="False"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <cv:ListItemIndexConv x:Key="cvIndex" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="10,5,10,5"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    WidthRequest="30" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=ScanPartCommand}"
+                    ImageSource="qr_code"
+                    IsButtonEnable="{Binding Path=CurrentStack.EndDate, Converter={cv:NullToBoolConv}, ConverterParameter=1}"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate scan_code,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="2"
+                    ButtonCommand="{Binding Path=SearchPartCommand}"
+                    ImageSource="search"
+                    IsButtonEnable="{Binding Path=CurrentStack.EndDate, Converter={cv:NullToBoolConv}, ConverterParameter=1}"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate part_find,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="3"
+                    ButtonCommand="{Binding Path=CloseCheckedItemsCommand}"
+                    ImageSource="cancel"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate close,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackLayout>
+                    <cust:CustomGroupHeader Title="{Binding Path=CurrentStack.StocktakingName}" Style="{StaticResource cghStyle}" />
+                    <Label FontAttributes="Bold" HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="[" />
+                                <Span Text="{Binding Path=CurrentStack.WarehouseName}" />
+                                <Span Text="]" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{cv:Translate date_mod}" />
+                                <Span Text=": " />
+                                <Span Text="{Binding Path=CurrentStack.ModDate, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="  " />
+                                <Span Text="{cv:Translate by}" />
+                                <Span Text=": " />
+                                <Span Text="{Binding Path=CurrentStack.AddPersonName}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate part_list,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    Style="{StaticResource cghStyle}" />
+
+                <StackLayout
+                    Grid.Row="3"
+                    Margin="5,0,5,5"
+                    Orientation="Horizontal">
+
+                    <cust:CustomFrameEntry
+                        Title="{cv:Translate part_no,
+                                             IsUpper=True}"
+                        HeightRequest="40"
+                        HorizontalOptions="FillAndExpand"
+                        ReturnCommand="{Binding Path=FilterPartCommand}"
+                        Text="{Binding Path=StackPartFilter, Mode=TwoWay}" />
+
+                    <cust:LabelIconButton
+                        Command="{Binding Path=FilterPartCommand}"
+                        Style="{StaticResource ibStyleMain}"
+                        Text="search" />
+
+                </StackLayout>
+
+                <ListView
+                    x:Name="lvPartInv"
+                    Grid.Row="4"
+                    HasUnevenRows="true"
+                    ItemsSource="{Binding Path=StackPartList}"
+                    SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="part:GetPartStocktakingResponse">
+                            <ViewCell>
+                                <Grid ColumnDefinitions="20, *, 32">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=IsSet}"
+                                                    TargetType="Grid"
+                                                    Value="True">
+                                                    <Setter Property="BackgroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_GREEN}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+
+                                    <Label
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lvPartInv}}"
+                                        VerticalOptions="Center" />
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Row="0"
+                                            FontAttributes="Bold"
+                                            Text="{Binding Path=PartNo, StringFormat='[{0}]'}" />
+
+                                        <StackLayout
+                                            Grid.Row="1"
+                                            HorizontalOptions="FillAndExpand"
+                                            Orientation="Horizontal">
+
+                                            <Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{cv:Translate part_inv_org}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding Path=NewValue, StringFormat='{0:0.##}'}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <Label>
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="  " />
+                                                        <Span Text="{cv:Translate part_inv_pro}" />
+                                                        <Span Text=": " />
+                                                        <Span Text="{Binding Path=OldValue, StringFormat='{0:0.##}'}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                        </StackLayout>
+                                    </Grid>
+
+                                    <StackLayout Grid.Column="2">
+                                        <StackLayout.Resources>
+                                            <xct:VariableMultiValueConverter x:Key="allTrueMV" ConditionType="All" />
+                                        </StackLayout.Resources>
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartInv}, Path=BindingContext.OpenPartInfoCommand}"
+                                            CommandParameter="{Binding}"
+                                            Text="info" />
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartInv}, Path=BindingContext.EditItemCommand}"
+                                            CommandParameter="{Binding}"
+                                            Text="edit">
+                                            <cust:LabelIconButton.IsVisible>
+                                                <MultiBinding Converter="{StaticResource allTrueMV}">
+                                                    <Binding Converter="{cv:BoolReverseConv}" Path="IsSet" />
+                                                    <Binding
+                                                        Converter="{xct:IsStringNullOrEmptyConverter}"
+                                                        Path="BindingContext.CurrentStack.EndDate"
+                                                        Source="{x:Reference lvPartInv}" />
+                                                </MultiBinding>
+                                            </cust:LabelIconButton.IsVisible>
+                                        </cust:LabelIconButton>
+
+                                        <cust:LabelIconButton
+                                            Margin="0,2"
+                                            Command="{Binding Source={x:Reference lvPartInv}, Path=BindingContext.DeletePartCommand}"
+                                            CommandParameter="{Binding}"
+                                            Text="cancel">
+                                            <cust:LabelIconButton.IsVisible>
+                                                <MultiBinding Converter="{StaticResource allTrueMV}">
+                                                    <Binding Converter="{cv:BoolReverseConv}" Path="IsSet" />
+                                                    <Binding
+                                                        Converter="{xct:IsStringNullOrEmptyConverter}"
+                                                        Path="BindingContext.CurrentStack.EndDate"
+                                                        Source="{x:Reference lvPartInv}" />
+                                                </MultiBinding>
+                                            </cust:LabelIconButton.IsVisible>
+                                        </cust:LabelIconButton>
+
+
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <!--</Frame>-->
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

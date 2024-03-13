@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.START.StartHostPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerikPrimitives="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMStartPage"
+    x:TypeArguments="vm:VMStartPage"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <Grid RowDefinitions="AUTO, 2*, *, AUTO">
+
+            <Image
+                Margin="5"
+                HeightRequest="36"
+                HorizontalOptions="Start"
+                IsEnabled="{Binding Path=IsNotBusy}"
+                Source="settings"
+                WidthRequest="36">
+                <Image.Behaviors>
+                    <xct:AnimationBehavior Command="{Binding Path=ShowHostCommand}">
+                        <xct:AnimationBehavior.AnimationType>
+                            <xct:FadeAnimation />
+                        </xct:AnimationBehavior.AnimationType>
+                    </xct:AnimationBehavior>
+                </Image.Behaviors>
+            </Image>
+
+            <StackLayout
+                Grid.Row="1"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand">
+
+                <Image
+                    HeightRequest="300"
+                    HorizontalOptions="Fill"
+                    Source="image001.png"
+                    VerticalOptions="Fill"
+                    WidthRequest="190" />
+
+            </StackLayout>
+
+            <telerikPrimitives:RadBusyIndicator
+                x:Name="busyIndicator"
+                Grid.Row="2"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="100"
+                AnimationContentWidthRequest="100"
+                AnimationType="Animation1"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                IsVisible="{Binding Path=IsBusy, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="100" />
+
+            <cust:SKIAImageTextButton
+                Grid.Row="3"
+                ButtonCommand="{Binding Path=CheckHostCommand}"
+                ImageSource="check"
+                IsButtonEnable="{Binding Path=IsNotBusy}"
+                Style="{StaticResource skiaBtnStyle}"
+                Text="{cv:Translate check_connection,
+                                    IsUpper=True}"
+                VerticalOptions="End" />
+
+        </Grid>
+    </ContentPage.Content>
+</view:PageBase>

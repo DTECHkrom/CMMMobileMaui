@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.TestPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:app="clr-namespace:CMMMobileMaui"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerikInput="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:DataType="vm:VMTestPage"
+    x:TypeArguments="vm:VMTestPage"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutItemIsVisible="False"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Modal">
+    <view:PageBase.Content>
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
+
+            <Grid
+                ColumnDefinitions="AUTO, *"
+                HeightRequest="50"
+                HorizontalOptions="FillAndExpand">
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Grid.Column="0"
+                    Margin="2,0"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center"
+                    WidthRequest="32" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=SaveCommand}"
+                    ImageSource="save"
+                    IsButtonEnable="{Binding Path=IsNotBusy}"
+                    IsVisible="{Binding Path=IsAPINeed}"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <StackLayout
+                x:Name="stackLogin"
+                HorizontalOptions="Center"
+                IsVisible="{Binding Path=IsAPINeed, Converter={cv:BoolReverseConv}}"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
+
+                <Image
+                    HeightRequest="154"
+                    HorizontalOptions="Fill"
+                    Source="image001.png"
+                    VerticalOptions="Fill"
+                    WidthRequest="128" />
+
+                <StackLayout Orientation="Vertical" VerticalOptions="Center">
+                    <Label
+                        Margin="5"
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="CMM MOBILE" />
+
+                    <Label
+                        Margin="1"
+                        FontAttributes="Bold"
+                        FontSize="Medium"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Source={x:Static app:App.Version}}" />
+
+                </StackLayout>
+            </StackLayout>
+
+
+            <StackLayout IsVisible="{Binding Path=IsAPINeed}" Orientation="Vertical">
+
+                <cust:CustomGroupHeader Title="{cv:Translate api_settings, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <cust:CustomFrameEntry
+                    Title="WWW"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    Text="{Binding Path=WebAPI, Mode=TwoWay}" />
+
+                <!--<cust:CustomFrameEntry
+                    Title="LOGIN"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    Text="{Binding Path=Login, Mode=TwoWay}" />
+
+                <cust:CustomFrameEntry
+                    Title="{cv:Translate password,
+                                         IsUpper=True}"
+                    HeightRequest="40"
+                    HorizontalOptions="FillAndExpand"
+                    IsPassword="True"
+                    IsRequired="True"
+                    Text="{Binding Path=Pass, Mode=TwoWay}"
+                    VerticalOptions="End" />-->
+
+                <cust:SKIAImageTextButton
+                    Margin="2"
+                    ButtonCommand="{Binding Path=CheckConnectionCommand}"
+                    ImageSource="check"
+                    IsButtonEnable="{Binding Path=IsNotBusy}"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate check_connection,
+                                        IsUpper=True}" />
+            </StackLayout>
+
+            <Grid IsVisible="{Binding Path=IsLoginNeed}" RowSpacing="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate cmm_login, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <cust:CustomListPicker
+                    Title="LOGIN"
+                    Grid.Row="1"
+                    DisplayPath="Name"
+                    HeightRequest="40"
+                    IsRequired="true"
+                    ItemsSource="{Binding Path=PersonList}"
+                    SelectedItem="{Binding Path=CurrentPerson, Mode=TwoWay}" />
+
+                <cust:CustomFrameEntry
+                    Title="{cv:Translate password,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    HeightRequest="40"
+                    HorizontalOptions="FillAndExpand"
+                    IsPassword="true"
+                    IsRequired="True"
+                    Text="{Binding Path=CMMPass, Mode=TwoWay}" />
+
+                <StackLayout Grid.Row="3" Orientation="Horizontal">
+
+                    <CheckBox IsChecked="{Binding Path=IsLogin, Mode=TwoWay}" />
+
+                    <Label
+                        x:Name="lblLogin"
+                        Margin="10,0,0,0"
+                        HorizontalOptions="Start"
+                        Text="{cv:Translate cmm_login_start}"
+                        VerticalOptions="Center" />
+
+                </StackLayout>
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="4"
+                    ButtonCommand="{Binding Path=CheckLoginCommand}"
+                    ImageSource="person"
+                    IsSimpleClick="True"
+                    Text="{cv:Translate check,
+                                        IsUpper=True}">
+                    <cust:SKIAImageTextButton.Style>
+                        <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                            <Setter Property="Text" Value="{cv:Translate check, IsUpper=True}" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=IsAPINeed}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="false">
+                                    <Setter Property="Text" Value="{cv:Translate login, IsUpper=True}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </cust:SKIAImageTextButton.Style>
+                </cust:SKIAImageTextButton>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate user_code,
+                                         IsUpper=True}"
+                    Grid.Row="5"
+                    Style="{StaticResource cghStyle}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="6"
+                    ButtonCommand="{Binding Path=ScanUserCodeCommand}"
+                    ImageSource="qr_code"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate scan_user_code,
+                                        IsUpper=True}" />
+
+            </Grid>
+        </StackLayout>
+    </view:PageBase.Content>
+</view:PageBase>

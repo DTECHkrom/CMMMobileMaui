@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.BaseListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:device="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:objects1="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:trans="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMBaseList"
+    x:TypeArguments="vm:VMBaseList"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Content>
+        <Grid x:Name="gMain">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="gridSearch" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="AUTO" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="2,5,2,5"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    WidthRequest="32" />
+
+                <Grid ColumnDefinitions="*, auto" IsVisible="{Binding Path=IsFilterModeVisible}">
+                    <cust:CustomFrameEntry
+                        Title="{trans:Translate search_by,
+                                                IsUpper=True}"
+                        Grid.Column="0"
+                        Margin="10,2,2,2"
+                        HeightRequest="40"
+                        IsRequired="True"
+                        ReturnCommand="{Binding Path=FilterItemCommand}"
+                        Text="{Binding Path=FilterText, Mode=TwoWay}" />
+
+                    <cust:LabelIconButton
+                        Grid.Column="1"
+                        Margin="0,0,10,0"
+                        Command="{Binding Path=FilterItemCommand}"
+                        Text="search" />
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <cust:CustomGroupHeader Title="{Binding Path=LocationName, Mode=OneTime}" Style="{StaticResource cghStyle}" />
+
+                <CollectionView
+                    x:Name="lvDeviceSearch"
+                    Grid.Row="1"
+                    ItemsSource="{Binding Path=MainList}"
+                    RemainingItemsThreshold="20"
+                    RemainingItemsThresholdReachedCommand="{Binding Path=RefrehListCommand}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="device:GetDeviceSubLocationResponse">
+                            <Grid Margin="0,2" BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}">
+                                <Label
+                                    Margin="1"
+                                    FontAttributes="Bold"
+                                    FontSize="Large"
+                                    Text="{Binding Path=Name}" />
+                                <Grid.Behaviors>
+                                    <xct:AnimationBehavior Command="{Binding Source={x:Reference gMain}, Path=BindingContext.TakeItemCommand}" CommandParameter="{Binding}">
+                                        <xct:AnimationBehavior.AnimationType>
+                                            <xct:FadeAnimation />
+                                        </xct:AnimationBehavior.AnimationType>
+                                    </xct:AnimationBehavior>
+                                </Grid.Behaviors>
+                            </Grid>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

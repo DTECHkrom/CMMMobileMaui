@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.DeviceView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:devRes="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="mainPage"
+    x:DataType="vm:VMDevice"
+    x:TypeArguments="vm:VMDevice">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <cv:DeviceStateColorConv x:Key="cvDevColor" />
+            <cv:ListItemIndexConv x:Key="cvIndex" />
+            <cv:MinuteToOtherConv x:Key="cvMinute" />
+            <cv:FileImageConv x:Key="cvFileImage" />
+            <xct:BoolToObjectConverter
+                x:Key="observedImageConv"
+                FalseObject="visibility_off"
+                TrueObject="visibility" />
+            <xct:BoolToObjectConverter
+                x:Key="observedImageColorConv"
+                FalseObject="Red"
+                TrueObject="Green" />
+        </ResourceDictionary>
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid
+            x:Name="deviceMainPanel"
+            RowDefinitions="auto, *"
+            VerticalOptions="FillAndExpand">
+            <Grid
+                HorizontalOptions="FillAndExpand"
+                RowDefinitions="auto, auto, auto"
+                VerticalOptions="StartAndExpand">
+
+                <Grid VerticalOptions="StartAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="0"
+                        ButtonCommand="{Binding Path=AddWOCommand}"
+                        ImageSource="add_circle"
+                        IsButtonEnable="{Binding Path=IsWOPanel}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate dev_wo,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=DeviceWOListCommand}"
+                        ImageSource="construction"
+                        IsButtonEnable="{Binding Path=IsWOPanel}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate dev_wo_list,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="2"
+                        ButtonCommand="{Binding Path=DevicePlanListCommand}"
+                        ImageSource="schedule"
+                        IsButtonEnable="{Binding Path=IsWOPanel}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate dev_plan,
+                                            IsUpper=True}" />
+
+                </Grid>
+
+                <Frame
+                    Grid.Row="1"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding Path=IsImagePanelVisible}"
+                    Style="{StaticResource imagePanelFrameStyle}"
+                    VerticalOptions="Start">
+
+                    <HorizontalStackLayout HorizontalOptions="End">
+
+                        <cust:LabelIconButton Command="{Binding Path=TakePictureCommand}" Text="camera" />
+
+                        <cust:LabelIconButton
+                            Margin="2"
+                            Command="{Binding Path=SelectPictureCommand}"
+                            Text="collections" />
+
+                        <cust:LabelIconButton
+                            Margin="2"
+                            Command="{Binding Path=DeletePictureCommand}"
+                            IsVisible="{Binding Path=DeviceImg, Converter={xct:IsNotNullConverter}}"
+                            Text="delete_forever"
+                            TextColor="Red" />
+
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame
+                    Grid.Row="1"
+                    HorizontalOptions="Start"
+                    Style="{StaticResource imagePanelFrameStyle}"
+                    VerticalOptions="Start">
+
+                    <StackLayout HorizontalOptions="End">
+
+                        <cust:LabelIconButton
+                            Command="{Binding Path=ObservedDeviceCommand}"
+                            Text="{Binding Path=IsObserved, Converter={StaticResource observedImageConv}}"
+                            TextColor="{Binding Path=IsObserved, Converter={StaticResource observedImageColorConv}}" />
+
+                    </StackLayout>
+                </Frame>
+
+                <Image
+                    Grid.Row="1"
+                    Margin="0,0,0,0"
+                    Aspect="AspectFill"
+                    HeightRequest="200"
+                    IsVisible="{Binding Path=DeviceImg, Converter={xct:IsNotNullConverter}}"
+                    Source="{Binding Path=DeviceImg, Converter={StaticResource cvFileImage}}"
+                    VerticalOptions="StartAndExpand">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ShowImagePanelCommand}" NumberOfTapsRequired="1" />
+                        <TapGestureRecognizer Command="{Binding Path=OpenImageCommand}" NumberOfTapsRequired="2" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+            </Grid>
+
+            <VerticalStackLayout Grid.Row="1" VerticalOptions="StartAndExpand">
+
+                <Grid
+                    Margin="0,0,0,0"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={StaticResource cvDevColor}}"
+                        Orientation="Vertical">
+
+                        <Label
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="Title"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            LineHeight="0.8"
+                            Text="{Binding Path=CurrentDevice.AssetNo}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+
+                        <Label
+                            Margin="0,-5,0,5"
+                            Padding="0"
+                            FontAttributes="Bold"
+                            FontSize="Small"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=CurrentDevice.DeviceCategory, StringFormat='[{0}]'}"
+                            TextColor="Black"
+                            VerticalOptions="Start"
+                            VerticalTextAlignment="Start" />
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={StaticResource cvDevColor}}"
+                        Opacity="0.5"
+                        Orientation="Horizontal">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Body"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding Path=CurrentDevice.LocationName, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                            Text="{Binding Path=CurrentDevice.LocationName, StringFormat='[{0}]'}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Body"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding Path=CurrentDevice.Place, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                            Text="{Binding Path=CurrentDevice.Place, StringFormat='[{0}]'}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={StaticResource cvDevColor}}"
+                        IsVisible="{Binding Path=CurrentDevice.Location, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Opacity="0.5"
+                        Orientation="Horizontal">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Body"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=CurrentDevice.Location, StringFormat={cv:Translate dev_where}}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                    </StackLayout>
+
+                    <StackLayout
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={StaticResource cvDevColor}}"
+                        IsVisible="{Binding Path=CurrentDevice.SetName, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Opacity="0.5"
+                        Orientation="Horizontal">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Body"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=CurrentDevice.SetName, StringFormat={cv:Translate dev_line}}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                    </StackLayout>
+
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        FontSize="Body"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding Path=CurrentDevice.SerialNo, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Text="{Binding Path=CurrentDevice.SerialNo}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Margin="0,-5,0,0"
+                        IsVisible="{Binding Path=CurrentDevice.SerialNo, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Style="{StaticResource stylelblbtn}"
+                        TextColor="Black">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="[" />
+                                <Span Text="{cv:Translate dev_serial_no}" />
+                                <Span Text="]" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="Body"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding Path=CurrentDevice.Type, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Text="{Binding Path=CurrentDevice.Type}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Margin="0,-5,0,0"
+                        IsVisible="{Binding Path=CurrentDevice.Type, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Style="{StaticResource stylelblbtn}"
+                        TextColor="Black">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="[" />
+                                <Span Text="{cv:Translate dev_type}" />
+                                <Span Text="]" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+
+                    <cust:SKIAImageTextButton
+                        Grid.Row="6"
+                        Margin="0,-1,0,0"
+                        ButtonCommand="{Binding Path=DeviceInfoCommand}"
+                        ImageSource="info"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate dev_info,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Margin="0,-1,0,0"
+                        ButtonCommand="{Binding Path=ShowDocumentListCommand}"
+                        ImageSource="folder"
+                        IsButtonEnable="{Binding Path=CurrentDevice.DocumentationPath, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate dev_doc,
+                                            IsUpper=True}" />
+
+                </Grid>
+
+                <Grid Margin="1" VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate dev_state_change,
+                                             IsUpper=True}"
+                        Grid.Row="0"
+                        Style="{StaticResource cghStyle}" />
+
+                    <Grid Grid.Row="1">
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ControlTemplate x:Key="dtLastState">
+                                    <ScrollView VerticalScrollBarVisibility="Default">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackLayout
+                                                Grid.ColumnSpan="2"
+                                                HorizontalOptions="Center"
+                                                Orientation="Horizontal">
+
+                                                <Label
+                                                    x:Name="lblSingleStateName"
+                                                    FontAttributes="Bold"
+                                                    FontSize="Body"
+                                                    Text="{TemplateBinding Path=Parent.BindingContext.CurrentState.State_Name}"
+                                                    TextColor="{TemplateBinding Path=Parent.BindingContext.CurrentState.StateID,
+                                                                                Converter={StaticResource cvDevColor}}"
+                                                    TextTransform="Uppercase" />
+
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Body"
+                                                    Text="{TemplateBinding Path=Parent.BindingContext.CurrentState.State_Time,
+                                                                           Converter={StaticResource cvMinute}}"
+                                                    TextColor="{Binding Source={Reference lblSingleStateName}, Path=TextColor}" />
+
+                                            </StackLayout>
+
+                                            <ProgressBar
+                                                x:Name="pBarStateGreen"
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Progress="{TemplateBinding Path=Parent.BindingContext.StateList,
+                                                                           Converter={cv:DeviceStatePerConv},
+                                                                           ConverterParameter=1}"
+                                                ProgressColor="Green" />
+
+                                            <Label
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Margin="2,0,2,0"
+                                                FontAttributes="Bold"
+                                                Text="{Binding Source={Reference pBarStateGreen}, Path=Progress, StringFormat='{0:P}'}"
+                                                TextColor="Green" />
+
+                                            <ProgressBar
+                                                x:Name="pBarStateYellow"
+                                                Grid.Row="3"
+                                                Progress="{TemplateBinding Path=Parent.BindingContext.StateList,
+                                                                           Converter={cv:DeviceStatePerConv},
+                                                                           ConverterParameter=2}"
+                                                ProgressColor="Yellow" />
+
+                                            <Label
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Margin="2,0,2,0"
+                                                FontAttributes="Bold"
+                                                Text="{Binding Source={Reference pBarStateYellow}, Path=Progress, StringFormat='{0:P}'}"
+                                                TextColor="Yellow" />
+
+                                            <ProgressBar
+                                                x:Name="pBarStateRed"
+                                                Grid.Row="4"
+                                                Progress="{TemplateBinding Path=Parent.BindingContext.StateList,
+                                                                           Converter={cv:DeviceStatePerConv},
+                                                                           ConverterParameter=3}"
+                                                ProgressColor="Red" />
+
+                                            <Label
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Margin="2,0,2,0"
+                                                FontAttributes="Bold"
+                                                Text="{Binding Source={Reference pBarStateRed}, Path=Progress, StringFormat='{0:P}'}"
+                                                TextColor="Red" />
+                                        </Grid>
+                                    </ScrollView>
+                                </ControlTemplate>
+                                <ControlTemplate x:Key="dtAllState">
+                                    <ListView
+                                        x:Name="lv"
+                                        HasUnevenRows="False"
+                                        ItemsSource="{TemplateBinding Path=Parent.BindingContext.StateList}"
+                                        RowHeight="24"
+                                        VerticalOptions="StartAndExpand">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="devRes:GetDeviceStateResponse">
+                                                <ViewCell>
+                                                    <Grid BackgroundColor="{Binding Path=StateID, Converter={StaticResource cvDevColor}}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Label
+                                                            Grid.Column="0"
+                                                            Margin="1,0,1,0"
+                                                            FontAttributes="Bold"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lv}}"
+                                                            VerticalTextAlignment="Center" />
+
+                                                        <Label
+                                                            Grid.Column="1"
+                                                            FontAttributes="Bold"
+                                                            LineBreakMode="TailTruncation"
+                                                            Text="{Binding Path=State_Name}"
+                                                            VerticalTextAlignment="Center" />
+
+                                                        <Label
+                                                            Grid.Column="2"
+                                                            FontAttributes="Bold"
+                                                            Text="{Binding Path=State_Time, Converter={StaticResource cvMinute}}"
+                                                            VerticalTextAlignment="Center" />
+                                                    </Grid>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ControlTemplate>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="0"
+                            ButtonCommand="{Binding Path=ShowLastStateCommand}"
+                            ImageSource="functions"
+                            IsButtonSelected="{Binding Path=IsAllStateVisible, Mode=TwoWay}"
+                            Style="{StaticResource skiaBtnStyle}"
+                            Text="{cv:Translate dev_state_sum,
+                                                IsUpper=True}" />
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="1"
+                            ButtonCommand="{Binding Path=ShowListStateCommand}"
+                            ImageSource="format_list_numbered"
+                            IsButtonSelected="{Binding Path=IsLastStateVisible, Mode=TwoWay}"
+                            Style="{StaticResource skiaBtnStyle}"
+                            Text="{cv:Translate dev_state_list,
+                                                IsUpper=True}" />
+
+                        <ContentView Grid.Row="1" Grid.ColumnSpan="2">
+                            <ContentView.Style>
+                                <Style TargetType="ContentView">
+                                    <Setter Property="ControlTemplate" Value="{StaticResource dtLastState}" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=IsAllStateVisible}"
+                                            TargetType="ContentView"
+                                            Value="false">
+                                            <Setter Property="ControlTemplate" Value="{StaticResource dtAllState}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentView.Style>
+                        </ContentView>
+                    </Grid>
+                </Grid>
+            </VerticalStackLayout>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

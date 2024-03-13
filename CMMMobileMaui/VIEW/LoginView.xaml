@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.LoginView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerikInput="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    Title=""
+    x:DataType="vm:VMLogin"
+    x:TypeArguments="vm:VMLogin"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Content>
+        <VerticalStackLayout>
+            <Grid ColumnDefinitions="AUTO, *" HorizontalOptions="FillAndExpand">
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Grid.Column="0"
+                    Margin="10,0"
+                    HeightRequest="32"
+                    HorizontalOptions="Start"
+                    WidthRequest="32" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=SaveCommand}"
+                    ImageSource="save"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate cmm_login, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <cust:CustomListPicker
+                    Title="LOGIN"
+                    Grid.Row="1"
+                    DisplayPath="Name"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    ItemsSource="{Binding Path=PersonList}"
+                    SelectedItem="{Binding Path=CurrentPerson, Mode=TwoWay}" />
+
+                <cust:CustomFrameEntry
+                    Title="{cv:Translate password,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    HeightRequest="40"
+                    HorizontalOptions="FillAndExpand"
+                    IsPassword="true"
+                    IsRequired="True"
+                    Text="{Binding Path=Pass, Mode=TwoWay}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="3"
+                    ButtonCommand="{Binding Path=CheckLoginCommand}"
+                    ImageSource="person"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate check,
+                                        IsUpper=True}" />
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate user_code,
+                                         IsUpper=True}"
+                    Grid.Row="4"
+                    Margin="0,5,0,2"
+                    Style="{StaticResource cghStyle}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="5"
+                    ButtonCommand="{Binding Path=ScanUserCodeCommand}"
+                    ImageSource="qr_code"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate scan_and_save_code,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate other, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <StackLayout Grid.Row="1" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=IsLogin, Mode=TwoWay}" />
+
+                    <Label
+                        Margin="10,0,0,0"
+                        HorizontalOptions="Start"
+                        Text="{cv:Translate cmm_login_start}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate history,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    Style="{StaticResource cghStyle}" />
+
+                <Label
+                    Grid.Row="3"
+                    Margin="2"
+                    Text="{cv:Translate hist_info}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="4"
+                    ButtonCommand="{Binding Path=ClearHistoryCommand}"
+                    ImageSource="delete_forever"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate remove_history,
+                                        IsUpper=True}" />
+            </Grid>
+        </VerticalStackLayout>
+    </view:PageBase.Content>
+</view:PageBase>

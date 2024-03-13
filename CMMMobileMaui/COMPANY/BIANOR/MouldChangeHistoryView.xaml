@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.BIANOR.MouldChangeHistoryView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate ml_history, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    Grid.Row="1"
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Path=HistoryList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Padding="1"
+                                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Path=ChangeTime, StringFormat='{0:yyyy-MM-dd}'}" />
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Padding="1"
+                                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Path=ChangeTime, StringFormat='{0:HH:mm}'}" />
+
+                                    <Label
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Padding="1"
+                                        Text="{Binding Path=AddPerson}"
+                                        VerticalTextAlignment="Center" />
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="2"
+                                        Padding="1"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Path=LocationName}"
+                                        VerticalTextAlignment="Center">
+                                        <Label.Style>
+                                            <Style TargetType="Label">
+                                                <Setter Property="Grid.RowSpan" Value="1" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=Details, TargetNullValue=''}"
+                                                        TargetType="Label"
+                                                        Value="">
+                                                        <Setter Property="Grid.RowSpan" Value="2" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Label.Style>
+                                    </Label>
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Padding="1"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Path=Details}"
+                                        VerticalTextAlignment="Center" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

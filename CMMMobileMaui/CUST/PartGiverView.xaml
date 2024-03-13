@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CMMMobileMaui.CUST.PartGiverView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerikInput="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="pagePartGive"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                x:Name="stackPartGive"
+                ColumnDefinitions="*, *"
+                HorizontalOptions="FillAndExpand">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=CancelCommand}"
+                    ImageSource="cancel"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate close,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=SaveCommand}"
+                    ImageSource="save"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <Label
+                Grid.Row="1"
+                Margin="10,5,10,5"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Style="{StaticResource lblListHeaderStyle}"
+                Text="{Binding Source={x:Reference pagePartGive}, Path=Title}"
+                VerticalOptions="Center" />
+
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate part_give2,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Style="{StaticResource cghStyle}" />
+
+                <cust:CustomFrameNumericEntry
+                    Title="{cv:Translate part_quantity}"
+                    Grid.Row="1"
+                    HeightRequest="40"
+                    IsEnabled="{Binding Path=CurrentPart.IsExchangeable, Converter={xct:InvertedBoolConverter}}"
+                    IsRequired="True"
+                    NumericValue="{Binding Path=TakeAmount, Mode=TwoWay}"
+                    NumericValueFormat="N2" />
+
+                <cust:CustomListPicker
+                    Title="{cv:Translate part_who}"
+                    Grid.Row="2"
+                    DisplayPath="Name"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    ItemsSource="{Binding Path=PersonList}"
+                    SelectedItem="{Binding Path=CurrentPerson, Mode=TwoWay}" />
+
+                <Grid
+                    Grid.Row="3"
+                    Margin="5"
+                    RowDefinitions="AUTO, AUTO, AUTO, AUTO">
+                    <cust:CustomGroupHeader Title="{cv:Translate wo_device, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                    <Grid Grid.Row="1" ColumnDefinitions="*, 32">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Path=DeviceName}"
+                            VerticalTextAlignment="Center">
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="IsVisible" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=DeviceName, TargetNullValue=''}"
+                                            TargetType="Label"
+                                            Value="">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+
+                        <Image
+                            Grid.Column="1"
+                            HeightRequest="32"
+                            Source="search"
+                            WidthRequest="32">
+                            <Image.Behaviors>
+                                <xct:AnimationBehavior Command="{Binding Path=SelectDeviceCommand}">
+                                    <xct:AnimationBehavior.AnimationType>
+                                        <xct:FadeAnimation />
+                                    </xct:AnimationBehavior.AnimationType>
+                                </xct:AnimationBehavior>
+                            </Image.Behaviors>
+                        </Image>
+
+                    </Grid>
+
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate dev_wo,
+                                             IsUpper=True}"
+                        Grid.Row="2"
+                        Style="{StaticResource cghStyle}" />
+
+                    <Grid Grid.Row="3" ColumnDefinitions="*, 32">
+
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="Small"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Path=WOName}"
+                            VerticalTextAlignment="Center">
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="IsVisible" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=WOName, TargetNullValue=''}"
+                                            TargetType="Label"
+                                            Value="">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+
+                        <Image
+                            Grid.Column="1"
+                            HeightRequest="32"
+                            IsEnabled="{Binding Path=IsDevice}"
+                            Source="search"
+                            WidthRequest="32">
+                            <Image.Behaviors>
+                                <xct:AnimationBehavior Command="{Binding Path=SelectWOCommand}">
+                                    <xct:AnimationBehavior.AnimationType>
+                                        <xct:FadeAnimation />
+                                    </xct:AnimationBehavior.AnimationType>
+                                </xct:AnimationBehavior>
+                            </Image.Behaviors>
+                        </Image>
+                    </Grid>
+
+                    <BoxView
+                        Grid.Row="4"
+                        Margin="0,0,0,-2"
+                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        HeightRequest="2"
+                        VerticalOptions="End" />
+
+                    <BoxView
+                        Grid.RowSpan="4"
+                        Margin="0,10,0,0"
+                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        HorizontalOptions="End"
+                        WidthRequest="2" />
+
+                    <BoxView
+                        Grid.RowSpan="4"
+                        Margin="0,10,0,0"
+                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        HorizontalOptions="Start"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="2" />
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

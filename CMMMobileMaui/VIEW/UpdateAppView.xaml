@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.UpdateAppView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:DataType="vm:VMUpadeApp"
+    x:TypeArguments="vm:VMUpadeApp"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutItemIsVisible="False"
+    Shell.NavBarIsVisible="False"
+    mc:Ignorable="d">
+    <view:PageBase.Content>
+        <Grid Margin="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+
+                <Image
+                    HeightRequest="154"
+                    HorizontalOptions="Fill"
+                    Source="image001.png"
+                    VerticalOptions="Fill"
+                    WidthRequest="128" />
+
+                <StackLayout Margin="3" VerticalOptions="Center">
+
+                    <Label
+                        Margin="5"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="CMM MOBILE" />
+
+                    <Label Margin="5">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{cv:Translate version}" />
+                                <Span Text=": " />
+                                <Span FontAttributes="Bold" Text="{Binding Path=CurrentVersion}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </StackLayout>
+            <Label
+                Grid.Row="1"
+                Margin="5"
+                FontSize="16">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{cv:Translate down_info1}" />
+                        <Span Text=" [" />
+                        <Span FontAttributes="Bold" Text="{Binding Path=NewVersion}" />
+                        <Span Text="]. " />
+                        <Span Text="{cv:Translate down_info2}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+
+            <cust:SKIAImageTextButton
+                x:Name="btnDownload"
+                Grid.Row="2"
+                Margin="0,2"
+                ButtonCommand="{Binding Path=DownloadAppCommnad}"
+                ImageSource="download"
+                Text="{cv:Translate download,
+                                    IsUpper=True}">
+                <cust:SKIAImageTextButton.Style>
+                    <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                        <Setter Property="IsEnabled" Value="true" />
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Path=IsBusy}"
+                                TargetType="cust:SKIAImageTextButton"
+                                Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </cust:SKIAImageTextButton.Style>
+            </cust:SKIAImageTextButton>
+
+            <cust:SKIAImageTextButton
+                x:Name="btnCancel"
+                Grid.Row="3"
+                Margin="0,2"
+                ButtonCommand="{Binding Path=CancelCommand}"
+                ImageSource="cancel"
+                Text="{cv:Translate skip,
+                                    IsUpper=True}">
+                <cust:SKIAImageTextButton.Style>
+                    <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                        <Setter Property="IsEnabled" Value="true" />
+                        <Style.Triggers>
+                            <DataTrigger
+                                Binding="{Binding Path=IsBusy}"
+                                TargetType="cust:SKIAImageTextButton"
+                                Value="True">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </cust:SKIAImageTextButton.Style>
+            </cust:SKIAImageTextButton>
+
+
+            <ProgressBar
+                x:Name="pbar"
+                Grid.Row="4"
+                IsVisible="{Binding Path=IsBusy}"
+                Progress="{Binding Path=ProgressValue}" />
+
+            <Label
+                x:Name="lblInfo"
+                Grid.Row="5"
+                FontAttributes="Italic"
+                IsVisible="{Binding Path=IsBusy}"
+                Text="{cv:Translate down_info3}" />
+
+            <!--<Label Grid.Row="6" IsVisible="{Binding Path=IsBusy}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="[" />
+                        <Span Text="{cv:Translate down_info4}" />
+                        <Span Text="]" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>-->
+
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

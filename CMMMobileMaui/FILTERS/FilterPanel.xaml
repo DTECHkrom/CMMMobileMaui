@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.FILTERS.FilterPanel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:guiM="clr-namespace:CMMMobileMaui.API.Contracts.Models.GUI;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:l="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="{Binding Source={Static com:SConsts.COLOR_5}}"
+    ColumnDefinitions="*, auto"
+    RowDefinitions="*, 2">
+    <Grid.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ImageButton">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
+        </ResourceDictionary>
+    </Grid.Resources>
+
+    <l:RadWrapLayout
+        Grid.Column="0"
+        BindableLayout.ItemsSource="{Binding Path=UsedFilterItemList}"
+        VerticalOptions="CenterAndExpand">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate x:DataType="guiM:FilterItem">
+                <Grid ColumnDefinitions="auto, auto">
+                    <Label
+                        FontSize="12"
+                        TextColor="{Binding Source={Static com:SConsts.TEXT_COLOR}}"
+                        VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Path=DisplayName}" />
+                                <Span Text=": " />
+                                <Span FontAttributes="Bold" Text="{Binding Path=DisplayValue}" />
+                                <Span Text="  " />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Grid>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </l:RadWrapLayout>
+
+    <ImageButton
+        x:Name="btnFilter"
+        Grid.Column="1"
+        Source="filter"
+        VerticalOptions="CenterAndExpand" />
+
+    <BoxView
+        Grid.Row="1"
+        Grid.ColumnSpan="2"
+        Margin="0,0,0,0"
+        BackgroundColor="{Binding Source={Static com:SConsts.COLOR_1}}" />
+</Grid>

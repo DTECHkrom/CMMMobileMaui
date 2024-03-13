@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.DeviceSetView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:TypeArguments="vm:VMDeviceSet"
+    Shell.NavBarIsVisible="False">
+
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <cust:CustomFrameEntry Title="{cv:Translate set_list, IsUpper=True}" Text="{Binding Path=FilterText, Mode=TwoWay}" />
+
+            <Grid
+                Grid.Row="1"
+                Margin="10,2"
+                ColumnDefinitions="auto, *, auto, auto">
+
+                <Label Style="{StaticResource lblImage}" Text="update">
+                    <Label.Behaviors>
+                        <xct:AnimationBehavior Command="{Binding Path=LoadItemsCommand}">
+                            <xct:AnimationBehavior.AnimationType>
+                                <xct:FadeAnimation Opacity="0.5" />
+                            </xct:AnimationBehavior.AnimationType>
+                        </xct:AnimationBehavior>
+                    </Label.Behaviors>
+                </Label>
+
+                <Label
+                    Grid.Column="2"
+                    Margin="5,0"
+                    Style="{StaticResource lblImage}"
+                    Text="arrow_upward">
+                    <Label.Behaviors>
+                        <xct:AnimationBehavior Command="{Binding Path=CollapseAllCommand}">
+                            <xct:AnimationBehavior.AnimationType>
+                                <xct:FadeAnimation Opacity="0.5" />
+                            </xct:AnimationBehavior.AnimationType>
+                        </xct:AnimationBehavior>
+                    </Label.Behaviors>
+                </Label>
+
+                <Label
+                    Grid.Column="3"
+                    Margin="5,0"
+                    Style="{StaticResource lblImage}"
+                    Text="arrow_downward">
+                    <Label.Behaviors>
+                        <xct:AnimationBehavior Command="{Binding Path=ExpandAllCommand}">
+                            <xct:AnimationBehavior.AnimationType>
+                                <xct:FadeAnimation Opacity="0.5" />
+                            </xct:AnimationBehavior.AnimationType>
+                        </xct:AnimationBehavior>
+                    </Label.Behaviors>
+                </Label>
+            </Grid>
+
+            <telerik:RadTreeView
+                x:Name="treeView"
+                Grid.Row="2"
+                ItemsSource="{Binding Source}">
+                <telerik:TreeViewDescriptor ItemsSourcePath="Children" TargetType="{x:Type com:DeviceSetModel}">
+                    <telerik:TreeViewDescriptor.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="{Binding Path=Level, Converter={StaticResource levelToMarginConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--<telerik:ExpandCollapseIndicator
+                                    Margin="5,0"
+                                    FontSize="Small"
+                                    IsExpanded="{Binding Path=IsExpanded}"
+                                    IsLeaf="{Binding Path=IsLeaf}"
+                                    IsLoadOnDemandEnabled="{Binding Path=IsLoadOnDemandEnabled}"
+                                    IsLoading="{Binding Path=IsLoading}"
+                                    VerticalTextAlignment="Center"
+                                    WidthRequest="10" />-->
+
+                                <Label
+                                    Grid.Column="1"
+                                    Text="circle"
+                                    TextColor="{Binding Path=IconColor}">
+
+                                    <Label.Style>
+                                        <Style BasedOn="{StaticResource lblImage}" TargetType="Label">
+                                            <Setter Property="IsVisible" Value="True" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=LineType}"
+                                                    TargetType="Label"
+                                                    Value="1">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=LineType}"
+                                                    TargetType="Label"
+                                                    Value="0">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+
+
+                                <Label
+                                    Grid.Column="2"
+                                    Text="{Binding Path=Name}"
+                                    TextColor="{Binding Path=FontColor}"
+                                    VerticalTextAlignment="Center">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontAttributes" Value="None" />
+                                            <Setter Property="FontSize" Value="12" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=IsFiltered}"
+                                                    TargetType="Label"
+                                                    Value="True">
+                                                    <Setter Property="FontAttributes" Value="Bold" />
+                                                    <Setter Property="FontSize" Value="14" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                    <Label.Behaviors>
+                                        <xct:AnimationBehavior Command="{Binding Source={x:Reference treeView}, Path=BindingContext.OpenDeviceCommand}" CommandParameter="{Binding}" />
+                                    </Label.Behaviors>
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </telerik:TreeViewDescriptor.ItemTemplate>
+                </telerik:TreeViewDescriptor>
+
+            </telerik:RadTreeView>
+
+            <telerik:RadBusyIndicator
+                x:Name="busyIndicator"
+                Grid.RowSpan="3"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="100"
+                AnimationContentWidthRequest="100"
+                HeightRequest="100"
+                IsBusy="{Binding Path=IsBusy}"
+                IsVisible="{Binding Path=IsBusy}"
+                VerticalOptions="Center" />
+
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

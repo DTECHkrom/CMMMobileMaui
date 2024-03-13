@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.ObservedDeviceCyclesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:devRes="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:DataType="vm:VMObservedDeviceCycles"
+    x:TypeArguments="vm:VMObservedDeviceCycles">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <cust:CustomGroupHeader
+                Title="{cv:Translate current_cycle,
+                                     IsUpper=True}"
+                Grid.Row="0"
+                Style="{StaticResource cghStyle}" />
+
+            <ListView
+                x:Name="lvItems"
+                Grid.Row="1"
+                HasUnevenRows="True"
+                ItemsSource="{Binding Path=ItemsList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="devRes:GetDeviceObservedCyclesResponse">
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Grid.Column="0"
+                                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Path=ChangeTime, StringFormat='{0:yyyy-MM-dd}'}"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Path=ChangeTime, StringFormat='{0:HH:mm}'}"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                                    FontAttributes="Bold"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Path=Cycle, StringFormat='{0}'}"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    Grid.RowSpan="2"
+                                    Grid.Column="2"
+                                    Padding="2,0,0,0"
+                                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Path=PersonName}"
+                                    TextColor="White"
+                                    VerticalTextAlignment="Center" />
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</view:PageBase>

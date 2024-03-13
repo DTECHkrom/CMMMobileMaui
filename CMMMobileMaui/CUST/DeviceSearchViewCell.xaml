@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ViewCell
+    x:Class="CMMMobileMaui.CUST.DeviceSearchViewCell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+    xmlns:telerikPrimitives="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    mc:Ignorable="d">
+    <ViewCell.View>
+        <Grid x:Name="gMain">
+            <Grid.Behaviors>
+                <xct:AnimationBehavior Command="{Binding Path=TakeDeviceCommand}" CommandParameter="{Binding .}">
+                    <xct:AnimationBehavior.AnimationType>
+                        <xct:FadeAnimation />
+                    </xct:AnimationBehavior.AnimationType>
+                </xct:AnimationBehavior>
+            </Grid.Behaviors>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="32" />
+            </Grid.ColumnDefinitions>
+            <StackLayout
+                Grid.Row="0"
+                Orientation="Vertical"
+                Spacing="0"
+                VerticalOptions="Center">
+
+                <Label Style="{StaticResource lblListHeaderStyle}" Text="{Binding Path=BaseItem.AssetNo, Mode=OneTime}" />
+
+                <Label Style="{StaticResource lblListSubHeaderStyle}" Text="{Binding Path=BaseItem.DeviceCategory, StringFormat='[{0}]', Mode=OneTime}" />
+            </StackLayout>
+
+            <telerikPrimitives:RadWrapLayout
+                Grid.Row="1"
+                Orientation="Horizontal"
+                VerticalOptions="Center">
+                <Label IsVisible="{Binding Path=BaseItem.Type, Mode=OneTime, Converter={xct:IsStringNotNullOrEmptyConverter}}" Text="{Binding Path=BaseItem.Type, StringFormat='[{0}]', Mode=OneTime}" />
+                <Label IsVisible="{Binding Path=BaseItem.SerialNo, Mode=OneTime, Converter={xct:IsStringNotNullOrEmptyConverter}}" Text="{Binding Path=BaseItem.SerialNo, StringFormat='[{0}]', Mode=OneTime}" />
+
+            </telerikPrimitives:RadWrapLayout>
+
+            <cust:LabelIconButton
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="2"
+                Command="{Binding Path=TakeDeviceCommand}"
+                CommandParameter="{Binding .}"
+                Text="more_horiz" />
+
+            <telerikPrimitives:RadBusyIndicator
+                x:Name="busyIndicator"
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="50"
+                AnimationContentWidthRequest="50"
+                AnimationType="Animation1"
+                HeightRequest="40"
+                HorizontalOptions="Center"
+                IsBusy="{Binding Path=IsBusy, Mode=OneWay}"
+                IsVisible="{Binding Path=IsBusy, Mode=OneWay}"
+                VerticalOptions="Center"
+                WidthRequest="40" />
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

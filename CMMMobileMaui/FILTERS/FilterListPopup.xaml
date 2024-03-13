@@ -1,0 +1,219 @@
+<pages:PopupPage
+    x:Class="CMMMobileMaui.FILTERS.FilterListPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:guiM="clr-namespace:CMMMobileMaui.API.Contracts.Models.GUI;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="Transparent"
+    CloseWhenBackgroundIsClicked="True">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <VerticalStackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame Style="{StaticResource frameStyle}">
+
+            <Grid RowDefinitions="AUTO, AUTO, AUTO, AUTO" VerticalOptions="Start">
+
+                <Label
+                    HorizontalTextAlignment="Center"
+                    Style="{StaticResource lblGroupHeaderStyle}"
+                    Text="{cv:Translate Text=filtering,
+                                        IsUpper=True}" />
+
+                <ScrollView Grid.Row="1" Margin="2">
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Path=FilterItemList}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="guiM:FilterItem">
+                                <ContentView BindingContext="{Binding .}">
+                                    <ContentView.Style>
+                                        <Style TargetType="ContentView">
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=DataType}"
+                                                    TargetType="ContentView"
+                                                    Value="{x:Type x:String}">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomFrameEntry
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName,
+                                                                                            Mode=TwoWay}"
+                                                                    HeightRequest="40"
+                                                                    Text="{TemplateBinding Path=BindingContext.Value,
+                                                                                           Mode=TwoWay}" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=DataType}"
+                                                    TargetType="ContentView"
+                                                    Value="{x:Type x:Decimal}">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomFrameNumericEntry
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName,
+                                                                                            Mode=TwoWay}"
+                                                                    HeightRequest="40"
+                                                                    NumericValue="{TemplateBinding Path=BindingContext.Value,
+                                                                                                   Mode=TwoWay}" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=DataType}"
+                                                    TargetType="ContentView"
+                                                    Value="{x:Type x:Boolean}">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomFrameCheckBox
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName}"
+                                                                    HeightRequest="40"
+                                                                    IsCheckedString="{TemplateBinding Path=BindingContext.Value,
+                                                                                                      Mode=TwoWay}" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=DataType, Converter={cv:IsDemandTypeConv}, ConverterParameter=bool}"
+                                                    TargetType="ContentView"
+                                                    Value="true">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomFrameCheckBox
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName}"
+                                                                    HeightRequest="40"
+                                                                    IsCheckedString="{TemplateBinding Path=BindingContext.Value,
+                                                                                                      Mode=TwoWay}"
+                                                                    IsThreeState="true" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=DataType, Converter={cv:IsDemandTypeConv}, ConverterParameter=Date}"
+                                                    TargetType="ContentView"
+                                                    Value="true">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomFrameDatePicker
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName,
+                                                                                            Mode=TwoWay}"
+                                                                    HeightRequest="40"
+                                                                    StringValue="{TemplateBinding Path=BindingContext.Value,
+                                                                                                  Mode=TwoWay}" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger
+                                                    Binding="{Binding Path=Source, Converter={xct:IsStringNullOrEmptyConverter}}"
+                                                    TargetType="ContentView"
+                                                    Value="false">
+                                                    <Setter Property="ControlTemplate">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <cust:CustomListPicker
+                                                                    Title="{TemplateBinding Path=BindingContext.DisplayName,
+                                                                                            Mode=TwoWay}"
+                                                                    HeightRequest="40"
+                                                                    ItemsSource="{TemplateBinding Path=BindingContext.Source}"
+                                                                    SelectedItem="{TemplateBinding Path=BindingContext.Value,
+                                                                                                   Mode=TwoWay}" />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentView.Style>
+                                </ContentView>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </ScrollView>
+
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    Margin="2"
+                    IsVisible="{Binding Path=IsSorting}"
+                    VerticalOptions="Start">
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate Text=sorting,
+                                             IsUpper=True}"
+                        BorderColor="{Binding Source={Static com:SConsts.COLOR_2}}"
+                        TextColor="{Binding Source={Static com:SConsts.COLOR_2}}" />
+
+                    <Grid
+                        ColumnDefinitions="*, 40"
+                        MaximumHeightRequest="40"
+                        VerticalOptions="Start">
+                        <cust:CustomListPicker
+                            Title="{cv:Translate Text=sorting_by,
+                                                 IsUpper=True}"
+                            DisplayPath="DisplayName"
+                            HeightRequest="40"
+                            IsClearAllowed="False"
+                            ItemsSource="{Binding Path=SortItemList}"
+                            MinimumHeightRequest="40"
+                            SelectedItem="{Binding Path=CurrentSortItem, Mode=TwoWay}" />
+
+                        <ImageButton Grid.Column="1" Command="{Binding Path=SortDirectionCommand}">
+                            <ImageButton.Style>
+                                <Style TargetType="ImageButton">
+                                    <Setter Property="Source" Value="arrow_up" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=CurrentSortDirection}"
+                                            TargetType="ImageButton"
+                                            Value="1">
+                                            <Setter Property="Source" Value="arrow_down" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ImageButton.Style>
+                            <ImageButton.Behaviors>
+                                <xct:IconTintColorBehavior TintColor="{Binding Source={Static com:SConsts.COLOR_1}}" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <cust:SKIAImageTextButton
+                    Grid.Row="3"
+                    Margin="0,0,0,-2"
+                    ButtonCommand="{Binding Path=ConfirmFilterCommand}"
+                    ImageSource="search"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate Text=search,
+                                        IsUpper=True}" />
+            </Grid>
+        </Frame>
+    </VerticalStackLayout>
+</pages:PopupPage>

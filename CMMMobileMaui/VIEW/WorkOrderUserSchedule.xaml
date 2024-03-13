@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderUserSchedule"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:mod="clr-namespace:CMMMobileMaui.MODEL"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:TypeArguments="vm:VMWorkOrderUserScheduler"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <com:CustomDayAppointmentWOView x:Key="dayAppView">
+                <com:CustomDayAppointmentWOView.AllDay>
+                    <DataTemplate>
+                        <Label BackgroundColor="{Binding Path=Occurrence.Appointment.Color}" Text="{Binding Path=Occurrence.Appointment.Subject}" />
+                    </DataTemplate>
+                </com:CustomDayAppointmentWOView.AllDay>
+                <com:CustomDayAppointmentWOView.NotAllDay>
+                    <DataTemplate>
+                        <telerik:RadBorder
+                            Margin="0"
+                            Padding="0"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}"
+                            BorderColor="Silver"
+                            BorderThickness="1"
+                            IsClippedToBounds="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <HorizontalStackLayout
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    BindableLayout.ItemsSource="{Binding Path=Occurrence.Appointment.WOItems}">
+                                    <BindableLayout.ItemTemplate>
+                                        <DataTemplate x:DataType="com:DisplayImage">
+                                            <Label
+                                                FontSize="10"
+                                                Style="{StaticResource lblImage}"
+                                                Text="{Binding Path=Source}"
+                                                TextColor="{Binding Path=Color}" />
+                                        </DataTemplate>
+                                    </BindableLayout.ItemTemplate>
+                                </HorizontalStackLayout>
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="4,0"
+                                    FontAttributes="Bold"
+                                    FontSize="12"
+                                    Text="{Binding Path=Occurrence.Appointment.Subject}"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+
+                                <StackLayout
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="4,-4,0,0">
+
+                                    <telerik:RadWrapLayout>
+                                        <Label FontSize="10" Text="{Binding Path=Occurrence.Appointment.WO_Category, StringFormat='[{0}]'}" />
+                                        <Label FontSize="10" Text="{Binding Path=Occurrence.Appointment.WO_Reason, StringFormat='[{0}]'}" />
+                                    </telerik:RadWrapLayout>
+
+                                    <Label
+                                        FontSize="10"
+                                        Text="{Binding Path=Occurrence.Appointment.Body}"
+                                        TextColor="Black" />
+
+                                </StackLayout>
+
+                                <BoxView
+                                    Grid.RowSpan="3"
+                                    Grid.Column="0"
+                                    BackgroundColor="{Binding Path=Occurrence.Appointment.Color}" />
+                            </Grid>
+                        </telerik:RadBorder>
+
+                    </DataTemplate>
+                </com:CustomDayAppointmentWOView.NotAllDay>
+            </com:CustomDayAppointmentWOView>
+        </ResourceDictionary>
+
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+
+        <Grid VerticalOptions="FillAndExpand">
+
+            <telerik:RadScheduler
+                x:Name="calendar"
+                AppointmentTapped="calendar_AppointmentTapped"
+                AppointmentTemplate="{StaticResource dayAppView}"
+                AppointmentsSource="{Binding Path=WOList}"
+                DialogOpening="calendar_DialogOpening"
+                IsEnabled="{Binding Path=IsBusy, Converter={xct:InvertedBoolConverter}}"
+                VerticalOptions="FillAndExpand">
+
+                <telerik:RadScheduler.ViewDefinitions>
+                    <telerik:MultidayViewDefinition VisibleDays="3" />
+                    <telerik:DayViewDefinition />
+                    <telerik:WeekViewDefinition />
+                    <telerik:MonthViewDefinition />
+                </telerik:RadScheduler.ViewDefinitions>
+
+            </telerik:RadScheduler>
+
+            <telerik:RadBusyIndicator
+                x:Name="busyIndicator"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="100"
+                AnimationContentWidthRequest="100"
+                AnimationType="Animation1"
+                HorizontalOptions="FillAndExpand"
+                IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand" />
+
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

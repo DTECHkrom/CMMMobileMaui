@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderHistoryListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:woRes="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.WO;assembly=CMMMobileMaui.API.Contracts"
+    Title="Historia zadania"
+    x:DataType="vm:VMWorkOrderHistory"
+    x:TypeArguments="vm:VMWorkOrderHistory"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <cv:ListItemIndexConv x:Key="cvIndex" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <cust:CustomGroupHeader
+                Title="{cv:Translate wo_list_change,
+                                     IsUpper=True}"
+                Grid.Row="0"
+                Style="{StaticResource cghStyle}" />
+
+            <ListView
+                x:Name="lvWOHist"
+                Grid.Row="1"
+                HasUnevenRows="True"
+                ItemsSource="{Binding Path=WOHistList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="woRes:GetWOHistResponse">
+                        <ViewCell>
+                            <Grid Margin="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lvWOHist}}" />
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Text="{Binding Path=Source, StringFormat='{}{0}:'}" />
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="5,0,0,0"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Path=Value}" />
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="2">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="[" />
+                                            <Span Text="{Binding Path=Person}" />
+                                            <Span Text="{Binding Path=Change_Time, StringFormat=' {0:yyyy-MM-dd HH:mm}'}" />
+                                            <Span Text="]" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

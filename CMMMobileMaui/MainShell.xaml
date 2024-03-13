@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:ShellBase
+    x:Class="CMMMobileMaui.MainShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:v="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vA="clr-namespace:CMMMobileMaui.VIEW.AFTERLOGIN"
+    xmlns:vS="clr-namespace:CMMMobileMaui.VIEW.START"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="mainShell"
+    x:DataType="vm:VMMainShell"
+    x:TypeArguments="vm:VMMainShell">
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style TargetType="FlyoutItem">
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_4}}" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="Gray" />
+                <Setter Property="Shell.TabBarTitleColor" Value="{Binding Source={x:Static com:SConsts.COLOR_2}}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_2}}" />
+                <Setter Property="Shell.BackgroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_1}}" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+
+                <Image
+                    HeightRequest="154"
+                    HorizontalOptions="Fill"
+                    Source="image001.png"
+                    VerticalOptions="Fill"
+                    WidthRequest="128" />
+
+                <StackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="Fill"
+                    Orientation="Vertical"
+                    VerticalOptions="CenterAndExpand">
+
+                    <Label
+                        Margin="5"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="CMM MOBILE" />
+
+                    <Label
+                        Margin="1"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Path=CurrentVersion}" />
+
+                    <Frame
+                        Margin="2"
+                        BackgroundColor="#FFF26262"
+                        BorderColor="#FFFF0000"
+                        HorizontalOptions="Fill"
+                        IsVisible="{Binding Path=IsNewVersion}"
+                        Style="{StaticResource frameStyle}">
+
+                        <!--<StackLayout Margin="1" Orientation="Vertical">
+
+                            <Label
+                                x:Name="lblNewVersion"
+                                Margin="1"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                HorizontalTextAlignment="Center"
+                                Text="{cv:Translate sh_new_version}" />
+
+                            <Button
+                                Margin="1"
+                                Command="{Binding Path=DownloadUpdateCommand}"
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                Text="{Binding Path=NewVersion}" />
+
+                        </StackLayout>-->
+                    </Frame>
+                </StackLayout>
+                <StackLayout
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="2"
+                    Orientation="Horizontal">
+                    <StackLayout.Style>
+                        <Style TargetType="StackLayout">
+                            <Setter Property="IsVisible" Value="True" />
+                        </Style>
+                    </StackLayout.Style>
+
+                    <Image
+                        HeightRequest="32"
+                        Source="user_outline"
+                        WidthRequest="32" />
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="{Binding Path=UserName, StringFormat='[{0}]'}"
+                        VerticalOptions="Center" />
+
+                    <ImageButton
+                        Margin="10,0,0,0"
+                        Command="{Binding Path=LogoutUserCommand}"
+                        HeightRequest="32"
+                        Source="logout"
+                        Style="{StaticResource ibStyleMain}"
+                        WidthRequest="32" />
+                </StackLayout>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <ShellItem FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate vS:StartPage}" Route="StartPage" />
+    </ShellItem>
+
+    <!--<ShellItem FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate vA:AfterLoginPage}" Route="AfterLoginPage" />
+    </ShellItem>-->
+
+    <ShellItem FlyoutItemIsVisible="False">
+        <ShellContent Route="TestPageHost">
+            <ShellContent.ContentTemplate>
+                <DataTemplate>
+                    <v:TestPage>
+                        <x:Arguments>
+                            <x:Boolean>true</x:Boolean>
+                            <x:Boolean>false</x:Boolean>
+                            <x:Boolean>true</x:Boolean>
+                        </x:Arguments>
+                    </v:TestPage>
+                </DataTemplate>
+
+            </ShellContent.ContentTemplate>
+        </ShellContent>
+    </ShellItem>
+
+    <ShellItem FlyoutItemIsVisible="False">
+        <ShellContent Route="TestPageLogin">
+            <ShellContent.ContentTemplate>
+                <DataTemplate>
+                    <v:TestPage>
+                        <x:Arguments>
+                            <x:Boolean>false</x:Boolean>
+                            <x:Boolean>true</x:Boolean>
+                            <x:Boolean>true</x:Boolean>
+                        </x:Arguments>
+                    </v:TestPage>
+                </DataTemplate>
+
+            </ShellContent.ContentTemplate>
+        </ShellContent>
+    </ShellItem>
+
+
+    <FlyoutItem
+        x:Name="fiDevice"
+        Title="{cv:Translate sh_devices}"
+        Icon="robot"
+        Route="device">
+
+        <Tab
+            x:Name="tabWO"
+            Title="{cv:Translate sh_wo}"
+            Icon="wo.png"
+            Route="WorkOrderListAllView">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:WorkOrderListAllView>
+                            <x:Arguments>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Boolean>true</x:Boolean>
+                                <x:Boolean>true</x:Boolean>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Int32>0</x:Int32>
+                            </x:Arguments>
+                        </v:WorkOrderListAllView>
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+        <Tab
+            x:Name="tabDevHist"
+            Title="{cv:Translate history}"
+            Icon="list_num">
+            <ShellContent ContentTemplate="{DataTemplate v:MainView}" />
+        </Tab>
+
+        <Tab
+            x:Name="tabDevSearch"
+            Title="{cv:Translate search}"
+            Icon="search">
+            <ShellContent ContentTemplate="{DataTemplate v:DeviceSearchView}" />
+        </Tab>
+
+        <Tab
+            x:Name="tabDevScan"
+            Title="{cv:Translate scan_code}"
+            Icon="barcode2">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:ScanView>
+                            <x:Arguments>
+                                <x:Int32>9</x:Int32>
+                            </x:Arguments>
+                        </v:ScanView>
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+        <Tab
+            x:Name="tabDevAdd"
+            Title="{cv:Translate add}"
+            Icon="add">
+            <ShellContent ContentTemplate="{DataTemplate v:NewDeviceView}" />
+        </Tab>
+
+    </FlyoutItem>
+
+    <FlyoutItem
+        x:Name="fiSet"
+        Title="{cv:Translate sh_lines}"
+        Icon="factory">
+        <ShellContent ContentTemplate="{DataTemplate v:DeviceSetView}" />
+    </FlyoutItem>
+
+    <FlyoutItem
+        x:Name="fiPart"
+        Title="{cv:Translate wo_parts}"
+        Icon="puzzle">
+
+        <Tab
+            x:Name="tabPartSearch"
+            Title="{cv:Translate search}"
+            Icon="search">
+            <ShellContent ContentTemplate="{DataTemplate v:PartSearchView}" />
+        </Tab>
+
+        <Tab
+            x:Name="tabPartScan"
+            Title="{cv:Translate scan_code}"
+            Icon="barcode2">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:ScanView>
+                            <x:Arguments>
+                                <x:Int32>0</x:Int32>
+                            </x:Arguments>
+                        </v:ScanView>
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+        <Tab
+            x:Name="tabPartGive"
+            Title="{cv:Translate sh_part_give}"
+            Icon="basket">
+            <ShellContent ContentTemplate="{DataTemplate v:PartTakerView}" />
+        </Tab>
+
+        <Tab
+            x:Name="tabPartStock"
+            Title="{cv:Translate sh_stocktaking}"
+            Icon="list_num">
+            <ShellContent ContentTemplate="{DataTemplate v:PartStocktakingView}" />
+        </Tab>
+
+        <Tab
+            x:Name="tabPartAdd"
+            Title="{cv:Translate add}"
+            Icon="add">
+            <ShellContent ContentTemplate="{DataTemplate v:NewPartView}" />
+        </Tab>
+
+    </FlyoutItem>
+
+    <FlyoutItem
+        x:Name="fiUser"
+        Title="{cv:Translate sh_user}"
+        Icon="user_outline">
+
+        <Tab
+            x:Name="tabUserCal"
+            Title="{cv:Translate sh_user_sch}"
+            Icon="calendar">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:WorkOrderUserSchedule />
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+        <Tab
+            x:Name="tabUserList"
+            Title="{cv:Translate sh_user_wo}"
+            Icon="list">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:WorkOrderListAllView>
+                            <x:Arguments>
+                                <x:Boolean>true</x:Boolean>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Boolean>true</x:Boolean>
+                                <x:Boolean>false</x:Boolean>
+                                <x:Int32>0</x:Int32>
+                            </x:Arguments>
+                        </v:WorkOrderListAllView>
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+        <Tab
+            x:Name="tabUserLog"
+            Title="{cv:Translate sh_user_login}"
+            Icon="user">
+            <ShellContent>
+                <ShellContent.ContentTemplate>
+                    <DataTemplate>
+                        <v:LoginView>
+                            <x:Arguments>
+                                <x:Boolean>false</x:Boolean>
+                            </x:Arguments>
+                        </v:LoginView>
+                    </DataTemplate>
+                </ShellContent.ContentTemplate>
+            </ShellContent>
+        </Tab>
+
+    </FlyoutItem>
+
+    <!--<MenuItem
+        x:Name="miSett"
+
+        Command="{Binding Path=APISettingsCommand}"
+        IconImageSource="settings.png"
+        Text="{cv:Translate sh_api}" />-->
+
+</view:ShellBase>

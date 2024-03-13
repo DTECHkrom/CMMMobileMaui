@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderFileMainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:objects="clr-namespace:CMMMobileMaui.API.Contracts;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:Name="mainPage"
+    x:DataType="vm:VMWorkOrderFileMain"
+    x:TypeArguments="vm:VMWorkOrderFileMain"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <cv:FileImageConv x:Key="cvFileImage" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid
+                x:Name="stackWOFile"
+                Grid.Row="0"
+                ColumnDefinitions="*, *">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ImageSource="collections"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate lib,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ImageSource="camera"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate picture,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate wo_file_added,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    x:Name="lvWOFile"
+                    Grid.Row="1"
+                    HasUnevenRows="True"
+                    IsRefreshing="{Binding Path=IsBusy}"
+                    VerticalOptions="FillAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="objects:WOFile">
+                            <ViewCell>
+                                <Grid Padding="13,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontAttributes="Bold"
+                                        Text="{Binding Path=File_Name}"
+                                        VerticalOptions="Center" />
+
+                                    <Image Source="{Binding Path=., Converter={StaticResource cvFileImage}}" />
+
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

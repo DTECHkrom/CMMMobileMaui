@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderPartMainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:wo="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.WO;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMWorkOrderPartMain"
+    x:TypeArguments="vm:VMWorkOrderPartMain"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Resources>
+        <cv:ListItemIndexConv x:Key="cvIndex" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="stackWOPartStock" ColumnDefinitions="AUTO, *, *">
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Margin="10,5,10,5"
+                    HeightRequest="30"
+                    HorizontalOptions="EndAndExpand"
+                    WidthRequest="30" />
+
+                <!--<cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=ScanPartCommand}"
+                    ImageSource="barcode2"
+                    IsVisible="{Binding Path=IsPartList, Converter={xct:InvertedBoolConverter}}"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate scan_code,
+                                        IsUpper=True}" />-->
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="2"
+                    ButtonCommand="{Binding Path=SearchPartCommand}"
+                    ImageSource="search"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate search,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomGroupHeader Title="{cv:Translate wo_list_part, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <ListView
+                    x:Name="lvWOPartStock"
+                    Grid.Row="1"
+                    HasUnevenRows="True"
+                    IsRefreshing="{Binding Path=IsBusy}"
+                    ItemsSource="{Binding Path=PartStockList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="wo:GetWOPartsResponse">
+                            <ViewCell>
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label
+                                        Grid.RowSpan="3"
+                                        Grid.Column="0"
+                                        Margin="1,0,1,0"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Path=., Converter={StaticResource cvIndex}, ConverterParameter={x:Reference lvWOPartStock}}"
+                                        VerticalOptions="Center" />
+
+                                    <Label
+                                        Grid.Column="1"
+                                        FontAttributes="Bold"
+                                        Text="{Binding Path=Part_No}" />
+
+                                    <Label Grid.Row="1" Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text=" " />
+                                                <Span Text="{cv:Translate part_taken}" />
+                                                <Span Text="{Binding Path=Amount_State_Change, StringFormat=': {0:0.##}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Row="2" Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text=" " />
+                                                <Span Text="{cv:Translate part_warehouse}" />
+                                                <Span Text="{Binding Path=Warehouse, StringFormat=': {0}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

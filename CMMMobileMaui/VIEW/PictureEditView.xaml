@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CMMMobileMaui.VIEW.PictureEditView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
+    xmlns:tt="clr-namespace:CMMMobileMaui.COMMON.Effects"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <Grid
+                AbsoluteLayout.LayoutBounds="0, 0, 1, 0.9"
+                AbsoluteLayout.LayoutFlags="SizeProportional"
+                BackgroundColor="White"
+                VerticalOptions="FillAndExpand">
+                <skia:SKCanvasView x:Name="canvasView" PaintSurface="canvasView_PaintSurface" />
+                <Grid.Effects>
+                    <tt:TouchEffect Capture="true" TouchAction="OnTouchEffectAction" />
+                </Grid.Effects>
+            </Grid>
+
+            <Grid
+                AbsoluteLayout.LayoutBounds="0, 1, 1, .1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Gainsboro">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <cust:LabelIconButton
+                        x:Name="btnSelectColor"
+                        Grid.Column="0"
+                        Clicked="btnSelectColor_Clicked"
+                        FontSize="44"
+                        InputTransparent="False"
+                        Text="palette" />
+
+                    <Slider
+                        Grid.Column="2"
+                        HorizontalOptions="FillAndExpand"
+                        ThumbColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                        ValueChanged="Slider_ValueChanged"
+                        Value="0.5" />
+                </StackLayout>
+
+                <cust:LabelIconButton
+                    x:Name="btnCancel"
+                    Grid.Column="1"
+                    Margin="2"
+                    Clicked="Button_Clicked"
+                    FontSize="48"
+                    Text="undo" />
+
+                <cust:LabelIconButton
+                    x:Name="btnSave"
+                    Grid.Column="2"
+                    Margin="2"
+                    Clicked="Button_Clicked_1"
+                    FontSize="48"
+                    Text="save" />
+            </Grid>
+
+            <Grid
+                x:Name="slPalette"
+                Grid.Column="0"
+                AbsoluteLayout.LayoutBounds="0, 1, 48, 230"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                Background="Gainsboro"
+                IsVisible="false"
+                RowDefinitions="44, 44, 44, 44, 44"
+                WidthRequest="48">
+
+                <cust:LabelIconButton
+                    Grid.Row="0"
+                    Clicked="rect_Clicked"
+                    FontSize="44"
+                    Text="brush"
+                    TextColor="Red" />
+
+                <cust:LabelIconButton
+                    Grid.Row="1"
+                    Clicked="rect_Clicked"
+                    FontSize="44"
+                    Text="brush"
+                    TextColor="Blue" />
+
+                <cust:LabelIconButton
+                    Grid.Row="2"
+                    Clicked="rect_Clicked"
+                    FontSize="44"
+                    Text="brush"
+                    TextColor="Green" />
+
+                <cust:LabelIconButton
+                    Grid.Row="3"
+                    Clicked="rect_Clicked"
+                    FontSize="44"
+                    Text="brush"
+                    TextColor="White" />
+
+                <cust:LabelIconButton
+                    Grid.Row="4"
+                    Clicked="rect_Clicked"
+                    FontSize="44"
+                    Text="brush"
+                    TextColor="Black" />
+
+            </Grid>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

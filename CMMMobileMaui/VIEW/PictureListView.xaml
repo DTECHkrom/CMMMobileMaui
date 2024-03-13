@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PictureListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ao="clr-namespace:CMMMobileMaui.API.Contracts;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMPictureList"
+    x:TypeArguments="vm:VMPictureList">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <cv:FileImageConv x:Key="cvPicToSource" />
+        </ResourceDictionary>
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+
+        <Grid Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                x:Name="stackWOFile"
+                Grid.Row="0"
+                ColumnDefinitions="*, *"
+                IsVisible="{Binding Path=Operation.PictureModel.CanEdit}">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=PictureManager.SelectPictureCommand}"
+                    ImageSource="collections"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate lib,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=PictureManager.TakePictureCommand}"
+                    ImageSource="camera"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate picture,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <CollectionView
+                x:Name="lvFiles"
+                Grid.Row="1"
+                Margin="0,2"
+                ItemsSource="{Binding Path=Operation.PictureModel.PictureList}"
+                SelectionMode="None"
+                VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="ao:WOFile">
+                        <Border
+                            Margin="0"
+                            Padding="0"
+                            Background="LightYellow"
+                            Stroke="Orange"
+                            StrokeThickness="2">
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="AUTO" />
+                                    <ColumnDefinition Width="AUTO" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="80" />
+                                </Grid.RowDefinitions>
+
+                                <Label
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Path=File_Name}"
+                                    VerticalOptions="Center" />
+
+                                <Image Grid.Column="0" Source="{Binding Path=., Converter={StaticResource cvPicToSource}}">
+                                    <Image.Behaviors>
+                                        <xct:AnimationBehavior Command="{Binding Path=BindingContext.PictureManager.OpenPictureCommand, Source={x:Reference lvFiles}}" CommandParameter="{Binding Path=.}">
+                                            <xct:AnimationBehavior.AnimationType>
+                                                <xct:FadeAnimation Opacity="0.5" />
+                                            </xct:AnimationBehavior.AnimationType>
+                                        </xct:AnimationBehavior>
+                                    </Image.Behaviors>
+                                </Image>
+
+                                <cust:LabelIconButton
+                                    Grid.Column="2"
+                                    Command="{Binding Path=BindingContext.PictureManager.EditPictureCommand, Source={x:Reference lvFiles}}"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="40"
+                                    IsVisible="{Binding Path=BindingContext.Operation.PictureModel.CanEdit, Source={x:Reference lvFiles}}"
+                                    Text="brush" />
+
+                                <cust:LabelIconButton
+                                    Grid.Column="3"
+                                    Command="{Binding Path=BindingContext.PictureManager.DeletePictureCommand, Source={x:Reference lvFiles}}"
+                                    CommandParameter="{Binding .}"
+                                    FontSize="40"
+                                    IsVisible="{Binding Path=BindingContext.Operation.PictureModel.CanEdit, Source={x:Reference lvFiles}}"
+                                    Text="delete_forever" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <telerik:RadBusyIndicator
+                Grid.Row="1"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="100"
+                AnimationContentWidthRequest="100"
+                AnimationType="Animation1"
+                HorizontalOptions="Center"
+                InputTransparent="false"
+                IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                IsVisible="{Binding Path=IsBusy, Mode=TwoWay}"
+                VerticalOptions="Center" />
+
+        </Grid>
+
+    </view:PageBase.Content>
+</view:PageBase>

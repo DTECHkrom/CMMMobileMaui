@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PartDetailView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:objects="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="partPage"
+    x:DataType="vm:VMPartDetail"
+    x:TypeArguments="vm:VMPartDetail">
+    <view:PageBase.Resources>
+        <ResourceDictionary>
+            <cv:FileImageConv x:Key="cvFileImage" />
+        </ResourceDictionary>
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <Grid RowDefinitions="auto, *, auto">
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=GivePartCommand}"
+                    ImageSource="shopping_basket"
+                    Text="{cv:Translate part_give,
+                                        IsUpper=True}">
+                    <cust:SKIAImageTextButton.Style>
+                        <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                            <Setter Property="IsButtonEnable" Value="true" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.LockedOrders}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.Obsolete}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=IsLockButtons}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </cust:SKIAImageTextButton.Style>
+                </cust:SKIAImageTextButton>
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=TakePartCommand}"
+                    ImageSource="shopping_cart"
+                    Text="{cv:Translate order,
+                                        IsUpper=True}">
+                    <cust:SKIAImageTextButton.Style>
+                        <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                            <Setter Property="IsButtonEnable" Value="true" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.LockedOrders}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.Obsolete}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=IsLockButtons}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </cust:SKIAImageTextButton.Style>
+                </cust:SKIAImageTextButton>
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="4"
+                    ButtonCommand="{Binding Path=ShowChangeCommand}"
+                    ImageSource="history"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate history,
+                                        IsUpper=True}" />
+
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                IsVisible="{Binding Path=IsBusy, Converter={xct:InvertedBoolConverter}}"
+                RowDefinitions="auto, auto, *">
+
+                <Image
+                    Grid.Row="0"
+                    Margin="0,0,0,0"
+                    Aspect="AspectFill"
+                    HeightRequest="200"
+                    IsVisible="{Binding Path=CurrentPart, Converter={xct:IsNotNullConverter}}"
+                    Source="{Binding Path=CurrentPart, Converter={StaticResource cvFileImage}}"
+                    VerticalOptions="StartAndExpand">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ShowImagePanelCommand}" NumberOfTapsRequired="1" />
+                        <TapGestureRecognizer Command="{Binding Path=OpenImageCommand}" NumberOfTapsRequired="2" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Frame
+                    Grid.Row="0"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding Path=IsImagePanelVisible}"
+                    Style="{StaticResource imagePanelFrameStyle}"
+                    VerticalOptions="Start">
+
+                    <HorizontalStackLayout HorizontalOptions="End">
+
+                        <cust:LabelIconButton
+                            Margin="2"
+                            Command="{Binding Path=TakePictureCommand}"
+                            Text="camera" />
+
+                        <cust:LabelIconButton
+                            Margin="2"
+                            Command="{Binding Path=SelectPictureCommand}"
+                            Text="collections" />
+
+                        <cust:LabelIconButton
+                            Margin="2"
+                            Command="{Binding Path=DeletePictureCommand}"
+                            Style="{StaticResource ibStyleMain}"
+                            Text="delete_forever"
+                            TextColor="Red" />
+
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <Frame
+                    Grid.Row="1"
+                    Padding="0"
+                    BackgroundColor="WhiteSmoke"
+                    BorderColor="{Binding Path=CurrentPart, Converter={cv:PartStockColorConv}}"
+                    HasShadow="True"
+                    IsClippedToBounds="True"
+                    VerticalOptions="FillAndExpand">
+                    <Frame.Style>
+                        <Style TargetType="Frame">
+                            <Setter Property="Margin" Value="10, -50, 10, 0" />
+                            <Setter Property="Opacity" Value="0.8" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.Picture, TargetNullValue=''}"
+                                    TargetType="Frame"
+                                    Value="">
+                                    <Setter Property="Margin" Value="10, 45, 10, 0" />
+                                    <Setter Property="Opacity" Value="1" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Frame.Style>
+                    <Grid
+                        Margin="0,0,0,5"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            BackgroundColor="{Binding Path=CurrentPart, Converter={cv:PartStockColorConv}}"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HeightRequest="50"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Text="{Binding Path=CurrentPart.PartNo}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+
+                        <Label
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=CurrentPart.GeneralCategory}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2"
+                            Margin="0,-5,0,0"
+                            Style="{StaticResource stylelblbtn}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="[" />
+                                    <Span Text="{cv:Translate part_generalcategory}" />
+                                    <Span Text="]" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=CurrentPart.Category}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Margin="0,-5,0,0"
+                            Style="{StaticResource stylelblbtn}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="[" />
+                                    <Span Text="{cv:Translate part_category}" />
+                                    <Span Text="]" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <StackLayout
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal"
+                            VerticalOptions="FillAndExpand">
+                            <StackLayout.Style>
+                                <Style TargetType="StackLayout">
+                                    <Setter Property="IsVisible" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=CurrentPart.StockLevel.HasValue}"
+                                            TargetType="StackLayout"
+                                            Value="false">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackLayout.Style>
+                            <Label FontAttributes="Bold" LineBreakMode="TailTruncation">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{cv:Translate part_stock_level}" />
+                                        <Span Text=": " />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Text="{Binding Path=CurrentPart.StockLevel, StringFormat='{0:0.##}'}" />
+                            <Label Text="{Binding Path=CurrentPart.UnitName, StringFormat='[{0}]'}" />
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            Orientation="Horizontal">
+                            <StackLayout.Style>
+                                <Style TargetType="StackLayout">
+                                    <Setter Property="IsVisible" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=CurrentPart.StockLevelTarget.HasValue}"
+                                            TargetType="StackLayout"
+                                            Value="false">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackLayout.Style>
+
+                            <Label FontAttributes="Bold" LineBreakMode="TailTruncation">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{cv:Translate part_stock_level_target}" />
+                                        <Span Text=": " />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Text="{Binding Path=CurrentPart.StockLevelTarget, StringFormat='{0:0.##}'}" />
+                            <Label Text="{Binding Path=CurrentPart.UnitName, StringFormat='[{0}]'}" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <Grid Grid.Row="2" Margin="0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <cust:CustomGroupHeader Title="{cv:Translate dev_info, IsUpper=True}" Style="{StaticResource cghStyle}" />
+                    <ListView
+                        Grid.Row="1"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding Path=PartDetailList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="objects:GetDeviceDetailsResponse">
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Margin="2,0,2,0"
+                                            FontAttributes="Bold"
+                                            Text="{Binding Path=Property_Name, Converter={cv:TranslateExtensionConv}, ConverterParameter=part, StringFormat='{}{0}:'}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <ContentView
+                                            Grid.Column="1"
+                                            BindingContext="{Binding .}"
+                                            VerticalOptions="Center">
+                                            <ContentView.Style>
+                                                <Style TargetType="ContentView">
+                                                    <Style.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="String">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="Boolean">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value, Converter={cv:ValueToBoolCOnv}}" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="DateTime">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <DatePicker Date="{TemplateBinding Path=Parent.BindingContext.Property_Value}" IsEnabled="False" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="Int32">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="Int64">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value}" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=Property_Type}"
+                                                            TargetType="ContentView"
+                                                            Value="Decimal">
+                                                            <Setter Property="ControlTemplate">
+                                                                <Setter.Value>
+                                                                    <ControlTemplate>
+                                                                        <Label Text="{TemplateBinding Path=Parent.BindingContext.Property_Value, Converter={cv:ValueToDecConv}}" />
+                                                                    </ControlTemplate>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentView.Style>
+                                        </ContentView>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Grid>
+
+            <Grid
+                Grid.Row="2"
+                ColumnDefinitions="*, *"
+                IsVisible="{Binding Path=CanModPartQuantity}"
+                MinimumHeightRequest="40">
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="0"
+                    ButtonCommand="{Binding Path=OpenAddCommand}"
+                    ImageSource="add"
+                    Text="{cv:Translate part_add,
+                                        IsUpper=True}">
+                    <cust:SKIAImageTextButton.Style>
+                        <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                            <Setter Property="IsButtonEnable" Value="true" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.LockedOrders}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=CurrentPart.Obsolete}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding="{Binding Path=IsLockButtons}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </cust:SKIAImageTextButton.Style>
+                </cust:SKIAImageTextButton>
+
+                <!--<cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                        ButtonCommand="{Binding Path=OpenCorrectionCommand}"
+                        ImageSource="correction.png"
+                        Text="{cv:Translate part_correction,
+                                            IsUpper=True}">
+                        <cust:SKIAImageTextButton.Style>
+                            <Style TargetType="cust:SKIAImageTextButton">
+                                <Setter Property="IsButtonEnable" Value="true" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Path=CurrentPart.LockedOrders}"
+                                        TargetType="cust:SKIAImageTextButton"
+                                        Value="True">
+                                        <Setter Property="IsButtonEnable" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding Path=CurrentPart.Obsolete}"
+                                        TargetType="cust:SKIAImageTextButton"
+                                        Value="True">
+                                        <Setter Property="IsButtonEnable" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger
+                                        Binding="{Binding Path=IsLockButtons}"
+                                        TargetType="cust:SKIAImageTextButton"
+                                        Value="True">
+                                        <Setter Property="IsButtonEnable" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </cust:SKIAImageTextButton.Style>
+                    </cust:SKIAImageTextButton>-->
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=OpenChangeLocationCommand}"
+                    ImageSource="add_location"
+                    Text="{cv:Translate part_new_location,
+                                        IsUpper=True}">
+                    <cust:SKIAImageTextButton.Style>
+                        <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                            <Setter Property="IsButtonEnable" Value="true" />
+                            <Style.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding Path=IsLockButtons}"
+                                    TargetType="cust:SKIAImageTextButton"
+                                    Value="True">
+                                    <Setter Property="IsButtonEnable" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </cust:SKIAImageTextButton.Style>
+                </cust:SKIAImageTextButton>
+
+            </Grid>
+
+            <telerik:RadBusyIndicator
+                x:Name="busyIndicator"
+                Grid.Row="1"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="50"
+                AnimationContentWidthRequest="50"
+                AnimationType="Animation1"
+                HorizontalOptions="FillAndExpand"
+                IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                VerticalOptions="FillAndExpand" />
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="CMMMobileMaui.CUST.PartInven"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="Transparent"
+    CloseWhenBackgroundIsClicked="False">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}" Style="{StaticResource frameStyle}">
+            <Grid Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Label Style="{StaticResource lblGroupHeaderStyle}" Text="{Binding Path=CurrentPart.PartNo}" />
+
+                <Label
+                    Grid.Row="1"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{cv:Translate part_inv_pro}" />
+                            <Span Text=": " />
+                            <Span Text="{Binding Path=CurrentPart.StockLevel, StringFormat='{0:0.##}'}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <cust:CustomFrameNumericEntry
+                    x:Name="tboxAmount"
+                    Title="{cv:Translate part_inv_org,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    Margin="2,0"
+                    HeightRequest="40"
+                    IsRequired="True"
+                    NumericValue="{Binding Path=TakeAmount, Mode=TwoWay}"
+                    NumericValueFormat="N2" />
+
+                <Grid
+                    Grid.Row="3"
+                    Margin="2,0"
+                    HorizontalOptions="FillAndExpand">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:CustomListPicker
+                        x:Name="cboxCurrency"
+                        Title="{cv:Translate select,
+                                             IsUpper=True}"
+                        Grid.Column="2"
+                        DisplayPath="Name"
+                        HeightRequest="40"
+                        IsControlEnabled="{Binding Path=IsUnitPriceEnabled}"
+                        ItemsSource="{Binding Path=CurrencyList}"
+                        SelectedItem="{Binding Path=CurrentCurrency, Mode=TwoWay}" />
+
+                    <cust:CustomFrameNumericEntry
+                        x:Name="tboxUnitPrice"
+                        Title="{cv:Translate price_unit,
+                                             IsUpper=True}"
+                        Grid.Column="1"
+                        HeightRequest="40"
+                        HorizontalOptions="FillAndExpand"
+                        IsControlEnabled="{Binding Path=IsUnitPriceEnabled}"
+                        NumericValue="{Binding Path=UnitPrice, Mode=TwoWay}"
+                        NumericValueFormat="N2" />
+
+                </Grid>
+
+                <Grid
+                    Grid.Row="5"
+                    Margin="0,0,0,-2"
+                    ColumnDefinitions="*, *">
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="0"
+                        ButtonCommand="{Binding Path=ConfirmTakeCommand}"
+                        ImageSource="save"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate save,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=CancelTakeCommand}"
+                        ImageSource="cancel"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate close,
+                                            IsUpper=True}" />
+                </Grid>
+            </Grid>
+
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

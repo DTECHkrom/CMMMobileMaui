@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="CMMMobileMaui.VIEW.WorkOrderSingleStaticView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:act="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Act;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="mainPage">
+    <ContentView.Resources>
+        <Style x:Key="lblGrid" TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="End" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+        <Style x:Key="lblValue" TargetType="Label">
+            <Setter Property="HorizontalTextAlignment" Value="Start" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+        </Style>
+        <cv:WOUserTakenConv x:Key="cvWOTaken" />
+        <cv:ActUserTakenConv x:Key="cvUserTaken" />
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid RowSpacing="1">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="RowDefinitions" Value="40, *, 40, AUTO" />
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Path=IsWorkOrderVisible}"
+                            TargetType="Grid"
+                            Value="False">
+                            <Setter Property="RowDefinitions" Value="40, AUTO, 40, *" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <StackLayout BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_1}}" Orientation="Horizontal">
+                <StackLayout.Behaviors>
+                    <xct:AnimationBehavior Command="{Binding Path=ShowWorkOrderCommand}">
+                        <xct:AnimationBehavior.AnimationType>
+                            <xct:FadeAnimation />
+                        </xct:AnimationBehavior.AnimationType>
+                    </xct:AnimationBehavior>
+                </StackLayout.Behaviors>
+
+                <Image
+                    Margin="5"
+                    HeightRequest="32"
+                    Source="wo"
+                    WidthRequest="32">
+                    <Image.Behaviors>
+                        <xct:IconTintColorBehavior TintColor="White" />
+                    </Image.Behaviors>
+                </Image>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    HorizontalTextAlignment="Start"
+                    Text="{cv:Translate dev_wo,
+                                        IsUpper=True}"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+
+                <StackLayout
+                    Margin="4,0"
+                    HorizontalOptions="EndAndExpand"
+                    IsVisible="{Binding Path=CurrentWO.Ineffective_Count, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                    Orientation="Horizontal">
+
+                    <Image
+                        Margin="5"
+                        HeightRequest="16"
+                        Source="alert"
+                        WidthRequest="16">
+                        <Image.Behaviors>
+                            <xct:IconTintColorBehavior TintColor="White" />
+                        </Image.Behaviors>
+                    </Image>
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{Binding Path=CurrentWO.Ineffective_Count}"
+                        TextColor="White"
+                        VerticalTextAlignment="Center" />
+
+                </StackLayout>
+
+            </StackLayout>
+
+            <Grid
+                Grid.Row="1"
+                Margin="0,0,0,1"
+                IsVisible="{Binding Path=IsWorkOrderVisible}"
+                VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="AUTO" />
+                </Grid.RowDefinitions>
+                <StackLayout
+                    Grid.Row="0"
+                    FlowDirection="RightToLeft"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+
+                    <Grid ColumnDefinitions="*, *, *, *" HorizontalOptions="FillAndExpand">
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="0"
+                            ButtonCommand="{Binding Path=EditItemCommand}"
+                            ImageSource="edit"
+                            IsButtonEnable="{Binding Path=CanEdit}"
+                            Style="{StaticResource skiaBtnStyle}"
+                            Text="{cv:Translate edit,
+                                                IsUpper=True}" />
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="1"
+                            ButtonCommand="{Binding Path=CloseCommand}"
+                            ImageSource="check_circle_outline"
+                            IsButtonEnable="{Binding Path=CanClose}"
+                            Style="{StaticResource skiaBtnStyle}"
+                            Text="{cv:Translate wo_close,
+                                                IsUpper=True}" />
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="2"
+                            ButtonCommand="{Binding Path=TakeCommand}"
+                            ImageSource="pan_tool"
+                            Text="{cv:Translate take,
+                                                IsUpper=True}">
+                            <cust:SKIAImageTextButton.Style>
+                                <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=CanTake}"
+                                            TargetType="cust:SKIAImageTextButton"
+                                            Value="false">
+                                            <Setter Property="ButtonColor" Value="Green" />
+                                            <Setter Property="IsEnabled" Value="false" />
+                                            <Setter Property="Text" Value="{cv:Translate taken, IsUpper=True}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </cust:SKIAImageTextButton.Style>
+                        </cust:SKIAImageTextButton>
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="3"
+                            ButtonCommand="{Binding Path=ShowDeviceInfoCommand}"
+                            ImageSource="miscellaneous_services"
+                            IsButtonEnable="{Binding Path=IsDeviceInfo}"
+                            Style="{StaticResource skiaBtnStyle}"
+                            Text="{cv:Translate device,
+                                                IsUpper=True}" />
+
+                    </Grid>
+
+                </StackLayout>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:CustomGroupHeader
+                        Title="{cv:Translate wo_info1,
+                                             IsUpper=True}"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource cghStyle}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_device}"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentDevice.AssetNo}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_assigned}"
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.Assigned_Person}">
+                        <cust:CustomGridLabel.Style>
+                            <Style TargetType="cust:CustomGridLabel">
+                                <Setter Property="IsVisible" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="cust:CustomGridLabel">
+                                        <DataTrigger.Binding>
+                                            <Binding Path="IsAssignPerson" />
+                                        </DataTrigger.Binding>
+                                        <DataTrigger.Value>
+                                            <sys:Boolean>false</sys:Boolean>
+                                        </DataTrigger.Value>
+                                        <DataTrigger.Setters>
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </cust:CustomGridLabel.Style>
+                    </cust:CustomGridLabel>
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate user_mod}"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.Mod_Person}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate date_mod}"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.Mod_Date, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_category}"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.WO_Category}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_state}"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.WO_State}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_level}"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.WO_Level}" />
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_reason}"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.WO_Reason}" />
+
+                    <Grid
+                        Grid.Row="6"
+                        Grid.ColumnSpan="2"
+                        ColumnDefinitions="AUTO, *, *">
+                        <cust:CustomGridLabel
+                            Title="{cv:Translate wo_dep}"
+                            Grid.Column="0"
+                            MinimumHeightRequest="35"
+                            Text="{Binding Path=CurrentWO.Dep_Name}" />
+
+                        <cust:CustomGridLabel
+                            Title="{cv:Translate date_start}"
+                            Grid.Column="1"
+                            MinimumHeightRequest="35"
+                            Text="{Binding Path=CurrentWO.Start_Date, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+
+                        <cust:CustomGridLabel
+                            Title="{cv:Translate date_stop}"
+                            Grid.Column="2"
+                            MinimumHeightRequest="35"
+                            Text="{Binding Path=CurrentWO.End_Date, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                    </Grid>
+
+
+                    <cust:CustomGridLabel
+                        Title="{cv:Translate wo_desc}"
+                        Grid.Row="7"
+                        Grid.ColumnSpan="2"
+                        MinimumHeightRequest="35"
+                        Text="{Binding Path=CurrentWO.WO_Desc}"
+                        TextMaxLines="0" />
+                </Grid>
+
+                <Grid Grid.Row="2" HeightRequest="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="0"
+                        ButtonCommand="{Binding Path=OpenPartCommand}"
+                        ImageSource="extension"
+                        Text="{cv:Translate wo_parts,
+                                            IsUpper=True}">
+                        <cust:SKIAImageTextButton.Style>
+                            <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                                <Setter Property="IsButtonEnable" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Path=CurrentWO.Part_Count, Converter={cv:IsGreatherThenConv}}"
+                                        TargetType="cust:SKIAImageTextButton"
+                                        Value="true">
+                                        <Setter Property="ButtonColor" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="cust:SKIAImageTextButton">
+                                        <DataTrigger.Binding>
+                                            <Binding Path="IsClose" />
+                                        </DataTrigger.Binding>
+                                        <DataTrigger.Value>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </DataTrigger.Value>
+                                        <DataTrigger.Setters>
+                                            <Setter Property="IsButtonEnable" Value="False" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="cust:SKIAImageTextButton">
+                                        <DataTrigger.Binding>
+                                            <Binding Path="IsCanAddPart" />
+                                        </DataTrigger.Binding>
+                                        <DataTrigger.Value>
+                                            <sys:Boolean>False</sys:Boolean>
+                                        </DataTrigger.Value>
+                                        <DataTrigger.Setters>
+                                            <Setter Property="IsButtonEnable" Value="False" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </cust:SKIAImageTextButton.Style>
+                    </cust:SKIAImageTextButton>
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=OpenPictureCommand}"
+                        ImageSource="collections"
+                        Text="{cv:Translate wo_files,
+                                            IsUpper=True}">
+                        <cust:SKIAImageTextButton.Style>
+                            <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                                <Setter Property="IsButtonEnable" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                                        Binding="{Binding Path=CurrentWO.File_Count, Converter={cv:IsGreatherThenConv}}"
+                                        TargetType="cust:SKIAImageTextButton"
+                                        Value="True">
+                                        <Setter Property="ButtonColor" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="cust:SKIAImageTextButton">
+                                        <DataTrigger.Binding>
+                                            <Binding Path="IsClose" />
+                                        </DataTrigger.Binding>
+                                        <DataTrigger.Value>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </DataTrigger.Value>
+                                        <DataTrigger.Setters>
+                                            <Setter Property="IsButtonEnable" Value="False" />
+                                        </DataTrigger.Setters>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </cust:SKIAImageTextButton.Style>
+                    </cust:SKIAImageTextButton>
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="2"
+                        ButtonCommand="{Binding Path=SwipeLeftCommand}"
+                        ImageSource="history"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate history,
+                                            IsUpper=True}" />
+
+                </Grid>
+            </Grid>
+
+            <StackLayout
+                Grid.Row="2"
+                Margin="0,0,0,-1"
+                BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                Orientation="Horizontal">
+                <StackLayout.Behaviors>
+                    <xct:AnimationBehavior Command="{Binding Path=ShowActivitiesCommand}">
+                        <xct:AnimationBehavior.AnimationType>
+                            <xct:FadeAnimation />
+                        </xct:AnimationBehavior.AnimationType>
+                    </xct:AnimationBehavior>
+                </StackLayout.Behaviors>
+
+                <Image
+                    Margin="5"
+                    HeightRequest="32"
+                    Source="list"
+                    WidthRequest="32">
+                    <Image.Behaviors>
+                        <xct:IconTintColorBehavior TintColor="White" />
+                    </Image.Behaviors>
+                </Image>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="26"
+                    HorizontalTextAlignment="Start"
+                    Text="{cv:Translate wo_acts,
+                                        IsUpper=True}"
+                    TextColor="White"
+                    VerticalTextAlignment="Center" />
+
+            </StackLayout>
+
+            <StackLayout
+                Grid.Row="3"
+                Margin="0,5,0,0"
+                IsVisible="{Binding Path=IsActivityVisible}"
+                VerticalOptions="FillAndExpand">
+
+                <Grid Margin="0,0,0,5">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="IsVisible" Value="true" />
+                            <Setter Property="VerticalOptions" Value="Start" />
+                            <Style.Triggers>
+                                <DataTrigger TargetType="Grid">
+                                    <DataTrigger.Binding>
+                                        <Binding Path="IsClose" />
+                                    </DataTrigger.Binding>
+                                    <DataTrigger.Value>
+                                        <sys:Boolean>True</sys:Boolean>
+                                    </DataTrigger.Value>
+                                    <DataTrigger.Setters>
+                                        <Setter Property="IsVisible" Value="False" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>
+                                <!--<DataTrigger TargetType="Grid">
+                                    <DataTrigger.Binding>
+                                        <Binding Path="IsActivityAdd" />
+                                    </DataTrigger.Binding>
+                                    <DataTrigger.Value>
+                                        <sys:Boolean>True</sys:Boolean>
+                                    </DataTrigger.Value>
+                                    <DataTrigger.Setters>
+                                        <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                                    </DataTrigger.Setters>
+                                </DataTrigger>-->
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid
+                        Grid.Row="0"
+                        ColumnDefinitions="*, *"
+                        HeightRequest="50"
+                        IsVisible="{Binding Path=IsActivityAdd, Converter={xct:InvertedBoolConverter}}">
+
+                        <cust:SKIAImageTextButton
+                            ButtonCommand="{Binding Path=AddItemCommand}"
+                            ImageSource="add"
+                            Text="{cv:Translate wo_act_new,
+                                                IsUpper=True}">
+                            <cust:SKIAImageTextButton.Style>
+                                <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                                    <Setter Property="IsButtonEnable" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="cust:SKIAImageTextButton">
+                                            <DataTrigger.Binding>
+                                                <Binding Path="IsCanAddAct" />
+                                            </DataTrigger.Binding>
+                                            <DataTrigger.Value>
+                                                <sys:Boolean>False</sys:Boolean>
+                                            </DataTrigger.Value>
+                                            <DataTrigger.Setters>
+                                                <Setter Property="IsButtonEnable" Value="False" />
+                                            </DataTrigger.Setters>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </cust:SKIAImageTextButton.Style>
+                        </cust:SKIAImageTextButton>
+
+                        <cust:SKIAImageTextButton
+                            Grid.Column="1"
+                            ButtonCommand="{Binding Path=ShowListCommand}"
+                            ImageSource="schedule"
+                            Text="{cv:Translate wo_act_plan,
+                                                IsUpper=True}">
+                            <cust:SKIAImageTextButton.Style>
+                                <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
+                                    <Setter Property="IsVisible" Value="false" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="cust:SKIAImageTextButton">
+                                            <DataTrigger.Binding>
+                                                <Binding Path="IsPlanList" />
+                                            </DataTrigger.Binding>
+                                            <DataTrigger.Value>
+                                                <sys:Boolean>True</sys:Boolean>
+                                            </DataTrigger.Value>
+                                            <DataTrigger.Setters>
+                                                <Setter Property="IsVisible" Value="True" />
+                                            </DataTrigger.Setters>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </cust:SKIAImageTextButton.Style>
+                        </cust:SKIAImageTextButton>
+                    </Grid>
+
+                    <Grid
+                        Grid.Row="1"
+                        Margin="5,5,5,5"
+                        IsVisible="{Binding Path=IsActivityAdd}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <cust:CustomGroupHeader
+                            Title="{cv:Translate wo_act_new,
+                                                 IsUpper=True}"
+                            Grid.Row="0"
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource cghStyle}" />
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate wo_category,
+                                                 IsUpper=True}"
+                            Grid.Row="1"
+                            Margin="4,0"
+                            DisplayPath="Name"
+                            HeightRequest="40"
+                            IsRequired="true"
+                            ItemsSource="{Binding Path=CatActList}"
+                            SelectedItem="{Binding Path=CatAct, Mode=TwoWay}" />
+
+                        <cust:CustomListPicker
+                            Title="{cv:Translate wo_dep,
+                                                 IsUpper=True}"
+                            Grid.Row="2"
+                            Margin="4,0"
+                            DisplayPath="Name"
+                            HeightRequest="40"
+                            IsVisible="{Binding Path=IsActDepList}"
+                            ItemsSource="{Binding Path=DepList}"
+                            SelectedItem="{Binding Path=Dep, Mode=TwoWay}" />
+
+                        <cust:CustomFrameNumericEntry
+                            Title="{cv:Translate wo_act_work}"
+                            Grid.Row="3"
+                            Margin="4,0"
+                            HeightRequest="40"
+                            IsRequired="True"
+                            NumericValue="{Binding Path=ActTemp.WorkLoad, Mode=TwoWay}"
+                            NumericValueFormat="0.##" />
+
+                        <cust:CustomFrameEditor
+                            Title="{cv:Translate wo_desc}"
+                            Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Margin="4,0,4,2"
+                            FontSize="12"
+                            HorizontalOptions="FillAndExpand"
+                            IsRequired="True"
+                            Text="{Binding Path=ActTemp.Description, Mode=TwoWay}"
+                            VerticalOptions="FillAndExpand" />
+
+                        <StackLayout
+                            Grid.Row="1"
+                            Grid.RowSpan="3"
+                            Grid.Column="1">
+
+                            <cust:LabelIconButton Command="{Binding Path=SaveActivityCommand}" Text="save" />
+
+                            <cust:LabelIconButton Command="{Binding Path=CancelActivityCommand}" Text="cancel" />
+
+                        </StackLayout>
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="5"
+                            Grid.Column="0"
+                            Margin="0,10,0,0"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            HorizontalOptions="Start"
+                            WidthRequest="2" />
+
+                        <BoxView
+                            Grid.Row="0"
+                            Grid.RowSpan="5"
+                            Grid.Column="1"
+                            Margin="0,10,0,0"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            HorizontalOptions="End"
+                            WidthRequest="2" />
+
+                        <BoxView
+                            Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Margin="0,0,0,-2"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            HeightRequest="2"
+                            VerticalOptions="End" />
+                    </Grid>
+                </Grid>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate wo_acts,
+                                         IsUpper=True}"
+                    Margin="0,0,0,0"
+                    MinimumHeightRequest="40"
+                    Style="{StaticResource cghStyle}" />
+
+
+                <ListView
+                    x:Name="lv"
+                    Margin="0,5,0,0"
+                    HasUnevenRows="True"
+                    ItemsSource="{Binding Path=ActsList}"
+                    SelectionMode="None"
+                    VerticalScrollBarVisibility="Default">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="act:GetWOActsResponse">
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                                        FontAttributes="Bold"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Path=Act_Category}"
+                                        TextTransform="Uppercase"
+                                        VerticalTextAlignment="Center" />
+
+                                    <StackLayout Grid.Row="1" Orientation="Horizontal">
+                                        <Image
+                                            Margin="2,0,6,0"
+                                            HeightRequest="16"
+                                            Source="clock"
+                                            WidthRequest="16" />
+
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding Path=Work_Load, StringFormat='{0}[h]'}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <Label
+                                            Margin="10,0,6,0"
+                                            FontSize="16"
+                                            Style="{StaticResource lblImage}"
+                                            Text="people" />
+
+                                        <Label Text="{Binding Path=Workers, StringFormat='{0}'}" VerticalTextAlignment="Center" />
+
+                                        <Image
+                                            HeightRequest="32"
+                                            HorizontalOptions="EndAndExpand"
+                                            Source="person_add"
+                                            VerticalOptions="Center"
+                                            WidthRequest="32">
+                                            <Image.Behaviors>
+                                                <xct:AnimationBehavior Command="{Binding Path=BindingContext.AddPersonCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding .}">
+                                                    <xct:AnimationBehavior.AnimationType>
+                                                        <xct:FadeAnimation />
+                                                    </xct:AnimationBehavior.AnimationType>
+                                                </xct:AnimationBehavior>
+                                            </Image.Behaviors>
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="IsVisible" Value="false" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding Path=_ActPersonList, Converter={StaticResource cvUserTaken}}"
+                                                            TargetType="Image"
+                                                            Value="Black">
+                                                            <Setter Property="IsVisible" Value="true" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </StackLayout>
+
+                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+
+                                        <Image
+                                            Margin="2,0,4,0"
+                                            HeightRequest="16"
+                                            Source="notes"
+                                            WidthRequest="16" />
+
+                                        <Label
+                                            Margin="2,0,2,0"
+                                            LineBreakMode="TailTruncation"
+                                            MaxLines="3"
+                                            Text="{Binding Path=Description}" />
+                                    </StackLayout>
+
+                                    <Grid Grid.Row="3">
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="IsVisible" Value="false" />
+                                                <Style.Triggers>
+                                                    <DataTrigger
+                                                        Binding="{Binding Path=_IsAddPerson}"
+                                                        TargetType="Grid"
+                                                        Value="True">
+                                                        <Setter Property="IsVisible" Value="True" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--<Label
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            VerticalTextAlignment="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{cv:Translate workload}" />
+                                                    <Span Text=":" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>-->
+
+                                        <cust:CustomFrameNumericEntry
+                                            Title="{cv:Translate wo_act_work}"
+                                            Grid.Column="1"
+                                            IsRequired="True"
+                                            NumericValue="{Binding Path=_WorkLoad}"
+                                            NumericValueFormat="N2" />
+
+                                        <ImageButton
+                                            Grid.Column="2"
+                                            Command="{Binding Path=BindingContext.SaveItemCommand, Source={x:Reference mainPage}}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="32"
+                                            Source="save"
+                                            Style="{StaticResource ibStyleMain}"
+                                            WidthRequest="32" />
+
+                                        <ImageButton
+                                            Grid.Column="3"
+                                            Command="{Binding Path=BindingContext.CancelItemCommand, Source={x:Reference mainPage}}"
+                                            CommandParameter="{Binding .}"
+                                            HeightRequest="32"
+                                            Source="cancel"
+                                            Style="{StaticResource ibStyleMain}"
+                                            WidthRequest="32" />
+                                    </Grid>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>

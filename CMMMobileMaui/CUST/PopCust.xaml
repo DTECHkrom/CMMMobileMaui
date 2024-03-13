@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="CMMMobileMaui.CUST.PopCust"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    BackgroundColor="Transparent"
+    CloseWhenBackgroundIsClicked="False">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}" Style="{StaticResource frameStyle}">
+            <Grid Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Style="{StaticResource lblGroupHeaderStyle}"
+                    Text="{Binding Path=CurrentPart.PartNo}" />
+
+                <Label
+                    Grid.Row="1"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    TextColor="Black">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{cv:Translate part_stock_level}" />
+                            <Span Text=" [" />
+                            <Span Text="{Binding Path=CurrentPart.UnitName}" />
+                            <Span Text="]" />
+                            <Span Text=": " />
+                            <Span Text="{Binding Path=CurrentPart.StockLevel, StringFormat='{0:0.##}'}" />
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <cust:CustomFrameNumericEntry
+                    x:Name="tboxAmount"
+                    Title="{cv:Translate part_quantity,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    HeightRequest="40"
+                    IsEnabled="{Binding Path=CurrentPart.IsExchangeable, Converter={xct:InvertedBoolConverter}}"
+                    NumericValue="{Binding Path=TakeAmount, Mode=TwoWay}"
+                    NumericValueFormat="0.#" />
+
+                <Grid Grid.Row="3" Margin="0,0,0,-2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <cust:SKIAImageTextButton
+                        ButtonCommand="{Binding Path=OrderPartCommand}"
+                        ImageSource="shopping_cart"
+                        IsButtonEnable="{Binding Path=CurrentPart.IsExchangeable, Converter={xct:InvertedBoolConverter}}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate order,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=ConfirmTakeCommand}"
+                        ImageSource="shopping_basket"
+                        IsButtonEnable="{Binding Path=IsPartInfo, Converter={xct:InvertedBoolConverter}}"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate take,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="2"
+                        ButtonCommand="{Binding Path=CancelTakeCommand}"
+                        ImageSource="cancel"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate close,
+                                            IsUpper=True}" />
+
+                </Grid>
+
+            </Grid>
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

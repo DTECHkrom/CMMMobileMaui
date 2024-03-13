@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderSingleView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    x:Name="mainPage"
+    Title="Zadanie"
+    x:DataType="vm:VMWorkOrderSingle"
+    x:TypeArguments="vm:VMWorkOrderSingle"
+    Shell.NavBarIsVisible="False" />

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="CMMMobileMaui.CUST.PartChangeLocation"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    BackgroundColor="Transparent">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="False"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+    <StackLayout
+        Padding="20,0"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="Center">
+        <Frame BackgroundColor="White" Style="{StaticResource frameStyle}">
+            <Grid Margin="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <cust:CustomListPicker
+                    Title="{cv:Translate part_old_loc,
+                                         IsUpper=True}"
+                    Grid.Row="0"
+                    Margin="1,0"
+                    DisplayPath="Rack"
+                    HeightRequest="40"
+                    ItemsSource="{Binding Path=CurrentLocationList}"
+                    SelectedItem="{Binding Path=CurrentLocation, Mode=TwoWay}" />
+
+                <cust:CustomListPicker
+                    Title="{cv:Translate part_new_loc,
+                                         IsUpper=True}"
+                    Grid.Row="1"
+                    Margin="1,0"
+                    DisplayPath="Rack"
+                    HeightRequest="40"
+                    ItemsSource="{Binding Path=LocationList}"
+                    SelectedItem="{Binding Path=SelectedLocation, Mode=TwoWay}" />
+
+                <Grid
+                    Grid.Row="2"
+                    Margin="0,0,0,-2"
+                    ColumnDefinitions="*,*">
+
+                    <cust:SKIAImageTextButton
+                        ButtonCommand="{Binding Path=SaveNewLocationCommand}"
+                        ImageSource="save"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate save,
+                                            IsUpper=True}" />
+
+                    <cust:SKIAImageTextButton
+                        Grid.Column="1"
+                        ButtonCommand="{Binding Path=CancelTakeCommand}"
+                        ImageSource="cancel"
+                        Style="{StaticResource skiaBtnStyle}"
+                        Text="{cv:Translate close,
+                                            IsUpper=True}" />
+                </Grid>
+
+            </Grid>
+
+        </Frame>
+    </StackLayout>
+</pages:PopupPage>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.AFTERLOGIN.DeviceSelectPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:device="clr-namespace:CMMMobileMaui.API.Contracts.v1.Responses.Device;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM.AFTERLOGIN"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMDeviceSelect"
+    x:TypeArguments="vm:VMDeviceSelect"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, auto, *, auto, *">
+            <StackLayout>
+                <cust:SKIAImageTextButton
+                    ButtonCommand="{Binding Path=SelectDeviceCommand}"
+                    ImageSource="commute"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate Text=device,
+                                        IsUpper=True}" />
+
+                <Grid
+                    Grid.Row="1"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                    ColumnDefinitions="*, 50, 50"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{Binding Path=IsDeviceSelected}"
+                    RowDefinitions="auto, 40">
+
+                    <StackLayout Grid.Row="0" Grid.ColumnSpan="3">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalTextAlignment="Center"
+                            TextColor="White">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding Path=CurrentDevice.AssetNo}" />
+                                    <Span Text=" [" />
+                                    <Span Text="{Binding Path=CurrentDevice.DeviceCategory}" />
+                                    <Span Text="]" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Grid
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_2}}"
+                            ColumnDefinitions="*, *"
+                            HorizontalOptions="FillAndExpand"
+                            RowDefinitions="auto, auto, auto">
+                            <Label
+                                Grid.ColumnSpan="2"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="Center"
+                                Text="{cv:Translate IsUpper=True,
+                                                    Text=current}"
+                                TextColor="White" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="End"
+                                Text="{cv:Translate Text=cycle,
+                                                    IsUpper=True}"
+                                TextColor="White" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                HorizontalOptions="End"
+                                Text="{Binding Path=CurrentDevice.Cycle}"
+                                TextColor="White" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                FontAttributes="Bold"
+                                Text="{cv:Translate Text=owner,
+                                                    IsUpper=True}"
+                                TextColor="White" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="10,0,0,0"
+                                Text="{Binding Path=CurrentDevice.Owner}"
+                                TextColor="White" />
+                        </Grid>
+
+                    </StackLayout>
+
+                    <cust:CustomFrameNumericEntry
+                        Title="{cv:Translate Text=cycle,
+                                             IsUpper=True}"
+                        Grid.Row="1"
+                        NumericValue="{Binding Path=Cycle}"
+                        NumericValueFormat="N0" />
+
+                    <cust:LabelIconButton
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Command="{Binding Path=SaveCommand}"
+                        FontSize="40"
+                        Text="save"
+                        TextColor="White" />
+
+                    <cust:LabelIconButton
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Command="{Binding Path=CancelCommand}"
+                        FontSize="40"
+                        Text="cancel"
+                        TextColor="White" />
+                </Grid>
+
+            </StackLayout>
+
+            <cust:CustomGroupHeader
+                Title="{cv:Translate Text=selected_devies,
+                                     IsUpper=True}"
+                Grid.Row="2"
+                BorderColor="{Binding Source={Static com:SConsts.COLOR_2}}"
+                TextColor="{Binding Source={Static com:SConsts.COLOR_2}}" />
+
+            <CollectionView
+                x:Name="cvCurrent"
+                Grid.Row="3"
+                ItemsSource="{Binding Path=CurrentObservedDeviceList}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="1" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="device:GetObservedResponse">
+                        <Grid
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_5}}"
+                            ColumnDefinitions="*, 40, 40"
+                            RowDefinitions="30, auto">
+
+                            <Label
+                                FontSize="18"
+                                Style="{StaticResource lblListHeaderStyle}"
+                                Text="{Binding Path=Asset_No}"
+                                VerticalTextAlignment="Center" />
+
+                            <Label Grid.Row="1" FontAttributes="Bold">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="[" />
+                                        <Span Text="{Binding Select_Date, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                                        <Span Text="][" />
+                                        <Span Text="{Binding Path=Select_Cycles}" />
+                                        <Span Text="]" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <cust:LabelIconButton
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                                Command="{Binding Path=BindingContext.OpenCycleHistoryCommand, Source={x:Reference cvCurrent}}"
+                                CommandParameter="{Binding}"
+                                Text="history" />
+
+                            <cust:LabelIconButton
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                                Command="{Binding Path=BindingContext.ShowDeviceWOCommand, Source={x:Reference cvCurrent}}"
+                                CommandParameter="{Binding}"
+                                Text="construction" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <cust:CustomGroupHeader
+                Title="{cv:Translate Text=selected_devies_history,
+                                     IsUpper=True}"
+                Grid.Row="4"
+                BorderColor="{Binding Source={Static com:SConsts.COLOR_2}}"
+                TextColor="{Binding Source={Static com:SConsts.COLOR_2}}" />
+
+            <CollectionView
+                x:Name="cvHist"
+                Grid.Row="5"
+                ItemsSource="{Binding Path=ObservedDeviceHistoryList}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="1" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="device:GetObservedResponse">
+                        <Grid
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            ColumnDefinitions="auto, *, 40, 40"
+                            RowDefinitions="30, 20">
+                            <Label
+                                Grid.RowSpan="2"
+                                FontSize="24"
+                                IsVisible="{Binding Path=_IsOverTime}"
+                                Style="{StaticResource lblImage}"
+                                Text="schedule" />
+
+                            <Label
+                                Grid.Column="1"
+                                FontSize="18"
+                                Style="{StaticResource lblListHeaderStyle}"
+                                Text="{Binding Path=Asset_No}"
+                                VerticalTextAlignment="Center" />
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontAttributes="Bold">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="[" />
+                                        <Span Text="{Binding Select_Date, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                                        <Span Text="][" />
+                                        <Span Text="{Binding Path=Select_Cycles}" />
+                                        <Span Text="]" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <cust:LabelIconButton
+                                Grid.RowSpan="2"
+                                Grid.Column="2"
+                                BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                                Command="{Binding Path=BindingContext.OpenCycleHistoryCommand, Source={x:Reference cvCurrent}}"
+                                CommandParameter="{Binding}"
+                                FontSize="40"
+                                Text="history" />
+
+                            <cust:LabelIconButton
+                                Grid.RowSpan="2"
+                                Grid.Column="3"
+                                BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                                Command="{Binding Path=BindingContext.ReselectDeviceCommand, Source={x:Reference cvHist}}"
+                                CommandParameter="{Binding}"
+                                FontSize="40"
+                                Text="check_circle_outline" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</view:PageBase>

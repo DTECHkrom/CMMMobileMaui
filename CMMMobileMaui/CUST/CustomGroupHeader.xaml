@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Grid
+    x:Class="CMMMobileMaui.CUST.CustomGroupHeader"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    ColumnDefinitions="30, AUTO, *">
+
+    <BoxView
+        x:Name="bv1"
+        Grid.Column="0"
+        HeightRequest="2"
+        VerticalOptions="Center" />
+
+    <Label
+        x:Name="lblTitle"
+        Grid.Column="1"
+        FontAttributes="Bold"
+        TextTransform="Uppercase"
+        VerticalOptions="Center"
+        VerticalTextAlignment="Center" />
+
+    <BoxView
+        x:Name="bv2"
+        Grid.Column="2"
+        HeightRequest="2"
+        VerticalOptions="Center" />
+
+</Grid>

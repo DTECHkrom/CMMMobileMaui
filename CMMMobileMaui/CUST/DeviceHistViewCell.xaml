@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ViewCell
+    x:Class="CMMMobileMaui.CUST.DeviceHistViewCell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="http://schemas.telerik.com/2022/xaml/maui"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    mc:Ignorable="d">
+    <ViewCell.View>
+        <Grid BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={cv:DeviceStateColorConv}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="32" />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout
+                    Grid.Column="0"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Vertical">
+
+                    <Label
+                        Margin="2,1,2,0"
+                        FontSize="12"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:yyyy-MM-dd}]'}"
+                        VerticalTextAlignment="Center" />
+
+                    <Label
+                        Margin="2,0,2,1"
+                        FontSize="12"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:HH:mm}]'}"
+                        VerticalTextAlignment="Center" />
+
+                </StackLayout>
+
+                <Label
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="{Binding Path=CurrentDevice.AssetNo}"
+                    TextColor="Black"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+
+            <telerikPrimitives:RadBusyIndicator
+                x:Name="busyIndicator"
+                Grid.ColumnSpan="2"
+                AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                AnimationContentHeightRequest="30"
+                AnimationContentWidthRequest="30"
+                AnimationType="Animation1"
+                HeightRequest="30"
+                HorizontalOptions="Center"
+                IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                IsVisible="{Binding Path=IsBusy, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="30" />
+
+            <Image
+                Grid.Column="1"
+                Margin="2"
+                FlexLayout.AlignSelf="Center"
+                HeightRequest="32"
+                Source="more.png"
+                VerticalOptions="Center"
+                WidthRequest="32">
+                <Image.Behaviors>
+                    <xct:AnimationBehavior Command="{Binding Path=ShowItemCommand}" CommandParameter="{Binding .}">
+                        <xct:AnimationBehavior.AnimationType>
+                            <xct:FadeAnimation />
+                        </xct:AnimationBehavior.AnimationType>
+                    </xct:AnimationBehavior>
+                </Image.Behaviors>
+            </Image>
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

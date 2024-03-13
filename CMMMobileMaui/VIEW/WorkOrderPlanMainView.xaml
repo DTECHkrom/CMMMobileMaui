@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.WorkOrderPlanMainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:sys="clr-namespace:System;assembly=netstandard"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    NavigationPage.HasNavigationBar="False">
+    <view:PageBase.Resources>
+        <cv:WOPlanActConv x:Key="cvPlanAct" />
+        <cv:WOPlanGrConv x:Key="cvPlanGr" />
+    </view:PageBase.Resources>
+    <view:PageBase.Content>
+        <ListView
+            x:Name="lv"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Path=WOPlanList}"
+            SeparatorVisibility="None">
+
+            <ListView.Resources>
+                <ControlTemplate x:Key="dtGroup">
+                    <Label
+                        Padding="0"
+                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="{TemplateBinding Path=Parent.BindingContext.GroupName}"
+                        TextColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                        TextTransform="Uppercase"
+                        VerticalTextAlignment="Center" />
+                </ControlTemplate>
+                <ControlTemplate x:Key="dtMade">
+                    <StackLayout
+                        Margin="-1"
+                        BackgroundColor="LightGreen"
+                        Orientation="Horizontal">
+
+                        <Label
+                            Margin="4,2"
+                            FontAttributes="Bold"
+                            Text="{TemplateBinding Path=Parent.BindingContext.ActivityIndex}"
+                            VerticalTextAlignment="Center" />
+
+                        <Label
+                            FontAttributes="Bold"
+                            Text="{TemplateBinding Path=Parent.BindingContext.ActivityName}"
+                            VerticalTextAlignment="Center" />
+
+                    </StackLayout>
+                </ControlTemplate>
+                <ControlTemplate x:Key="dtAct">
+                    <Grid Padding="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Grid.ColumnSpan="2" Orientation="Horizontal">
+                            <Label
+                                FontAttributes="Bold"
+                                Text="{TemplateBinding Path=Parent.BindingContext.ActivityIndex}"
+                                WidthRequest="30" />
+                            <Label FontAttributes="Bold" Text="{TemplateBinding Path=Parent.BindingContext.ActivityName}" />
+                        </StackLayout>
+
+                        <cust:LabelIconButton
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Margin="2,0"
+                            Command="{Binding Path=BindingContext.DoPlanItemCommand, Source={x:Reference lv}}"
+                            CommandParameter="{TemplateBinding Path=Parent.BindingContext}"
+                            Text="check" />
+
+                        <cust:CustomFrameNumericEntry
+                            Title="{cv:Translate workload}"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            IsRequired="True"
+                            MinimumHeightRequest="40"
+                            NumericValue="{TemplateBinding Path=Parent.BindingContext._WorkLoad,
+                                                           Mode=TwoWay}"
+                            NumericValueFormat="N2" />
+
+                        <cust:CustomFrameEntry
+                            Title="{cv:Translate part_description}"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            MinimumHeightRequest="40"
+                            Text="{TemplateBinding Path=Parent.BindingContext._Description,
+                                                   Mode=TwoWay}" />
+                    </Grid>
+                </ControlTemplate>
+            </ListView.Resources>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                            Margin="1,2"
+                            Padding="0"
+                            BackgroundColor="White"
+                            BorderColor="Silver"
+                            CornerRadius="0"
+                            HasShadow="False">
+                            <ContentView BindingContext="{Binding .}">
+                                <ContentView.Style>
+                                    <Style TargetType="ContentView">
+                                        <Setter Property="ControlTemplate" Value="{StaticResource dtMade}" />
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding Converter={StaticResource cvPlanAct}}"
+                                                TargetType="ContentView"
+                                                Value="true">
+                                                <Setter Property="ControlTemplate" Value="{StaticResource dtAct}" />
+                                            </DataTrigger>
+                                            <DataTrigger
+                                                Binding="{Binding Converter={StaticResource cvPlanGr}}"
+                                                TargetType="ContentView"
+                                                Value="true">
+                                                <Setter Property="ControlTemplate" Value="{StaticResource dtGroup}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentView.Style>
+                            </ContentView>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </view:PageBase.Content>
+</view:PageBase>

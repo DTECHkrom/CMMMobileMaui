@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<view:PageBase
+    x:Class="CMMMobileMaui.VIEW.PartTakerView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
+    xmlns:objects="clr-namespace:CMMMobileMaui.API.Contracts;assembly=CMMMobileMaui.API.Contracts"
+    xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
+    xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMPartGiver2"
+    x:TypeArguments="vm:VMPartGiver2"
+    Shell.NavBarIsVisible="False">
+    <view:PageBase.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                x:Name="stackPartGive"
+                ColumnDefinitions="AUTO, *, *"
+                HorizontalOptions="FillAndExpand">
+
+                <cust:ZebraScanIcon
+                    x:Name="zebraIcon"
+                    Grid.Column="0"
+                    Margin="10,5,10,5"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    WidthRequest="30" />
+
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="1"
+                    ButtonCommand="{Binding Path=ClearCommand}"
+                    ImageSource="delete"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate clear,
+                                        IsUpper=True}" />
+
+                <cust:SKIAImageTextButton
+                    Grid.Column="2"
+                    ButtonCommand="{Binding Path=SaveCommand}"
+                    ImageSource="save"
+                    Style="{StaticResource skiaBtnStyle}"
+                    Text="{cv:Translate save,
+                                        IsUpper=True}" />
+            </Grid>
+
+            <Grid
+                Grid.Row="1"
+                Margin="5,10"
+                RowDefinitions="AUTO, AUTO, AUTO, AUTO">
+
+                <cust:CustomGroupHeader Title="{cv:Translate wo_device, IsUpper=True}" Style="{StaticResource cghStyle}" />
+
+                <Grid Grid.Row="1" ColumnDefinitions="*, 32">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding Path=CurrentDevice, Converter={xct:IsNotNullConverter}}"
+                        Text="{Binding Path=CurrentDevice.AssetNo}"
+                        VerticalTextAlignment="Center" />
+
+                    <cust:LabelIconButton
+                        Grid.Column="1"
+                        Command="{Binding Path=SelectDeviceCommand}"
+                        Text="find_in_page" />
+
+                </Grid>
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate dev_wo,
+                                         IsUpper=True}"
+                    Grid.Row="2"
+                    Style="{StaticResource cghStyle}" />
+
+
+                <Grid Grid.Row="3" ColumnDefinitions="*, 32">
+
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding Path=WOName, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                        Text="{Binding Path=WOName}"
+                        VerticalTextAlignment="Center" />
+
+
+                    <cust:LabelIconButton
+                        Grid.Column="1"
+                        Command="{Binding Path=SelectWOCommand}"
+                        IsEnabled="{Binding Path=IsDevice}"
+                        Text="find_in_page" />
+
+                </Grid>
+
+                <BoxView
+                    Grid.Row="3"
+                    Margin="0,0,0,-2"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                    HeightRequest="2"
+                    VerticalOptions="End" />
+
+                <BoxView
+                    Grid.RowSpan="4"
+                    Margin="0,10,0,0"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                    HorizontalOptions="End"
+                    WidthRequest="2" />
+
+                <BoxView
+                    Grid.RowSpan="4"
+                    Margin="0,10,0,0"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                    HorizontalOptions="Start"
+                    VerticalOptions="FillAndExpand"
+                    WidthRequest="2" />
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <cust:CustomGroupHeader
+                    Title="{cv:Translate part_list,
+                                         IsUpper=True}"
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Style="{StaticResource cghStyle}" />
+
+                <!--<Label
+                        Grid.Row="6"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource lblGroupHeaderStyle}"
+                        Text="{cv:Translate part_list,
+                                            IsUpper=True}" />-->
+
+                <Frame
+                    Grid.Row="7"
+                    Grid.ColumnSpan="2"
+                    Margin="5,-1"
+                    Padding="1"
+                    BorderColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
+                    CornerRadius="0"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Start">
+                    <Grid x:Name="gMenuMain">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+
+                        <cust:LabelIconButton
+                            Grid.Column="0"
+                            Margin="5,5,15,5"
+                            Command="{Binding Path=OpenScanPartCodeCommand}"
+                            Text="qr_code" />
+
+                        <cust:LabelIconButton
+                            Grid.Column="1"
+                            Margin="5"
+                            Command="{Binding Path=OpenSearchPartCommand}"
+                            Text="search" />
+
+                        <Grid
+                            x:Name="gCurrentPart"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Margin="-1"
+                            Padding="1"
+                            ColumnDefinitions="*, 50, 50"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="false"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="32" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="32" />
+                            </Grid.RowDefinitions>
+
+                            <Label
+                                Grid.ColumnSpan="3"
+                                FontAttributes="Bold"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=CurrentPart.PartNo}"
+                                VerticalTextAlignment="Center" />
+
+                            <cust:CustomFrameNumericEntry
+                                x:Name="tboxTakeAmount"
+                                Title="{cv:Translate part_quantity,
+                                                     IsUpper=True}"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HeightRequest="40"
+                                IsControlEnabled="{Binding Path=CurrentPart.IsExchangeable, Converter={xct:InvertedBoolConverter}}"
+                                IsRequired="True"
+                                NumericValue="{Binding Path=TakeAmount, Mode=TwoWay}"
+                                NumericValueFormat="N2" />
+
+                            <cust:LabelIconButton
+                                x:Name="btnSavePart"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="5,0"
+                                Command="{Binding Path=SaveCurrentPartCommand}"
+                                Text="save" />
+
+                            <cust:LabelIconButton
+                                x:Name="btnCancelPart"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="5,0"
+                                Command="{Binding Path=CancelCurrentPartCommand}"
+                                Text="cancel" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.ColumnSpan="3"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{cv:Translate part_stock_level, IsUpper=True}" />
+                                        <Span Text=":" />
+                                        <Span Text="{Binding Path=CurrentPart.StockLevel, StringFormat='{}{0:0.##}'}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </Grid>
+                </Frame>
+
+                <CollectionView
+                    x:Name="cvTakenParts"
+                    Grid.Row="8"
+                    Grid.ColumnSpan="2"
+                    Margin="2,4"
+                    ItemsSource="{Binding Path=TakenPartsList}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="2" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="objects:PartTake">
+                            <Frame
+                                Margin="2"
+                                Padding="1"
+                                BorderColor="Gainsboro">
+
+                                <SwipeView Margin="2" BackgroundColor="White">
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem
+                                                BackgroundColor="Red"
+                                                Command="{Binding Source={x:Reference cvTakenParts}, Path=BindingContext.RemovePartCommand}"
+                                                CommandParameter="{Binding Path=.}"
+                                                IconImageSource="delete" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Margin="4,0"
+                                            FontAttributes="Bold"
+                                            Text="{Binding Path=_PartNo}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <cust:CustomFrameNumericEntry
+                                            Title="{cv:Translate part_quantity,
+                                                                 IsUpper=True}"
+                                            Grid.Column="1"
+                                            HeightRequest="40"
+                                            IsControlEnabled="{Binding Path=IsExchangeable, Converter={cv:BoolReverseConv}}"
+                                            IsRequired="True"
+                                            NumericValue="{Binding Path=Amount}"
+                                            NumericValueFormat="N2" />
+
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="4,0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{cv:Translate part_stock_level}" />
+                                                    <Span Text=":" />
+                                                    <Span Text="{Binding Path=OldAmount, StringFormat='{}{0:0.##}'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+
+                                </SwipeView>
+
+                            </Frame>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Grid>
+        </Grid>
+    </view:PageBase.Content>
+</view:PageBase>

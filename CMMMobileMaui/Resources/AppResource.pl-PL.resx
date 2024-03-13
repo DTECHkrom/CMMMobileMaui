@@ -1,0 +1,885 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="add" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="api_settings" xml:space="preserve">
+    <value>Ustawienia API</value>
+  </data>
+  <data name="by" xml:space="preserve">
+    <value>Przez</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthDay" xml:space="preserve">
+    <value>Dzień</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthFriday" xml:space="preserve">
+    <value>Piątek</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthMonday" xml:space="preserve">
+    <value>Poniedziałek</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthSaturday" xml:space="preserve">
+    <value>Sobota</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthSunday" xml:space="preserve">
+    <value>Niedziela</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthThursday" xml:space="preserve">
+    <value>Czwartk</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthTuesday" xml:space="preserve">
+    <value>Wtorek</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthWednesday" xml:space="preserve">
+    <value>Środa</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthWeekday" xml:space="preserve">
+    <value>Dzień tyg.</value>
+  </data>
+  <data name="Calendar_AdditionalInfoMonthWeekendDay" xml:space="preserve">
+    <value>Dzień week.</value>
+  </data>
+  <data name="Calendar_AgendaAllDay" xml:space="preserve">
+    <value>Dzienne</value>
+  </data>
+  <data name="Calendar_AgendaEndTimeText" xml:space="preserve">
+    <value>Koniec</value>
+  </data>
+  <data name="Calendar_AgendaStartTimeText" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Calendar_AllDayAreaText" xml:space="preserve">
+    <value>Dzienne</value>
+  </data>
+  <data name="Calendar_AllDayAreaTextUWP" xml:space="preserve">
+    <value>Dzienne</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationApril" xml:space="preserve">
+    <value>KWI</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationAugust" xml:space="preserve">
+    <value>SIE</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationDecember" xml:space="preserve">
+    <value>GRU</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationFebruary" xml:space="preserve">
+    <value>STY</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationJanuary" xml:space="preserve">
+    <value>LUT</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationJuly" xml:space="preserve">
+    <value>LIP</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationJune" xml:space="preserve">
+    <value>CZE</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationMarch" xml:space="preserve">
+    <value>MAR</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationMay" xml:space="preserve">
+    <value>MAJ</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationNovember" xml:space="preserve">
+    <value>LIS</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationOctober" xml:space="preserve">
+    <value>PAZ</value>
+  </data>
+  <data name="Calendar_MonthAbbreviationSeptember" xml:space="preserve">
+    <value>SIE</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationFriday" xml:space="preserve">
+    <value>PT</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationMonday" xml:space="preserve">
+    <value>PN</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationSaturday" xml:space="preserve">
+    <value>SO</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationSunday" xml:space="preserve">
+    <value>ND</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationThursday" xml:space="preserve">
+    <value>CZ</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationTuesday" xml:space="preserve">
+    <value>WT</value>
+  </data>
+  <data name="Calendar_WeekDayAbbreviationWednesday" xml:space="preserve">
+    <value>SR</value>
+  </data>
+  <data name="category" xml:space="preserve">
+    <value>Kategoria</value>
+  </data>
+  <data name="change" xml:space="preserve">
+    <value>Zmień</value>
+  </data>
+  <data name="check" xml:space="preserve">
+    <value>Sprawdź</value>
+  </data>
+  <data name="check_connection" xml:space="preserve">
+    <value>Sprawdź połączenie</value>
+  </data>
+  <data name="clear" xml:space="preserve">
+    <value>Wyczyść</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>Zamknij</value>
+  </data>
+  <data name="cmm_login" xml:space="preserve">
+    <value>Konto CMM</value>
+  </data>
+  <data name="cmm_login_start" xml:space="preserve">
+    <value>Zaloguj do aplikacji na starcie</value>
+  </data>
+  <data name="confirm" xml:space="preserve">
+    <value>Potwierdź</value>
+  </data>
+  <data name="currency" xml:space="preserve">
+    <value>Waluta</value>
+  </data>
+  <data name="current_location" xml:space="preserve">
+    <value>Aktualna lokalizacja</value>
+  </data>
+  <data name="cv_agenda" xml:space="preserve">
+    <value>Agenda</value>
+  </data>
+  <data name="cv_day" xml:space="preserve">
+    <value>Dzień</value>
+  </data>
+  <data name="cv_month" xml:space="preserve">
+    <value>Mies.</value>
+  </data>
+  <data name="cv_week" xml:space="preserve">
+    <value>Tydz.</value>
+  </data>
+  <data name="data" xml:space="preserve">
+    <value>Dane</value>
+  </data>
+  <data name="date_add" xml:space="preserve">
+    <value>Data dodania</value>
+  </data>
+  <data name="date_end" xml:space="preserve">
+    <value>Data zakończenia</value>
+  </data>
+  <data name="date_mod" xml:space="preserve">
+    <value>Data mod.</value>
+  </data>
+  <data name="date_start" xml:space="preserve">
+    <value>Plan. rozp.</value>
+  </data>
+  <data name="date_stop" xml:space="preserve">
+    <value>Plan. zakoń.</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="device" xml:space="preserve">
+    <value>Urządzenie</value>
+  </data>
+  <data name="dev_asset_no" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="dev_asset_no_short" xml:space="preserve">
+    <value>Krótka nazwa</value>
+  </data>
+  <data name="dev_bk_no" xml:space="preserve">
+    <value>Numer księgowy</value>
+  </data>
+  <data name="dev_branch" xml:space="preserve">
+    <value>Filia</value>
+  </data>
+  <data name="dev_buy_date" xml:space="preserve">
+    <value>Data zakupu</value>
+  </data>
+  <data name="dev_buy_price" xml:space="preserve">
+    <value>Cena zakupu</value>
+  </data>
+  <data name="dev_cc" xml:space="preserve">
+    <value>Centra kosztów</value>
+  </data>
+  <data name="dev_current_cycles" xml:space="preserve">
+    <value>Aktualne cykle</value>
+  </data>
+  <data name="dev_cycle" xml:space="preserve">
+    <value>Cykle</value>
+  </data>
+  <data name="dev_days" xml:space="preserve">
+    <value>Dni</value>
+  </data>
+  <data name="dev_def_location" xml:space="preserve">
+    <value>Lokalizacja domyślna</value>
+  </data>
+  <data name="dev_deliv_date" xml:space="preserve">
+    <value>Data dostawy</value>
+  </data>
+  <data name="dev_details" xml:space="preserve">
+    <value>Szczegóły urządzenia</value>
+  </data>
+  <data name="dev_doc" xml:space="preserve">
+    <value>Dokumentacja</value>
+  </data>
+  <data name="dev_equipment" xml:space="preserve">
+    <value>Wyposażona</value>
+  </data>
+  <data name="dev_gus_no" xml:space="preserve">
+    <value>Numer GUS</value>
+  </data>
+  <data name="dev_info" xml:space="preserve">
+    <value>Informacje</value>
+  </data>
+  <data name="dev_is_doc" xml:space="preserve">
+    <value>Jest dokumentacja</value>
+  </data>
+  <data name="dev_is_in_use" xml:space="preserve">
+    <value>Jest w użyciu</value>
+  </data>
+  <data name="dev_labeled" xml:space="preserve">
+    <value>Oznakowana</value>
+  </data>
+  <data name="dev_left" xml:space="preserve">
+    <value>Pozostało</value>
+  </data>
+  <data name="dev_line" xml:space="preserve">
+    <value>Linia produkcyjna: {0}</value>
+  </data>
+  <data name="dev_list" xml:space="preserve">
+    <value>Lista urządzeń</value>
+  </data>
+  <data name="dev_load" xml:space="preserve">
+    <value>Załaduj [{0}] urządzeń</value>
+  </data>
+  <data name="dev_location" xml:space="preserve">
+    <value>Lokalizacja</value>
+  </data>
+  <data name="dev_loc_new" xml:space="preserve">
+    <value>Nowa lokalizacja</value>
+  </data>
+  <data name="dev_place" xml:space="preserve">
+    <value>Miejsce</value>
+  </data>
+  <data name="dev_plan" xml:space="preserve">
+    <value>Lista przeglądów</value>
+  </data>
+  <data name="dev_producent" xml:space="preserve">
+    <value>Producent</value>
+  </data>
+  <data name="dev_remarks" xml:space="preserve">
+    <value>Uwagi</value>
+  </data>
+  <data name="dev_serial_no" xml:space="preserve">
+    <value>Numer seryjny</value>
+  </data>
+  <data name="dev_state_change" xml:space="preserve">
+    <value>Przebieg zmiany stanu</value>
+  </data>
+  <data name="dev_state_list" xml:space="preserve">
+    <value>Lista zmian</value>
+  </data>
+  <data name="dev_state_remarks" xml:space="preserve">
+    <value>Uwagi do stanu</value>
+  </data>
+  <data name="dev_state_sum" xml:space="preserve">
+    <value>Podsumowanie</value>
+  </data>
+  <data name="dev_type" xml:space="preserve">
+    <value>Rodzaj</value>
+  </data>
+  <data name="dev_warranty" xml:space="preserve">
+    <value>Gwarancje</value>
+  </data>
+  <data name="dev_where" xml:space="preserve">
+    <value>Gdzie jest: {0}</value>
+  </data>
+  <data name="dev_where_is" xml:space="preserve">
+    <value>Gdzie jest</value>
+  </data>
+  <data name="dev_wo" xml:space="preserve">
+    <value>Zlecenie</value>
+  </data>
+  <data name="dev_wo_list" xml:space="preserve">
+    <value>Lista zleceń</value>
+  </data>
+  <data name="dev_year_of_production" xml:space="preserve">
+    <value>Data produkcji</value>
+  </data>
+  <data name="download" xml:space="preserve">
+    <value>Pobierz</value>
+  </data>
+  <data name="down_info1" xml:space="preserve">
+    <value>Nowa wersja aplikacji jest dostępna</value>
+  </data>
+  <data name="down_info2" xml:space="preserve">
+    <value>Czy pobrać?</value>
+  </data>
+  <data name="down_info3" xml:space="preserve">
+    <value>Pobieram nową wersję aplikacji...</value>
+  </data>
+  <data name="down_info4" xml:space="preserve">
+    <value>Zakończenie pobierania otworzy folder z aplikacją</value>
+  </data>
+  <data name="edit" xml:space="preserve">
+    <value>Zmień</value>
+  </data>
+  <data name="finish" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
+  <data name="history" xml:space="preserve">
+    <value>Historia</value>
+  </data>
+  <data name="hist_info" xml:space="preserve">
+    <value>Zapisana na telefonie historia przeglądanych urządzeń, dokumentów i stanów części zapisanych przy inewentaryzacji</value>
+  </data>
+  <data name="inv_new" xml:space="preserve">
+    <value>Nowa inwentaryzacja</value>
+  </data>
+  <data name="lib" xml:space="preserve">
+    <value>Biblioteka</value>
+  </data>
+  <data name="load_n_items" xml:space="preserve">
+    <value>Załaduj [{0}] elementów</value>
+  </data>
+  <data name="login" xml:space="preserve">
+    <value>Zaloguj</value>
+  </data>
+  <data name="login_err_pass" xml:space="preserve">
+    <value>Błędny login lub hasło!</value>
+  </data>
+  <data name="log_no_user" xml:space="preserve">
+    <value>Brak użytkownika w bazie!</value>
+  </data>
+  <data name="main_info1" xml:space="preserve">
+    <value>Przeglądane urządzenia</value>
+  </data>
+  <data name="main_info2" xml:space="preserve">
+    <value>Otwierana dokumentacja</value>
+  </data>
+  <data name="mc_new" xml:space="preserve">
+    <value>Nowa ważność kalendarza</value>
+  </data>
+  <data name="mc_old" xml:space="preserve">
+    <value>Nowy rok ważności kalendarza</value>
+  </data>
+  <data name="mc_val" xml:space="preserve">
+    <value>Ważność</value>
+  </data>
+  <data name="ml_history" xml:space="preserve">
+    <value>Przebieg zmiany lokalizacji</value>
+  </data>
+  <data name="ml_hold_field" xml:space="preserve">
+    <value>Pole odstawcze</value>
+  </data>
+  <data name="ml_imm" xml:space="preserve">
+    <value>Wtryskarka</value>
+  </data>
+  <data name="ml_put_on" xml:space="preserve">
+    <value>Foma do założenia</value>
+  </data>
+  <data name="ml_tool" xml:space="preserve">
+    <value>Narzędziownia</value>
+  </data>
+  <data name="ml_to_send" xml:space="preserve">
+    <value>Formy do wysyłki</value>
+  </data>
+  <data name="ml_war" xml:space="preserve">
+    <value>Magazyn form</value>
+  </data>
+  <data name="mould" xml:space="preserve">
+    <value>Forma</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="new_location" xml:space="preserve">
+    <value>Nowa lokalizacja</value>
+  </data>
+  <data name="no_result_found" xml:space="preserve">
+    <value>Brak pasującego elementu</value>
+  </data>
+  <data name="order" xml:space="preserve">
+    <value>Zamów</value>
+  </data>
+  <data name="other" xml:space="preserve">
+    <value>Inny</value>
+  </data>
+  <data name="part_add" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
+  <data name="part_category" xml:space="preserve">
+    <value>Kategoria</value>
+  </data>
+  <data name="part_change_quantity" xml:space="preserve">
+    <value>Zmiana o: {0:0.##}</value>
+  </data>
+  <data name="part_change_type" xml:space="preserve">
+    <value>Rodzaj: {0}</value>
+  </data>
+  <data name="part_correction" xml:space="preserve">
+    <value>Korekta ilości</value>
+  </data>
+  <data name="part_current_needs" xml:space="preserve">
+    <value>Aktualne zapotrzebowanie</value>
+  </data>
+  <data name="part_default_supplier" xml:space="preserve">
+    <value>Domyślny dostawca</value>
+  </data>
+  <data name="part_description" xml:space="preserve">
+    <value>Opis</value>
+  </data>
+  <data name="part_find" xml:space="preserve">
+    <value>Szukaj części</value>
+  </data>
+  <data name="part_general_category" xml:space="preserve">
+    <value>Główna kategoria</value>
+  </data>
+  <data name="part_give" xml:space="preserve">
+    <value>Wydaj</value>
+  </data>
+  <data name="part_give2" xml:space="preserve">
+    <value>Wydaj część</value>
+  </data>
+  <data name="part_give_back" xml:space="preserve">
+    <value>Zwróć</value>
+  </data>
+  <data name="part_inv_org" xml:space="preserve">
+    <value>Z inwentaryzacji</value>
+  </data>
+  <data name="part_inv_pro" xml:space="preserve">
+    <value>Z programu</value>
+  </data>
+  <data name="part_list" xml:space="preserve">
+    <value>Lista części</value>
+  </data>
+  <data name="part_list_conf" xml:space="preserve">
+    <value>Części do potwierdzenia</value>
+  </data>
+  <data name="part_locations" xml:space="preserve">
+    <value>Lokalizacje</value>
+  </data>
+  <data name="part_locked_orders" xml:space="preserve">
+    <value>Zamówienia zablokowane</value>
+  </data>
+  <data name="part_manufacturer_code" xml:space="preserve">
+    <value>Kod producenta</value>
+  </data>
+  <data name="part_new_loc" xml:space="preserve">
+    <value>Nowa lokalizacja</value>
+  </data>
+  <data name="part_new_location" xml:space="preserve">
+    <value>Nowa lokalizacja</value>
+  </data>
+  <data name="part_new_quantity" xml:space="preserve">
+    <value>Nowa ilość</value>
+  </data>
+  <data name="part_no" xml:space="preserve">
+    <value>Numer części</value>
+  </data>
+  <data name="part_obsolete" xml:space="preserve">
+    <value>Wyszła z użycia</value>
+  </data>
+  <data name="part_old_loc" xml:space="preserve">
+    <value>Aktualna lokalizacja</value>
+  </data>
+  <data name="part_ordered_quantity" xml:space="preserve">
+    <value>Zamówiona ilość</value>
+  </data>
+  <data name="part_producent" xml:space="preserve">
+    <value>Producent</value>
+  </data>
+  <data name="part_put_back" xml:space="preserve">
+    <value>Odłóż</value>
+  </data>
+  <data name="part_quantity" xml:space="preserve">
+    <value>Ilość</value>
+  </data>
+  <data name="part_remarks" xml:space="preserve">
+    <value>Uwagi</value>
+  </data>
+  <data name="part_stock_during" xml:space="preserve">
+    <value>Podczas inwentaryzacji</value>
+  </data>
+  <data name="part_stock_level" xml:space="preserve">
+    <value>Aktualna ilość</value>
+  </data>
+  <data name="part_stock_level_target" xml:space="preserve">
+    <value>Próg graniczny</value>
+  </data>
+  <data name="part_stock_max_target" xml:space="preserve">
+    <value>Maks. ilość</value>
+  </data>
+  <data name="part_stock_min_target" xml:space="preserve">
+    <value>Min. ilość</value>
+  </data>
+  <data name="part_stock_update" xml:space="preserve">
+    <value>Aktualizuj ilość części w bazie</value>
+  </data>
+  <data name="part_taken" xml:space="preserve">
+    <value>Pobrana ilość</value>
+  </data>
+  <data name="part_taken_by" xml:space="preserve">
+    <value>Wzięta przez: {0}</value>
+  </data>
+  <data name="part_unit" xml:space="preserve">
+    <value>J.M.</value>
+  </data>
+  <data name="part_warehouse" xml:space="preserve">
+    <value>Magazyn</value>
+  </data>
+  <data name="part_who" xml:space="preserve">
+    <value>Kto wziął</value>
+  </data>
+  <data name="password" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="Picker_AmPmSpinnerHeaderLabelText" xml:space="preserve">
+    <value>AM/PM</value>
+  </data>
+  <data name="Picker_DaySpinnerHeaderLabelText" xml:space="preserve">
+    <value>Dzień</value>
+  </data>
+  <data name="Picker_HourSpinnerHeaderLabelText" xml:space="preserve">
+    <value>Godziny</value>
+  </data>
+  <data name="Picker_MinuteSpinnerHeaderLabelText" xml:space="preserve">
+    <value>Minuty</value>
+  </data>
+  <data name="Picker_MonthSpinnerHeaderLabelText" xml:space="preserve">
+    <value>Miesiąc</value>
+  </data>
+  <data name="Picker_Popup_AcceptButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Picker_Popup_CancelButtonText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="Picker_SecondSpinnerHeaderLabelText" xml:space="preserve">
+    <value>Sekundy</value>
+  </data>
+  <data name="Picker_YearSpinnerHeaderLabelText" xml:space="preserve">
+    <value>Rok</value>
+  </data>
+  <data name="picture" xml:space="preserve">
+    <value>Zdjęcie</value>
+  </data>
+  <data name="plan_load" xml:space="preserve">
+    <value>Załaduj [{0}] przeglądów</value>
+  </data>
+  <data name="price_unit" xml:space="preserve">
+    <value>Cena za sztukę</value>
+  </data>
+  <data name="prog_host" xml:space="preserve">
+    <value>Sprawdzanie połączenia do hosta</value>
+  </data>
+  <data name="prog_login" xml:space="preserve">
+    <value>Logowanie do aplikacji</value>
+  </data>
+  <data name="prog_update" xml:space="preserve">
+    <value>Sprawdzanie dostępności nowej wersji</value>
+  </data>
+  <data name="q_sure" xml:space="preserve">
+    <value>Czy na pewno wykonać?</value>
+  </data>
+  <data name="q_sure_delete" xml:space="preserve">
+    <value>Czy na pewno usunąć?</value>
+  </data>
+  <data name="q_wo_close" xml:space="preserve">
+    <value>Czy na pewno zamknąć?</value>
+  </data>
+  <data name="refresh_data" xml:space="preserve">
+    <value>Odśwież dane</value>
+  </data>
+  <data name="remove_history" xml:space="preserve">
+    <value>Wyczyść historię</value>
+  </data>
+  <data name="save" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="scan_and_save_code" xml:space="preserve">
+    <value>Zeskanuj i zapisz kod</value>
+  </data>
+  <data name="scan_code" xml:space="preserve">
+    <value>Zeskanuj kod</value>
+  </data>
+  <data name="scan_user_code" xml:space="preserve">
+    <value>Zeskanuj kod użytkownika</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="search_by" xml:space="preserve">
+    <value>Szukaj po</value>
+  </data>
+  <data name="select" xml:space="preserve">
+    <value>Wybierz</value>
+  </data>
+  <data name="set_list" xml:space="preserve">
+    <value>Nazwa linii / urządzenia</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Pokaż</value>
+  </data>
+  <data name="sh_api" xml:space="preserve">
+    <value>Ustawienia API</value>
+  </data>
+  <data name="sh_devices" xml:space="preserve">
+    <value>Urządzenia</value>
+  </data>
+  <data name="sh_lines" xml:space="preserve">
+    <value>Linie produkcyjne</value>
+  </data>
+  <data name="sh_mc" xml:space="preserve">
+    <value>Ważność kalendarza form</value>
+  </data>
+  <data name="sh_ml" xml:space="preserve">
+    <value>Zmiana lokalizacji form</value>
+  </data>
+  <data name="sh_new_version" xml:space="preserve">
+    <value>Nowa wersja</value>
+  </data>
+  <data name="sh_part_give" xml:space="preserve">
+    <value>Wydanie</value>
+  </data>
+  <data name="sh_stocktaking" xml:space="preserve">
+    <value>Inwentaryzacja</value>
+  </data>
+  <data name="sh_user" xml:space="preserve">
+    <value>Użytkownik</value>
+  </data>
+  <data name="sh_user_login" xml:space="preserve">
+    <value>Ustawienia logowania CMM</value>
+  </data>
+  <data name="sh_user_sch" xml:space="preserve">
+    <value>Kalendarz</value>
+  </data>
+  <data name="sh_user_wo" xml:space="preserve">
+    <value>Moje zlecenia</value>
+  </data>
+  <data name="sh_wo" xml:space="preserve">
+    <value>Zlecenia</value>
+  </data>
+  <data name="stocktakings" xml:space="preserve">
+    <value>Inwentaryzacje</value>
+  </data>
+  <data name="take" xml:space="preserve">
+    <value>Weź</value>
+  </data>
+  <data name="taken" xml:space="preserve">
+    <value>Wzięte</value>
+  </data>
+  <data name="user_add" xml:space="preserve">
+    <value>Dodany przez</value>
+  </data>
+  <data name="user_code" xml:space="preserve">
+    <value>Kod QR użytkownika</value>
+  </data>
+  <data name="user_mod" xml:space="preserve">
+    <value>Zmod. przez</value>
+  </data>
+  <data name="value" xml:space="preserve">
+    <value>Wartość</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>Wersja</value>
+  </data>
+  <data name="workload" xml:space="preserve">
+    <value>Czas pracy</value>
+  </data>
+  <data name="wo_acts" xml:space="preserve">
+    <value>Aktywności</value>
+  </data>
+  <data name="wo_act_add_work" xml:space="preserve">
+    <value>Dodaj siebie</value>
+  </data>
+  <data name="wo_act_new" xml:space="preserve">
+    <value>Nowa aktywność</value>
+  </data>
+  <data name="wo_act_plan" xml:space="preserve">
+    <value>Zaplanowane aktywności</value>
+  </data>
+  <data name="wo_act_work" xml:space="preserve">
+    <value>Czas pracy [h]</value>
+  </data>
+  <data name="wo_assigned" xml:space="preserve">
+    <value>Przypisane do</value>
+  </data>
+  <data name="wo_category" xml:space="preserve">
+    <value>Kategoria</value>
+  </data>
+  <data name="wo_close" xml:space="preserve">
+    <value>Zakończ</value>
+  </data>
+  <data name="wo_closing" xml:space="preserve">
+    <value>Zamykanie zlecenia</value>
+  </data>
+  <data name="wo_default" xml:space="preserve">
+    <value>Brak</value>
+  </data>
+  <data name="wo_dep" xml:space="preserve">
+    <value>Dział</value>
+  </data>
+  <data name="wo_desc" xml:space="preserve">
+    <value>Opis</value>
+  </data>
+  <data name="wo_device" xml:space="preserve">
+    <value>Urządzenie</value>
+  </data>
+  <data name="wo_err_close" xml:space="preserve">
+    <value>Nie można zakończyć zadania. Najpierw wykonaj wszystkie czynności</value>
+  </data>
+  <data name="wo_files" xml:space="preserve">
+    <value>Pliki</value>
+  </data>
+  <data name="wo_file_added" xml:space="preserve">
+    <value>Dodane pliki</value>
+  </data>
+  <data name="wo_info1" xml:space="preserve">
+    <value>Szczegóły zlecenia</value>
+  </data>
+  <data name="wo_level" xml:space="preserve">
+    <value>Poziom</value>
+  </data>
+  <data name="wo_list_change" xml:space="preserve">
+    <value>Zmiany w zleceniu</value>
+  </data>
+  <data name="wo_list_part" xml:space="preserve">
+    <value>Wzięte części</value>
+  </data>
+  <data name="wo_load" xml:space="preserve">
+    <value>Załaduj [{0}] zleceń</value>
+  </data>
+  <data name="wo_location" xml:space="preserve">
+    <value>Lokalizacja</value>
+  </data>
+  <data name="wo_parts" xml:space="preserve">
+    <value>Części</value>
+  </data>
+  <data name="wo_reason" xml:space="preserve">
+    <value>Przyczyna</value>
+  </data>
+  <data name="wo_state" xml:space="preserve">
+    <value>Stan</value>
+  </data>
+  <data name="wo_take" xml:space="preserve">
+    <value>Weź</value>
+  </data>
+</root>
