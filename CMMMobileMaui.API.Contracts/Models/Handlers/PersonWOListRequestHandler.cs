@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CMMMobileMaui.API.Contracts.v1.Requests.WO;
+﻿using CMMMobileMaui.API.Contracts.v1.Requests.WO;
 
 namespace CMMMobileMaui.API.Contracts.Models.Handlers
 {
@@ -17,6 +16,12 @@ namespace CMMMobileMaui.API.Contracts.Models.Handlers
 
         public override void SetFilterList()
         {
+            currentGetWOsRequest.IsWithPerson = true;
+        }
+
+        protected override void ClearFilters()
+        {
+            base.ClearFilters();
             currentGetWOsRequest.IsWithPerson = true;
         }
 

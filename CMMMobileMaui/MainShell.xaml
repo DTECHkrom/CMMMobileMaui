@@ -73,27 +73,8 @@
                         BorderColor="#FFFF0000"
                         HorizontalOptions="Fill"
                         IsVisible="{Binding Path=IsNewVersion}"
-                        Style="{StaticResource frameStyle}">
+                        Style="{StaticResource frameStyle}" />
 
-                        <!--<StackLayout Margin="1" Orientation="Vertical">
-
-                            <Label
-                                x:Name="lblNewVersion"
-                                Margin="1"
-                                FontAttributes="Bold"
-                                FontSize="14"
-                                HorizontalTextAlignment="Center"
-                                Text="{cv:Translate sh_new_version}" />
-
-                            <Button
-                                Margin="1"
-                                Command="{Binding Path=DownloadUpdateCommand}"
-                                FontAttributes="Bold"
-                                FontSize="14"
-                                Text="{Binding Path=NewVersion}" />
-
-                        </StackLayout>-->
-                    </Frame>
                 </StackLayout>
                 <StackLayout
                     Grid.Row="1"
@@ -321,7 +302,7 @@
         <Tab
             x:Name="tabUserList"
             Title="{cv:Translate sh_user_wo}"
-            Icon="list">
+            Icon="wo">
             <ShellContent>
                 <ShellContent.ContentTemplate>
                     <DataTemplate>

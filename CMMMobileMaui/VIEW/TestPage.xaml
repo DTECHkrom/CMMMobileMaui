@@ -197,6 +197,17 @@
                     Text="{cv:Translate scan_user_code,
                                         IsUpper=True}" />
 
+                <telerikInput:RadBusyIndicator
+                    x:Name="busyIndicator"
+                    Grid.RowSpan="6"
+                    AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                    AnimationContentHeightRequest="100"
+                    AnimationContentWidthRequest="100"
+                    AnimationType="Animation1"
+                    HorizontalOptions="FillAndExpand"
+                    IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                    VerticalOptions="FillAndExpand" />
+
             </Grid>
         </StackLayout>
     </view:PageBase.Content>

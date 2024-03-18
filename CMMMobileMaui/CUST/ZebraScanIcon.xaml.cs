@@ -1,9 +1,7 @@
-﻿using SkiaSharp;
-using SkiaSharp.Views.Maui;
-using CMMMobileMaui.COMMON;
-using System.Windows.Input;
-using CommunityToolkit.Maui.Behaviors;
+﻿using CMMMobileMaui.COMMON;
 using CommunityToolkit.Maui.Animations;
+using CommunityToolkit.Maui.Behaviors;
+using System.Windows.Input;
 
 namespace CMMMobileMaui.CUST
 {
@@ -14,10 +12,10 @@ namespace CMMMobileMaui.CUST
 
         private Color orgColor;
         private Color defaultColor = Colors.Blue;
-      //  private SKPaint paintBackground;
-       // private SKColor colorBackground;
+        //  private SKPaint paintBackground;
+        // private SKColor colorBackground;
 
-      //  private bool isPageActive = false;
+        //  private bool isPageActive = false;
         private bool isDown = true;
         private float heightScale = 0f;
         //  private Task animationTask;
@@ -36,11 +34,11 @@ namespace CMMMobileMaui.CUST
 
         private static void OnTapCommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if(bindable is ZebraScanIcon zebraScanIcon)
+            if (bindable is ZebraScanIcon zebraScanIcon)
             {
                 var animationBehavior = zebraScanIcon.Behaviors.FirstOrDefault(x => x is AnimationBehavior) as AnimationBehavior;
 
-                if(animationBehavior is not null)
+                if (animationBehavior is not null)
                 {
                     animationBehavior.Command = (ICommand)newValue;
                 }
@@ -56,7 +54,6 @@ namespace CMMMobileMaui.CUST
 
         #endregion
 
-
         #region Cstr
 
         public ZebraScanIcon()
@@ -70,9 +67,10 @@ namespace CMMMobileMaui.CUST
 
             this.Behaviors.Add(animationBehavior);
 
-          //  gvMain.BindingContext = this;
+            //  gvMain.BindingContext = this;
 
             //SetItemBackground();
+            StartScanAnimation();
         }
 
         #endregion
@@ -136,7 +134,7 @@ namespace CMMMobileMaui.CUST
         {
             if (mode == ScanMode.Start)
             {
-             //   gvMain.IsVisible = false;
+                //   gvMain.IsVisible = false;
                 border.BackgroundColor = Colors.Blue;
             }
             else
@@ -159,11 +157,38 @@ namespace CMMMobileMaui.CUST
 
                 await Task.Delay(200);
                 border.BackgroundColor = Colors.Transparent;
-             //   gvMain.IsVisible = true;
+                //   gvMain.IsVisible = true;
             }
         }
 
         #endregion
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            var scanBarHeight = scanBar.HeightRequest;
+
+            Animation animation = new Animation();
+            //animation.Add(0, 0.5, new Animation((d) => border.Scale = d, 1, 1.3, Easing.CubicInOut));
+            //animation.Add(0.5, 1, new Animation((d) => border.Scale = d, 1.3, 1, Easing.CubicInOut));
+            animation.Add(0, 0.5, new Animation((d) => scanBar.Margin = new Thickness(0, d, 0, 0), -scanBarHeight, height, Easing.CubicInOut));
+            animation.Add(0.5, 1, new Animation((d) => scanBar.Margin = new Thickness(0, d, 0, 0), height, -scanBarHeight, Easing.CubicInOut));
+            animation.Commit(this, "ScanAnimation", 16, 2000, null, null, () => true);
+
+            base.OnSizeAllocated(width, height);
+        }
+
+        public void StartScanAnimation()
+        {
+            //var height = this.Bounds.Height;
+
+            //Animation animation = new Animation();
+            ////animation.Add(0, 0.5, new Animation((d) => border.Scale = d, 1, 1.3, Easing.CubicInOut));
+            ////animation.Add(0.5, 1, new Animation((d) => border.Scale = d, 1.3, 1, Easing.CubicInOut));
+            //animation.Add(0, 0.5, new Animation((d) => scanBar.Margin = new Thickness(0, d, 0, 0), 0, height, Easing.CubicInOut));
+            //animation.Add(0.5, 1, new Animation((d) => scanBar.Margin = new Thickness(0, d, 0, 0), height, 0, Easing.CubicInOut));
+            //animation.Commit(this, "ScanAnimation", 16, 1000, null, null, () => true);
+            //  animation.PA
+        }
 
         //public void StartScanAnimation()
         //{

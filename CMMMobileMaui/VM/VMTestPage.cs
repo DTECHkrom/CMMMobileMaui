@@ -396,6 +396,8 @@ namespace CMMMobileMaui.VM
 
         private async Task<bool> CheckLogin()
         {
+            IsBusy = true;
+
             if (CurrentPerson != null)
             {
                 if (!string.IsNullOrEmpty(CMMPass))
@@ -454,6 +456,8 @@ namespace CMMMobileMaui.VM
 
                                 SetContentAfterLogin();
 
+                                IsBusy = false;
+
                                 return true;
                             }
 
@@ -466,6 +470,8 @@ namespace CMMMobileMaui.VM
                     }
                 }
             }
+
+            IsBusy = false;
 
             return false;
         }

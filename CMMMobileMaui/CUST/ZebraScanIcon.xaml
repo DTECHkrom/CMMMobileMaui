@@ -19,7 +19,30 @@
         StrokeThickness="2"
         VerticalOptions="FillAndExpand">
         <Grid>
-
+            <BoxView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="White" />
+                        <GradientStop Offset="0.5" Color="{Binding Source={x:Static com:SConsts.COLOR_4}}" />
+                        <GradientStop Offset="1" Color="White" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
+            <BoxView
+                x:Name="scanBar"
+                Margin="0,20,0,0"
+                HeightRequest="10"
+                VerticalOptions="StartAndExpand">
+                <BoxView.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0" Color="{Binding Source={x:Static com:SConsts.COLOR_5}}" />
+                        <GradientStop Offset="0.3" Color="{Binding Source={x:Static com:SConsts.COLOR_4}}" />
+                        <GradientStop Offset="0.5" Color="{Binding Source={x:Static com:SConsts.COLOR_3}}" />
+                        <GradientStop Offset="0.7" Color="{Binding Source={x:Static com:SConsts.COLOR_4}}" />
+                        <GradientStop Offset="1" Color="{Binding Source={x:Static com:SConsts.COLOR_5}}" />
+                    </LinearGradientBrush>
+                </BoxView.Background>
+            </BoxView>
             <!--<magic:GradientView x:Name="gvMain" Grid.Row="0">
                 <magic:GradientView.Triggers>
                     <magic:AnimationTrigger IsRunning="{Binding Path=IsRunning}">
