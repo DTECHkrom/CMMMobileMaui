@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMMMobileMaui.API", "CMMMob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMMMobileMaui.API.Contracts", "CMMMobileMaui.API.Contracts\CMMMobileMaui.API.Contracts.csproj", "{75276A83-B69C-47DA-B854-06A3D77D6339}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMMMobileMaui.LocalDB", "CMMMobileMaui.LocalDB\CMMMobileMaui.LocalDB.csproj", "{838C139F-8FEB-4C9E-81F6-2D5AD0609F04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMMMobileMaui.LocalDB", "CMMMobileMaui.LocalDB\CMMMobileMaui.LocalDB.csproj", "{838C139F-8FEB-4C9E-81F6-2D5AD0609F04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -204,7 +204,7 @@ namespace CMMMobileMaui.VM
 
         #region COMMAND LoadNextItemCommand
 
-        public IAsyncRelayCommand LoadNextItemCommand
+        public IRelayCommand LoadNextItemCommand
         {
             get;
         }
@@ -265,7 +265,7 @@ namespace CMMMobileMaui.VM
             this.deviceCMMBLL = deviceCMMBLL;
             this.actController = actController;
 
-            LoadNextItemCommand = new AsyncRelayCommand(LoadNextItems);
+            LoadNextItemCommand = new RelayCommand(LoadNextItems);
             RefreshListCommand = new AsyncRelayCommand(RefreshList);
            
             CloseWOCommand = new Command(async (obj) =>
@@ -493,7 +493,6 @@ namespace CMMMobileMaui.VM
 
                 if (closeResponse.IsValid)
                 {
-                    incValue = 0;
                     IsBusy = true;
                 }
                 //}
@@ -555,7 +554,6 @@ namespace CMMMobileMaui.VM
 
                         if (takeResponse.IsValid)
                         {
-                            incValue = 0;
                             IsBusy = true;
                         }
                     }
@@ -613,12 +611,7 @@ namespace CMMMobileMaui.VM
                 {
                     tempWOsList = woListResponse.Data!.ToList();
 
-                    await LoadNextItems();
-
-                    //foreach (var wo in SConsts.GetSortedList(woListResponse.Data!, currentWOsRequestHandler.GetWOsRequest()))
-                    //{
-                    //    ItemsList.Add(new WOModel(wo, this));
-                    //}
+                    LoadNextItems();
                 }
             }
 
@@ -629,9 +622,9 @@ namespace CMMMobileMaui.VM
 
         #region METHOD LoadNextItems
 
-        private int incValue = 10;
+        private readonly int incValue = 10;
 
-        private async Task LoadNextItems()
+        private void LoadNextItems()
         {
             if(tempWOsList == null || tempWOsList.Count == 0)
             {

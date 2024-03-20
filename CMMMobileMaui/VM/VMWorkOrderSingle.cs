@@ -13,6 +13,7 @@ using CMMMobileMaui.API.Contracts.v1.Responses.WO;
 using CMMMobileMaui.API.Interfaces;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.SCAN;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CMMMobileMaui.VM
 {
@@ -38,9 +39,9 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY ActsList
 
-        private ObservableCollection<GetWOActsResponse> actsList;
+        private ObservableCollection<GetWOActsResponse>? actsList;
 
-        public ObservableCollection<GetWOActsResponse> ActsList
+        public ObservableCollection<GetWOActsResponse>? ActsList
         {
             get => actsList;
             set => SetProperty(ref actsList, value);
@@ -60,9 +61,9 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY CurrentWO
 
-        private GetWOsResponse _currentWO = null;
+        private GetWOsResponse? _currentWO = null;
 
-        public GetWOsResponse CurrentWO
+        public GetWOsResponse? CurrentWO
         {
             get
             {
@@ -70,7 +71,7 @@ namespace CMMMobileMaui.VM
             }
             set
             {
-                _currentWO = value;
+                SetProperty(ref _currentWO, value);
 
                 if (_currentWO == null
                     || _currentWO.WorkOrderID == 0)
@@ -84,11 +85,6 @@ namespace CMMMobileMaui.VM
                     IsClose = _currentWO.Close_Date.HasValue;
                     IsAssignPerson = !string.IsNullOrEmpty(_currentWO.Assigned_Person);
                 }
-
-                OnPropertyChanged("IsClose");
-                OnPropertyChanged("IsPlanList");
-                OnPropertyChanged("IsEdit");
-                OnPropertyChanged("CurrentWO");
             }
         }
 
@@ -96,7 +92,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOCatList
 
-        public List<DictBase> WOCatList
+        public List<DictBase>? WOCatList
         {
             get;
             set;
@@ -106,7 +102,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOLvlList
 
-        public List<DictBase> WOLvlList
+        public List<DictBase>? WOLvlList
         {
             get;
             set;
@@ -116,7 +112,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOReasList
 
-        public List<DictBase> WOReasList
+        public List<DictBase>? WOReasList
         {
             get;
             set;
@@ -126,7 +122,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOStateList
 
-        public List<DictBase> WOStateList
+        public List<DictBase>? WOStateList
         {
             get;
             set;
@@ -136,7 +132,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY DepList
 
-        public List<DictBase> DepList
+        public List<DictBase>? DepList
         {
             get;
             set;
@@ -147,10 +143,6 @@ namespace CMMMobileMaui.VM
         #region PROPERTY IsPlanList
 
         private bool _isPlanList;
-        private bool isActivityAdd;
-        private bool isActivityVisible;
-        private bool isWorkOrderVisible;
-        private string description;
 
         public bool IsPlanList
         {
@@ -161,14 +153,15 @@ namespace CMMMobileMaui.VM
 
             set
             {
-                _isPlanList = value;
-                OnPropertyChanged("IsPlanList");
+                SetProperty(ref _isPlanList, value);
             }
         }
 
         #endregion
 
         #region PROPERTY IsWorkOrderVisible
+
+        private bool isWorkOrderVisible;
 
         public bool IsWorkOrderVisible
         {
@@ -179,6 +172,8 @@ namespace CMMMobileMaui.VM
         #endregion
 
         #region PROPERTY IsActivityVisible
+
+        private bool isActivityVisible;
 
         public bool IsActivityVisible
         {
@@ -191,8 +186,8 @@ namespace CMMMobileMaui.VM
         #region PROPERTY WOPlanList
 
 
-        private ObservableCollection<GetWOPlanActsResponse> wOPlanList;
-        public ObservableCollection<GetWOPlanActsResponse> WOPlanList
+        private ObservableCollection<GetWOPlanActsResponse>? wOPlanList;
+        public ObservableCollection<GetWOPlanActsResponse>? WOPlanList
         {
             get => wOPlanList;
             set => SetProperty(ref wOPlanList, value);
@@ -202,7 +197,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY PersonList
 
-        public List<GetAllUsersResponse> PersonList
+        public List<GetAllUsersResponse>? PersonList
         {
             get;
             set;
@@ -212,20 +207,22 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY IsEdit
 
+        private bool isEdit;
         public bool IsEdit
         {
-            get;
-            set;
+            get => isEdit;
+            set => SetProperty(ref isEdit, value);
         }
 
         #endregion
 
         #region PROPERTY IsClose
 
+        private bool isClose;
         public bool IsClose
         {
-            get;
-            set;
+            get => isClose;
+            set => SetProperty(ref isClose, value);
         }
 
         #endregion
@@ -236,7 +233,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return IsAddNewWO() == true ? true : MainObjects.Instance.CurrentUser.GetUserRightResponse.WO_Edit_Description;
+                return IsAddNewWO() == true ? true : MainObjects.Instance.CurrentUser!.GetUserRightResponse.WO_Edit_Description;
             }
         }
 
@@ -248,7 +245,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return MainObjects.Instance.CurrentUser.GetUserRightResponse.WO_Add;
+                return MainObjects.Instance.CurrentUser!.GetUserRightResponse.WO_Add;
             }
         }
 
@@ -260,7 +257,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return MainObjects.Instance.CurrentUser.GetUserRightResponse.WO_Edit;
+                return MainObjects.Instance.CurrentUser!.GetUserRightResponse.WO_Edit;
             }
         }
 
@@ -272,7 +269,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return MainObjects.Instance.CurrentUser.GetUserRightResponse.ACT_Add;
+                return MainObjects.Instance.CurrentUser!.GetUserRightResponse.ACT_Add;
             }
         }
 
@@ -284,7 +281,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return MainObjects.Instance.CurrentUser.GetUserRightResponse.PART_WO_Take;
+                return MainObjects.Instance.CurrentUser!.GetUserRightResponse.PART_WO_Take;
             }
         }
 
@@ -296,7 +293,7 @@ namespace CMMMobileMaui.VM
         {
             get
             {
-                return MainObjects.Instance.CurrentUser.GetUserRightResponse.WO_SET_AssignedPerson;
+                return MainObjects.Instance.CurrentUser!.GetUserRightResponse.WO_SET_AssignedPerson;
             }
         }
 
@@ -304,19 +301,21 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY IsAssignPerson
 
+        private bool isAssignPerson;
+
         public bool IsAssignPerson
         {
-            get;
-            set;
+            get => isAssignPerson;
+            set => SetProperty(ref isAssignPerson, value);
         }
 
         #endregion
 
         #region PROPERTY CurrentDevice
 
-        private GetDeviceListResponse currentDevice;
+        private GetDeviceListResponse? currentDevice;
 
-        public GetDeviceListResponse CurrentDevice
+        public GetDeviceListResponse? CurrentDevice
         {
             get => currentDevice;
             set => SetProperty(ref currentDevice, value);
@@ -325,7 +324,10 @@ namespace CMMMobileMaui.VM
         #endregion
 
         #region PROPERTY Description
-        public string Description
+
+        private string? description;
+
+        public string? Description
         {
             get => description;
             set => SetProperty(ref description, value);
@@ -335,9 +337,9 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY Location
 
-        private string location;
+        private string? location;
 
-        public string Location
+        public string? Location
         {
             get => location;
             set => SetProperty(ref location, value);
@@ -365,7 +367,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOCat
 
-        public DictBase WOCat
+        public DictBase? WOCat
         {
             get;
             set;
@@ -376,7 +378,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOLvl
 
-        public DictBase WOLvl
+        public DictBase? WOLvl
         {
             get;
             set;
@@ -387,7 +389,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOState
 
-        public DictBase WOState
+        public DictBase? WOState
         {
             get;
             set;
@@ -398,7 +400,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY WOReas
 
-        public DictBase WOReas
+        public DictBase? WOReas
         {
             get;
             set;
@@ -409,7 +411,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY Dep
 
-        public DictBase Dep
+        public DictBase? Dep
         {
             get;
             set;
@@ -419,23 +421,26 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY AssignedPerson
 
-        public GetAllUsersResponse AssignedPerson
+        private GetAllUsersResponse? assignedPerson;
+
+        public GetAllUsersResponse? AssignedPerson
         {
-            get;
-            set;
+            get => assignedPerson;
+            set => SetProperty(ref assignedPerson, value);
         }
 
         #endregion
 
         #region PROPERTY IsActivityAdd
 
+        private bool isActivityAdd;
+
         public bool IsActivityAdd
         {
             get => isActivityAdd;
             set
             {
-                isActivityAdd = value;
-                OnPropertyChanged("IsActivityAdd");
+                SetProperty(ref isActivityAdd, value);
             }
         }
 
@@ -443,19 +448,21 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY CatList
 
-        public List<DictBase> CatActList
+        private List<DictBase>? catActList;
+
+        public List<DictBase>? CatActList
         {
-            get;
-            set;
+            get => catActList;
+            set => SetProperty(ref catActList, value);
         }
 
         #endregion
 
         #region PROPERTY CatAct
 
-        private DictBase catAct;
+        private DictBase? catAct;
 
-        public DictBase CatAct
+        public DictBase? CatAct
         {
             get => catAct;
             set
@@ -489,7 +496,7 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY ActTemp
 
-        public CreateWOActivityRequest ActTemp
+        public CreateWOActivityRequest? ActTemp
         {
             get;
             set;
@@ -533,6 +540,7 @@ namespace CMMMobileMaui.VM
         #region PROPERTY IsTaken
 
         private bool isTaken;
+
         public bool IsTaken
         {
             get => isTaken;
@@ -543,10 +551,21 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY IsCloseWOOpen
 
+        private bool isCloseWOOpen;
+
         public bool IsCloseWOOpen
         {
+            get => isCloseWOOpen;
+            set => SetProperty(ref isCloseWOOpen, value);
+        }
+
+        #endregion
+
+        #region COMMAND AddUserAsAssignedCommand
+
+        public ICommand AddUserAsAssignedCommand
+        {
             get;
-            set;
         }
 
         #endregion
@@ -614,14 +633,14 @@ namespace CMMMobileMaui.VM
 
         #endregion
 
-        #region COMMAND RefreshListCommand
+        //#region COMMAND RefreshListCommand
 
-        public ICommand RefreshListCommand
-        {
-            get;
-        }
+        //public ICommand RefreshListCommand
+        //{
+        //    get;
+        //}
 
-        #endregion
+        //#endregion
 
         #region COMMAND SaveItemCommand
 
@@ -732,14 +751,14 @@ namespace CMMMobileMaui.VM
 
         #endregion
 
-        #region COMMAND LongPressCommand
+        //#region COMMAND LongPressCommand
 
-        public ICommand LongPressCommand
-        {
-            get;
-        }
+        //public ICommand LongPressCommand
+        //{
+        //    get;
+        //}
 
-        #endregion
+        //#endregion
 
         #region COMMAND ShowWorkOrderCommand
 
@@ -778,6 +797,19 @@ namespace CMMMobileMaui.VM
             IsWorkOrderVisible = true;
             IsDeviceInfo = true;
 
+            AddUserAsAssignedCommand = new Command((obj) =>
+            {
+                if (CanClick())
+                {
+                    var personToAssign = PersonList?.FirstOrDefault(tt=> tt.PersonID == MainObjects.Instance.CurrentUser!.PersonID);
+
+                    if (personToAssign != null)
+                    {
+                        AssignedPerson = personToAssign;
+                    }
+                }
+            });
+
             ShowActivitiesCommand = new Command((obj) =>
             {
                 IsWorkOrderVisible = false;
@@ -807,9 +839,9 @@ namespace CMMMobileMaui.VM
                     {
                         var closeResponse = await this.workOrderBLL.Close(new UpdateWOCloseRequest()
                         {
-                            WorkOrderID = CurrentWO.WorkOrderID
+                            WorkOrderID = CurrentWO!.WorkOrderID
                             ,
-                            PersonID = MainObjects.Instance.CurrentUser.PersonID
+                            PersonID = MainObjects.Instance.CurrentUser!.PersonID
                             ,
                             CategoryID = WOCat.ID
                             ,
@@ -853,14 +885,14 @@ namespace CMMMobileMaui.VM
                 {
                     var deviceResponse = await this.deviceCMMBLL.Get(new API.Contracts.v1.Requests.Device.GetDeviceByIDLangRequest
                     {
-                        MachineID = CurrentWO.MachineID
+                        MachineID = CurrentWO!.MachineID
                         ,
                         Lang = MainObjects.Instance.Lang
                     });
 
-                    if (deviceResponse.IsValid)
+                    if (deviceResponse.IsResponseWithData(this))
                     {
-                        await OpenModalPage(new VIEW.DeviceView(deviceResponse.Data, false));
+                        await OpenModalPage(new VIEW.DeviceView(deviceResponse.Data!, false));
                     }
                 }
             });
@@ -880,10 +912,10 @@ namespace CMMMobileMaui.VM
                         {
                             CategoryID = org.WOACategoryID,
                             Description = string.IsNullOrEmpty(org._Description) ? "OK" : org._Description,
-                            PersonID = MainObjects.Instance.CurrentUser.PersonID,
+                            PersonID = MainObjects.Instance.CurrentUser!.PersonID,
                             PlanTaskActivityID = org.PlanTaskActivityID,
                             WorkLoad = org._WorkLoad.Value,
-                            WorkOrderID = CurrentWO.WorkOrderID
+                            WorkOrderID = CurrentWO!.WorkOrderID
                         });
 
                         if (createResponse.IsValid)
@@ -895,9 +927,9 @@ namespace CMMMobileMaui.VM
                                 Lang = MainObjects.Instance.Lang
                             });
 
-                            if (plansResponse.IsValid)
+                            if (plansResponse.IsResponseWithData(this))
                             {
-                                SetMainWOPlansList(plansResponse.Data);
+                                SetMainWOPlansList(plansResponse.Data!);
                             }
                         }
                     }
@@ -916,6 +948,8 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
+                    if (CurrentWO is null)
+                        return;
 
                     if (CurrentWO.WorkOrderID == 0)
                     {
@@ -925,11 +959,9 @@ namespace CMMMobileMaui.VM
                     {
                         IsEdit = false;
                         SetToobarView();
-                        OnPropertyChanged("IsEdit");
                     }
 
                     eventWeakManager.RaiseEvent(this, false, nameof(OnWOViewChange));
-                    // OnWOViewChange?.Invoke(this, false);
                 }
             });
 
@@ -943,9 +975,6 @@ namespace CMMMobileMaui.VM
                     {
                         await SetEditDictList(true);
                     }
-
-
-                    OnPropertyChanged("IsEdit");
                 }
             });
 
@@ -977,9 +1006,7 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
-                    //  await OpenModalPage(new VIEW.PictureListView(new COMMON.PictureOperation.DBWOPictureOperation(new MODEL.WOPicModel(CurrentWO, false), CurrentWO)));
-
-                    await OpenModalPage(new VIEW.WorkOrderPartMainView(this.CurrentWO.WorkOrderID));
+                    await OpenModalPage(new VIEW.WorkOrderPartMainView(this.CurrentWO!.WorkOrderID));
                 }
             });
 
@@ -987,7 +1014,7 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
-                    await OpenModalPage(new VIEW.PictureListView(new COMMON.PictureOperation.DBWOPictureOperation(new MODEL.WOPicModel(CurrentWO), CurrentWO)));
+                    await OpenModalPage(new VIEW.PictureListView(new COMMON.PictureOperation.DBWOPictureOperation(new MODEL.WOPicModel(CurrentWO!), CurrentWO!)));
                 }
             });
 
@@ -1001,14 +1028,14 @@ namespace CMMMobileMaui.VM
                     {
                         if (IsPlanList)
                         {
-                            if (WOPlanList.Count(tt => !tt.WorkOrderActivityID.HasValue) != 0)
+                            if (WOPlanList?.Count(tt => !tt.WorkOrderActivityID.HasValue) != 0)
                             {
                                 await CUST.CustomMessageDialog.Show(CUST.CustomMessageType.Error, CONV.TranslateExtension.GetResourceText("wo_err_close"));
                                 return;
                             }
                         }
 
-                        if (CurrentWO.WO_Category.ToLower().Equals(CONV.TranslateExtension.GetResourceText("wo_default").ToLower())
+                        if (CurrentWO!.WO_Category.ToLower().Equals(CONV.TranslateExtension.GetResourceText("wo_default").ToLower())
                             || CurrentWO.WO_Reason.ToLower().Equals(CONV.TranslateExtension.GetResourceText("wo_default").ToLower())
                             || CurrentWO.WO_State.ToLower().Equals(CONV.TranslateExtension.GetResourceText("wo_default").ToLower()))
                         {
@@ -1021,7 +1048,7 @@ namespace CMMMobileMaui.VM
                             });
 
 
-                            if (deviceResponse.IsValid)
+                            if (deviceResponse.IsResponseWithData(this))
                             {
                                 MainObjects.Instance.CurrentDevice = deviceResponse.Data;
 
@@ -1048,14 +1075,14 @@ namespace CMMMobileMaui.VM
                             {
                                 WorkOrderID = CurrentWO.WorkOrderID
                                 ,
-                                PersonID = MainObjects.Instance.CurrentUser.PersonID
+                                PersonID = MainObjects.Instance.CurrentUser!.PersonID
                                 ,
                                 CategoryID = CurrentWO.CategoryID
                                 ,
                                 ReasonID = CurrentWO.ReasonID
                             }); ;
 
-                            if (takeResponse.IsValid)
+                            if (takeResponse.IsResponseWithData(this))
                             {
                                 SConsts.GetGlobalAction(SConsts.DEV_WO_ADD)?.Invoke();
 
@@ -1107,12 +1134,12 @@ namespace CMMMobileMaui.VM
                         {
                             ActivityID = actPer.ActivityID
                             ,
-                            PersonID = MainObjects.Instance.CurrentUser.PersonID
+                            PersonID = MainObjects.Instance.CurrentUser!.PersonID
                             ,
                             Work_Load = actPer._WorkLoad
                         });
 
-                        if (createResponse.IsValid)
+                        if (createResponse.IsResponseWithData(this))
                         {
                             SetMainData();
                         }
@@ -1127,7 +1154,7 @@ namespace CMMMobileMaui.VM
                     if (obj != null)
                     {
                         ((GetWOActsResponse)obj)._IsAddPerson = false;
-                        OnPropertyChanged("ActsList");
+                        OnPropertyChanged(nameof(ActsList));
                     }
                 }
             });
@@ -1136,6 +1163,9 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
+                    if (ActTemp is null)
+                        return;
+
                     if (CatAct != null
                     && !string.IsNullOrEmpty(ActTemp.Description)
                     && ActTemp.WorkLoad >= 0)
@@ -1152,16 +1182,16 @@ namespace CMMMobileMaui.VM
                             ,
                             Description = ActTemp.Description
                             ,
-                            PersonID = MainObjects.Instance.CurrentUser.PersonID
+                            PersonID = MainObjects.Instance.CurrentUser!.PersonID
                             ,
                             WorkLoad = ActTemp.WorkLoad
                             ,
-                            WorkOrderID = CurrentWO.WorkOrderID
+                            WorkOrderID = CurrentWO!.WorkOrderID
                             ,
                             DepartmentID = Dep == null ? null : (int?)Dep.ID
                         });
 
-                        if (createResponse.IsValid)
+                        if (createResponse.IsResponseWithData(this))
                         {
                             ActTemp = null;
                             CatAct = null;
@@ -1175,9 +1205,9 @@ namespace CMMMobileMaui.VM
                                 Lang = MainObjects.Instance.Lang
                             });
 
-                            if (woResponse.IsValid)
+                            if (woResponse.IsResponseWithData(this))
                             {
-                                CurrentWO = woResponse.Data.FirstOrDefault();
+                                CurrentWO = woResponse.Data!.FirstOrDefault();
                             }
 
                             IsActivityAdd = false;
@@ -1207,7 +1237,7 @@ namespace CMMMobileMaui.VM
                         {
                             WorkOrderID = CurrentWO.WorkOrderID
                             ,
-                            PersonID = MainObjects.Instance.CurrentUser.PersonID
+                            PersonID = MainObjects.Instance.CurrentUser!.PersonID
                         });
 
                         if (takeResponse.IsValid)
@@ -1220,9 +1250,9 @@ namespace CMMMobileMaui.VM
                                 Lang = MainObjects.Instance.Lang
                             });
 
-                            if (woResponse.IsValid)
+                            if (woResponse.IsResponseWithData(this))
                             {
-                                CurrentWO = woResponse.Data.FirstOrDefault();
+                                CurrentWO = woResponse.Data!.FirstOrDefault();
                             }
 
                             SetMainData();
@@ -1240,8 +1270,8 @@ namespace CMMMobileMaui.VM
         {
             var takeDate = await workOrderBLL.GetWOPersonTake(new GetWOPersonTakeRequest
             {
-                PersonID = MainObjects.Instance.CurrentUser.PersonID,
-                WorkOrderID = CurrentWO.WorkOrderID
+                PersonID = MainObjects.Instance.CurrentUser!.PersonID,
+                WorkOrderID = CurrentWO!.WorkOrderID
             });
 
             if (takeDate != null && takeDate.IsValid)
@@ -1282,10 +1312,14 @@ namespace CMMMobileMaui.VM
             //        .ToList();
             //}
 
+            if (CatActList == null)
+            {
 
-            CatActList = DictionaryResources.Instance.ActCategoryList
-                .Cast<DictBase>()
-                .ToList();
+                var tempActList = DictionaryResources.Instance.GetWOActDictListFor(MainObjects.Instance.CurrentDevice!.CategoryID);
+
+                CatActList = tempActList.Cast<DictBase>().ToList();
+            }
+
 
             SetAddDictList();
         }
@@ -1296,7 +1330,7 @@ namespace CMMMobileMaui.VM
 
         private void SetToobarView()
         {
-            if (_currentWO.WorkOrderID != 0)
+            if (_currentWO!.WorkOrderID != 0)
             {
                 CanClose = false;
                 CanEdit = false;
@@ -1315,7 +1349,7 @@ namespace CMMMobileMaui.VM
 
                 if (_currentWO._TakePersonsList != null)
                 {
-                    if (!_currentWO._TakePersonsList.Contains(MainObjects.Instance.CurrentUser.PersonID))
+                    if (!_currentWO._TakePersonsList.Contains(MainObjects.Instance.CurrentUser!.PersonID))
                     {
                         if (!IsClose)
                         {
@@ -1340,7 +1374,7 @@ namespace CMMMobileMaui.VM
             {
                 PersonList = DictionaryResources.Instance.PersonList;
 
-                var woDictionary = DictionaryResources.Instance.WODictionaryForAdd.ForDevice(CurrentDevice);
+                var woDictionary = DictionaryResources.Instance.WODictionaryForAdd.ForDevice(CurrentDevice!);
 
                 WOStateList = woDictionary.WOStateList;
                 WOCatList = woDictionary.WOCategoryList;
@@ -1349,6 +1383,7 @@ namespace CMMMobileMaui.VM
                 DepList = woDictionary.WODepartmentList;
 
                 Location = MainObjects.Instance.CurrentDevice.Location;
+                
             }
         }
 
@@ -1364,7 +1399,7 @@ namespace CMMMobileMaui.VM
             {
                 PersonList = DictionaryResources.Instance.PersonList;
 
-                var woDictionary = DictionaryResources.Instance.WODictionaryForEdit.ForDevice(CurrentDevice);
+                var woDictionary = DictionaryResources.Instance.WODictionaryForEdit.ForDevice(CurrentDevice!);
 
                 WOStateList = woDictionary.WOStateList;
                 WOCatList = woDictionary.WOCategoryList;
@@ -1374,27 +1409,27 @@ namespace CMMMobileMaui.VM
 
                 var woResponse = await workOrderBLL.Get(new GetByWorkOrderIDRequest
                 {
-                    WorkOrderID = _currentWO.WorkOrderID
+                    WorkOrderID = _currentWO!.WorkOrderID
                 });
 
                 var deviceResponse = await deviceCMMBLL.Get(new API.Contracts.v1.Requests.Device.GetDeviceByIDLangRequest
                 {
-                    MachineID = CurrentWO.MachineID
+                    MachineID = CurrentWO!.MachineID
                     ,
                     Lang = MainObjects.Instance.Lang
                 });
 
-                if (deviceResponse.IsValid)
+                if (deviceResponse.IsResponseWithData(this))
                 {
-                    CurrentDevice = MainObjects.Instance.CurrentDevice = deviceResponse.Data;
+                    CurrentDevice = MainObjects.Instance.CurrentDevice = deviceResponse.Data!;
                 }
 
                 Location = MainObjects.Instance.CurrentDevice.Location;
 
 
-                if (woResponse.IsValid)
+                if (woResponse.IsResponseWithData(this))
                 {
-                    var TempWO = woResponse.Data;
+                    var TempWO = woResponse.Data!;
 
                     if (PersonList != null)
                     {
@@ -1462,7 +1497,7 @@ namespace CMMMobileMaui.VM
                 return;
             }
 
-            if (WOCatList.Count > 0)
+            if (WOCatList!.Count > 0)
             {
                 if (WOCat == null)
                 {
@@ -1486,7 +1521,7 @@ namespace CMMMobileMaui.VM
                 createWO.AssignedPersonID = null;
             }
 
-            if (CurrentDevice.LocationRequired.HasValue
+            if (CurrentDevice!.LocationRequired.HasValue
                 && CurrentDevice.LocationRequired.Value)
             {
                 if (string.IsNullOrEmpty(Location))
@@ -1495,11 +1530,11 @@ namespace CMMMobileMaui.VM
                 }
             }
 
-            createWO.Location = Location;
+            createWO.Location = Location ?? string.Empty;
 
             createWO.LevelID = WOLvl.ID;
 
-            if (WOReasList.Count > 0)
+            if (WOReasList!.Count > 0)
             {
                 if (WOReas == null)
                 {
@@ -1513,8 +1548,8 @@ namespace CMMMobileMaui.VM
             createWO.End_Date = EndDate;
             createWO.Description = Description;
 
-            createWO.PersonID = MainObjects.Instance.CurrentUser.PersonID;
-            createWO.MachineID = MainObjects.Instance.CurrentDevice.MachineID;
+            createWO.PersonID = MainObjects.Instance.CurrentUser!.PersonID;
+            createWO.MachineID = MainObjects.Instance.CurrentDevice!.MachineID;
 
             if (Dep != null)
             {
@@ -1523,11 +1558,11 @@ namespace CMMMobileMaui.VM
 
             var createRespone = await workOrderBLL.Create(createWO);
 
-            if (createRespone.IsValid)
+            if (createRespone.IsResponseWithData(this))
             {
                 var woResponse = await workOrderBLL.GetList(new GetWOsRequest()
                 {
-                    WorkOrderID = createRespone.Data.WorkOrderID
+                    WorkOrderID = createRespone.Data!.WorkOrderID
                     ,
                     DeviceID = createWO.MachineID
                     ,
@@ -1536,10 +1571,10 @@ namespace CMMMobileMaui.VM
                     Lang = MainObjects.Instance.Lang
                 });
 
-                if (woResponse.IsValid)
+                if (woResponse.IsResponseWithData(this))
                 {
                     IsEdit = false;
-                    CurrentWO = woResponse.Data.FirstOrDefault();
+                    CurrentWO = woResponse.Data!.FirstOrDefault();
 
                     if (!IsDeviceInfo)
                     {
@@ -1561,7 +1596,7 @@ namespace CMMMobileMaui.VM
         private async void SaveEditWO()
         {
             UpdateWORequest updateWO = new UpdateWORequest();
-            updateWO.WorkOrderID = CurrentWO.WorkOrderID;
+            updateWO.WorkOrderID = CurrentWO!.WorkOrderID;
 
             if (string.IsNullOrEmpty(Description))
             {
@@ -1591,8 +1626,8 @@ namespace CMMMobileMaui.VM
                 updateWO.ReasonID = CurrentWO.ReasonID;
             }
 
-            updateWO.PersonID = MainObjects.Instance.CurrentUser.PersonID;
-            updateWO.LevelID = WOLvl.ID;
+            updateWO.PersonID = MainObjects.Instance.CurrentUser!.PersonID;
+            updateWO.LevelID = WOLvl!.ID;
 
 
             if (AssignedPerson != null)
@@ -1613,11 +1648,11 @@ namespace CMMMobileMaui.VM
 
             updateWO.Start_Date = StartDate;
             updateWO.End_Date = EndDate;
-            updateWO.Location = Location;
+            updateWO.Location = Location ?? string.Empty;
 
             var updateResponse = await workOrderBLL.Update(updateWO);
 
-            if (updateResponse.IsValid)
+            if (updateResponse.IsResponseWithData(this))
             {
                 var woResponse = await workOrderBLL.GetList(new GetWOsRequest()
                 {
@@ -1626,11 +1661,11 @@ namespace CMMMobileMaui.VM
                     Lang = MainObjects.Instance.Lang
                 });
 
-                if (woResponse.IsValid)
+                if (woResponse.IsResponseWithData(this))
                 {
                     IsEdit = false;
 
-                    CurrentWO = woResponse.Data.FirstOrDefault();
+                    CurrentWO = woResponse.Data!.FirstOrDefault();
                     //  MessagingCenter.Send<string>(string.Empty, COMMON.SConsts.DEV_WO_ADD);
                     SConsts.GetGlobalAction(SConsts.DEV_WO_ADD)?.Invoke();
                     SConsts.GetGlobalAction(SConsts.SET_DEVICE)?.Invoke();
@@ -1673,24 +1708,23 @@ namespace CMMMobileMaui.VM
                 var deviceResponse = deviceTask.Result;
                 var actsResponse = actsTask.Result;
 
-                if (deviceResponse.IsValid)
+                if (deviceResponse.IsResponseWithData(this))
                 {
-                    CurrentDevice = MainObjects.Instance.CurrentDevice = deviceResponse.Data;
+                    CurrentDevice = MainObjects.Instance.CurrentDevice = deviceResponse.Data!;
+                }
+                else
+                {
+                    return;
                 }
 
-                Location = CurrentDevice.Location;
+                Location = CurrentDevice!.Location;
                 Description = CurrentWO.WO_Desc;
                 StartDate = CurrentWO.Start_Date;
                 EndDate = CurrentWO.End_Date;
 
-                if (actsResponse.IsValid)
+                if (actsResponse.IsResponseWithData(this))
                 {
-                    ActsList = new ObservableCollection<GetWOActsResponse>();
-
-                    foreach (var item in actsResponse.Data)
-                    {
-                        ActsList.Add(item);
-                    }
+                    ActsList = new ObservableCollection<GetWOActsResponse>(actsResponse.Data!);
                 }
 
                 if (CurrentWO.PlanID.HasValue)
@@ -1702,18 +1736,14 @@ namespace CMMMobileMaui.VM
                         Lang = MainObjects.Instance.Lang
                     });
 
-                    if (plansResponse.IsValid)
+                    if (plansResponse.IsResponseWithData(this))
                     {
                         IsPlanList = true;
-                        SetMainWOPlansList(plansResponse.Data.ToList());
+                        SetMainWOPlansList(plansResponse.Data!.ToList());
                     }
-
-                    OnPropertyChanged("IsPlanList");
                 }
 
                 SetToobarView();
-
-                OnPropertyChanged("ItemList");
             }
 
             IsBusy = false;
@@ -1780,7 +1810,7 @@ namespace CMMMobileMaui.VM
 
             if (IsEdit)
             {
-                WOUserScan userScan = new WOUserScan(PersonList);
+                WOUserScan userScan = new WOUserScan(PersonList!);
                 userScan.UIMethod = (obj) =>
                 {
                     if (obj is GetAllUsersResponse person)
@@ -1791,7 +1821,7 @@ namespace CMMMobileMaui.VM
 
                 scanTypes.Add(userScan);
 
-                WOItemScan wocScan = new WOItemScan("woc:", WOCatList);
+                WOItemScan wocScan = new WOItemScan("woc:", WOCatList!);
                 wocScan.UIMethod = (obj) =>
                 {
                     if (obj is DictBase woItem)
@@ -1802,7 +1832,7 @@ namespace CMMMobileMaui.VM
 
                 scanTypes.Add(wocScan);
 
-                WOItemScan wolScan = new WOItemScan("wol:", WOLvlList);
+                WOItemScan wolScan = new WOItemScan("wol:", WOLvlList!);
                 wolScan.UIMethod = (obj) =>
                 {
                     if (obj is DictBase woItem)
@@ -1813,7 +1843,7 @@ namespace CMMMobileMaui.VM
 
                 scanTypes.Add(wolScan);
 
-                WOItemScan wosScan = new WOItemScan("wos:", WOStateList);
+                WOItemScan wosScan = new WOItemScan("wos:", WOStateList!);
                 wosScan.UIMethod = (obj) =>
                 {
                     if (obj is DictBase woItem)
@@ -1824,7 +1854,7 @@ namespace CMMMobileMaui.VM
 
                 scanTypes.Add(wosScan);
 
-                WOItemScan worScan = new WOItemScan("wor:", WOReasList);
+                WOItemScan worScan = new WOItemScan("wor:", WOReasList!);
                 worScan.UIMethod = (obj) =>
                 {
                     if (obj is DictBase woItem)
@@ -1835,7 +1865,7 @@ namespace CMMMobileMaui.VM
 
                 scanTypes.Add(worScan);
 
-                WOItemScan wodScan = new WOItemScan("wod:", DepList);
+                WOItemScan wodScan = new WOItemScan("wod:", DepList!);
                 wodScan.UIMethod = (obj) =>
                 {
                     if (obj is DictBase woItem)
@@ -1850,7 +1880,7 @@ namespace CMMMobileMaui.VM
             {
                 if (IsActivityVisible && IsActivityAdd)
                 {
-                    WOItemScan woacScan = new WOItemScan("woac:", CatActList);
+                    WOItemScan woacScan = new WOItemScan("woac:", CatActList!);
                     woacScan.UIMethod = (obj) =>
                     {
                         if (obj is DictBase woItem)
@@ -1863,7 +1893,7 @@ namespace CMMMobileMaui.VM
                 }
                 else if (IsCloseWOOpen)
                 {
-                    WOItemScan wocScan = new WOItemScan("woc:", WOCatList);
+                    WOItemScan wocScan = new WOItemScan("woc:", WOCatList!);
                     wocScan.UIMethod = (obj) =>
                     {
                         if (obj is DictBase woItem)
@@ -1874,7 +1904,7 @@ namespace CMMMobileMaui.VM
 
                     scanTypes.Add(wocScan);
 
-                    WOItemScan worScan = new WOItemScan("wor:", WOReasList);
+                    WOItemScan worScan = new WOItemScan("wor:", WOReasList!);
                     worScan.UIMethod = (obj) =>
                     {
                         if (obj is DictBase woItem)

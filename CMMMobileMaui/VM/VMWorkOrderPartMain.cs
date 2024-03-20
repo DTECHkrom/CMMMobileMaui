@@ -477,7 +477,6 @@ namespace CMMMobileMaui.VM
             && WarehouseList.Count == 1)
             {
                 CurrentWar = WarehouseList.FirstOrDefault();
-                OnPropertyChanged("CurrentWar");
             }
         }
 

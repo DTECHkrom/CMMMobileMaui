@@ -98,15 +98,22 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <cust:CustomListPicker
-                        Title="{cv:Translate wo_assigned,
-                                             IsUpper=True}"
-                        Grid.Row="0"
-                        DisplayPath="Name"
-                        HeightRequest="40"
-                        IsEnabled="{Binding Path=IsCanAssignPerson}"
-                        ItemsSource="{Binding Path=PersonList}"
-                        SelectedItem="{Binding Path=AssignedPerson, Mode=TwoWay}" />
+                    <Grid Grid.Row="0" ColumnDefinitions="*, 32">
+                        <cust:CustomListPicker
+                            Title="{cv:Translate wo_assigned,
+                                                 IsUpper=True}"
+                            DisplayPath="Name"
+                            HeightRequest="40"
+                            IsEnabled="{Binding Path=IsCanAssignPerson}"
+                            ItemsSource="{Binding Path=PersonList}"
+                            SelectedItem="{Binding Path=AssignedPerson, Mode=TwoWay}" />
+
+                        <cust:LabelIconButton
+                            Grid.Column="1"
+                            Command="{Binding Path=AddUserAsAssignedCommand}"
+                            Text="account_circle" />
+
+                    </Grid>
 
                     <cust:CustomListPicker
                         Title="{cv:Translate wo_category,
@@ -114,27 +121,9 @@
                         Grid.Row="1"
                         DisplayPath="Name"
                         HeightRequest="40"
+                        HideWhenEmptySource="True"
                         ItemsSource="{Binding Path=WOCatList}"
-                        SelectedItem="{Binding Path=WOCat, Mode=TwoWay}">
-                        <cust:CustomListPicker.Style>
-                            <Style TargetType="cust:CustomListPicker">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="cust:CustomListPicker">
-                                        <DataTrigger.Binding>
-                                            <Binding Path="WOCatList.Count" />
-                                        </DataTrigger.Binding>
-                                        <DataTrigger.Value>
-                                            <sys:Int32>0</sys:Int32>
-                                        </DataTrigger.Value>
-                                        <DataTrigger.Setters>
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </cust:CustomListPicker.Style>
-                    </cust:CustomListPicker>
+                        SelectedItem="{Binding Path=WOCat, Mode=TwoWay}" />
 
                     <cust:CustomListPicker
                         Title="{cv:Translate wo_state,
@@ -142,28 +131,10 @@
                         Grid.Row="2"
                         DisplayPath="Name"
                         HeightRequest="40"
+                        HideWhenEmptySource="True"
                         IsRequired="True"
                         ItemsSource="{Binding Path=WOStateList}"
-                        SelectedItem="{Binding Path=WOState, Mode=TwoWay}">
-                        <cust:CustomListPicker.Style>
-                            <Style TargetType="cust:CustomListPicker">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="cust:CustomListPicker">
-                                        <DataTrigger.Binding>
-                                            <Binding Path="WOStateList.Count" />
-                                        </DataTrigger.Binding>
-                                        <DataTrigger.Value>
-                                            <sys:Int32>0</sys:Int32>
-                                        </DataTrigger.Value>
-                                        <DataTrigger.Setters>
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </cust:CustomListPicker.Style>
-                    </cust:CustomListPicker>
+                        SelectedItem="{Binding Path=WOState, Mode=TwoWay}" />
 
                     <cust:CustomListPicker
                         Title="{cv:Translate wo_level,
@@ -171,28 +142,10 @@
                         Grid.Row="3"
                         DisplayPath="Name"
                         HeightRequest="40"
+                        HideWhenEmptySource="True"
                         IsRequired="True"
                         ItemsSource="{Binding Path=WOLvlList}"
-                        SelectedItem="{Binding Path=WOLvl, Mode=TwoWay}">
-                        <cust:CustomListPicker.Style>
-                            <Style TargetType="cust:CustomListPicker">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="cust:CustomListPicker">
-                                        <DataTrigger.Binding>
-                                            <Binding Path="WOLvlList.Count" />
-                                        </DataTrigger.Binding>
-                                        <DataTrigger.Value>
-                                            <sys:Int32>0</sys:Int32>
-                                        </DataTrigger.Value>
-                                        <DataTrigger.Setters>
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </cust:CustomListPicker.Style>
-                    </cust:CustomListPicker>
+                        SelectedItem="{Binding Path=WOLvl, Mode=TwoWay}" />
 
                     <cust:CustomListPicker
                         Title="{cv:Translate wo_reason,
@@ -200,27 +153,9 @@
                         Grid.Row="4"
                         DisplayPath="Name"
                         HeightRequest="40"
+                        HideWhenEmptySource="True"
                         ItemsSource="{Binding Path=WOReasList}"
-                        SelectedItem="{Binding Path=WOReas, Mode=TwoWay}">
-                        <cust:CustomListPicker.Style>
-                            <Style TargetType="cust:CustomListPicker">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="cust:CustomListPicker">
-                                        <DataTrigger.Binding>
-                                            <Binding Path="WOReasList.Count" />
-                                        </DataTrigger.Binding>
-                                        <DataTrigger.Value>
-                                            <sys:Int32>0</sys:Int32>
-                                        </DataTrigger.Value>
-                                        <DataTrigger.Setters>
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </cust:CustomListPicker.Style>
-                    </cust:CustomListPicker>
+                        SelectedItem="{Binding Path=WOReas, Mode=TwoWay}" />
 
                     <cust:CustomListPicker
                         Title="{cv:Translate wo_dep,
@@ -228,27 +163,9 @@
                         Grid.Row="5"
                         DisplayPath="Name"
                         HeightRequest="40"
+                        HideWhenEmptySource="True"
                         ItemsSource="{Binding Path=DepList}"
-                        SelectedItem="{Binding Path=Dep, Mode=TwoWay}">
-                        <cust:CustomListPicker.Style>
-                            <Style TargetType="cust:CustomListPicker">
-                                <Setter Property="IsVisible" Value="True" />
-                                <Style.Triggers>
-                                    <DataTrigger TargetType="cust:CustomListPicker">
-                                        <DataTrigger.Binding>
-                                            <Binding Path="DepList.Count" />
-                                        </DataTrigger.Binding>
-                                        <DataTrigger.Value>
-                                            <sys:Int32>0</sys:Int32>
-                                        </DataTrigger.Value>
-                                        <DataTrigger.Setters>
-                                            <Setter Property="IsVisible" Value="False" />
-                                        </DataTrigger.Setters>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </cust:CustomListPicker.Style>
-                    </cust:CustomListPicker>
+                        SelectedItem="{Binding Path=Dep, Mode=TwoWay}" />
 
                     <cust:CustomFrameEntry
                         Title="{cv:Translate wo_location,

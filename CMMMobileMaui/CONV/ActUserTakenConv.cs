@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui;
+﻿using System.Globalization;
 
 namespace CMMMobileMaui.CONV
 {
@@ -11,16 +6,11 @@ namespace CMMMobileMaui.CONV
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is List<short>)
+            if (value is List<short> list)
             {
-                var list = value as List<short>;
-
-                if (API.MainObjects.Instance.CurrentUser != null)
+                if (list.Contains(API.MainObjects.Instance.CurrentUser!.PersonID))
                 {
-                    if (list.Contains(API.MainObjects.Instance.CurrentUser.PersonID))
-                    {
-                        return Colors.Green;
-                    }
+                    return Colors.Green;
                 }
             }
 

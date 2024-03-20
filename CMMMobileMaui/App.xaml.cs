@@ -12,7 +12,7 @@ namespace CMMMobileMaui
         private static App instance;
         public static bool isHost = false;
         private static bool isLogin = false;
-        public static string Version = "2.0.0.1"; //była juz 1.0.0.9
+        public static string Version = "2.0.0.2"; //była juz 1.0.0.9
       //  private static COMMON.IScannerService Scanner;
         public static COMPANY.Company CompanyData;
         public static event EventHandler<string> OnStartMessage;
@@ -113,8 +113,10 @@ namespace CMMMobileMaui
 
                 //  COMMON.Settings.WebAPI = "10.16.155.19:1234";
                 //    COMMON.Settings.WebAPI = "10.1.41.22:1234";
-               //  COMMON.Settings.WebAPI = "10.1.41.22:4444";
-                COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
+                // COMMON.Settings.WebAPI = "10.1.41.22:4444";
+               //  COMMON.Settings.WebAPI = "10.1.40.128:1122";
+
+                 COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
                 //   COMMON.Settings.WebAPI = "10.1.40.128:9999"; //CYMMES_AC ON 10.1.40.34
 
                 //    apiManage.IsSSL = true;
@@ -135,7 +137,7 @@ namespace CMMMobileMaui
             //await SetInitData();
         }
 
-        private void Instance_OnSuccess1(object sender, EventArgs e)
+        private void Instance_OnSuccess1(object? sender, EventArgs e)
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
@@ -146,15 +148,18 @@ namespace CMMMobileMaui
             });
         }
 
-        private void Instance_OnError1(object sender, EventArgs e)
+        private void Instance_OnError1(object? sender, EventArgs e)
         {
-            MainThread.BeginInvokeOnMainThread(async () =>
+            if (sender is string str && !string.IsNullOrEmpty(str))
             {
-                if (Current?.MainPage != null)
+                MainThread.BeginInvokeOnMainThread(async () =>
                 {
-                    await CUST.CustomMessageDialog.Show(CUST.CustomMessageType.Error, sender.ToString());
-                }
-            });
+                    if (Current?.MainPage != null)
+                    {
+                        await CUST.CustomMessageDialog.Show(CUST.CustomMessageType.Error, str);
+                    }
+                });
+            }
         }
     }
 }

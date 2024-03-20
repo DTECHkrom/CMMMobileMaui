@@ -473,70 +473,36 @@
                     <Grid
                         Grid.Row="0"
                         ColumnDefinitions="*, *"
-                        HeightRequest="50"
                         IsVisible="{Binding Path=IsActivityAdd, Converter={xct:InvertedBoolConverter}}">
 
                         <cust:SKIAImageTextButton
                             ButtonCommand="{Binding Path=AddItemCommand}"
                             ImageSource="add"
+                            IsButtonEnable="{Binding Path=IsCanAddAct}"
+                            Style="{StaticResource skiaBtnStyle}"
                             Text="{cv:Translate wo_act_new,
-                                                IsUpper=True}">
-                            <cust:SKIAImageTextButton.Style>
-                                <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
-                                    <Setter Property="IsButtonEnable" Value="True" />
-                                    <Style.Triggers>
-                                        <DataTrigger TargetType="cust:SKIAImageTextButton">
-                                            <DataTrigger.Binding>
-                                                <Binding Path="IsCanAddAct" />
-                                            </DataTrigger.Binding>
-                                            <DataTrigger.Value>
-                                                <sys:Boolean>False</sys:Boolean>
-                                            </DataTrigger.Value>
-                                            <DataTrigger.Setters>
-                                                <Setter Property="IsButtonEnable" Value="False" />
-                                            </DataTrigger.Setters>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </cust:SKIAImageTextButton.Style>
-                        </cust:SKIAImageTextButton>
+                                                IsUpper=True}" />
 
                         <cust:SKIAImageTextButton
                             Grid.Column="1"
                             ButtonCommand="{Binding Path=ShowListCommand}"
                             ImageSource="schedule"
+                            IsVisible="{Binding Path=IsPlanList}"
+                            Style="{StaticResource skiaBtnStyle}"
                             Text="{cv:Translate wo_act_plan,
-                                                IsUpper=True}">
-                            <cust:SKIAImageTextButton.Style>
-                                <Style BasedOn="{StaticResource skiaBtnStyle}" TargetType="cust:SKIAImageTextButton">
-                                    <Setter Property="IsVisible" Value="false" />
-                                    <Style.Triggers>
-                                        <DataTrigger TargetType="cust:SKIAImageTextButton">
-                                            <DataTrigger.Binding>
-                                                <Binding Path="IsPlanList" />
-                                            </DataTrigger.Binding>
-                                            <DataTrigger.Value>
-                                                <sys:Boolean>True</sys:Boolean>
-                                            </DataTrigger.Value>
-                                            <DataTrigger.Setters>
-                                                <Setter Property="IsVisible" Value="True" />
-                                            </DataTrigger.Setters>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </cust:SKIAImageTextButton.Style>
-                        </cust:SKIAImageTextButton>
+                                                IsUpper=True}" />
                     </Grid>
 
                     <Grid
                         Grid.Row="1"
-                        Margin="5,5,5,5"
+                        Margin="2"
+                        BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_2}}"
                         IsVisible="{Binding Path=IsActivityAdd}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
-                            <RowDefinition Height="40" />
                             <RowDefinition Height="auto" />
-                            <RowDefinition Height="40" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -549,7 +515,9 @@
                                                  IsUpper=True}"
                             Grid.Row="0"
                             Grid.ColumnSpan="2"
-                            Style="{StaticResource cghStyle}" />
+                            BorderColor="{Binding Source={x:Static com:SConsts.COLOR_5}}"
+                            Style="{StaticResource cghStyle}"
+                            TextColor="{Binding Source={x:Static com:SConsts.COLOR_5}}" />
 
                         <cust:CustomListPicker
                             Title="{cv:Translate wo_category,
@@ -588,6 +556,7 @@
                             Grid.ColumnSpan="2"
                             Margin="4,0,4,2"
                             FontSize="12"
+                            HeightRequest="80"
                             HorizontalOptions="FillAndExpand"
                             IsRequired="True"
                             Text="{Binding Path=ActTemp.Description, Mode=TwoWay}"
@@ -598,18 +567,26 @@
                             Grid.RowSpan="3"
                             Grid.Column="1">
 
-                            <cust:LabelIconButton Command="{Binding Path=SaveActivityCommand}" Text="save" />
+                            <cust:LabelIconButton
+                                Command="{Binding Path=SaveActivityCommand}"
+                                FontSize="40"
+                                Text="save"
+                                TextColor="{Binding Source={x:Static com:SConsts.COLOR_5}}" />
 
-                            <cust:LabelIconButton Command="{Binding Path=CancelActivityCommand}" Text="cancel" />
+                            <cust:LabelIconButton
+                                Command="{Binding Path=CancelActivityCommand}"
+                                FontSize="40"
+                                Text="cancel"
+                                TextColor="{Binding Source={x:Static com:SConsts.COLOR_5}}" />
 
                         </StackLayout>
 
-                        <BoxView
+                        <!--<BoxView
                             Grid.Row="0"
                             Grid.RowSpan="5"
                             Grid.Column="0"
                             Margin="0,10,0,0"
-                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
                             HorizontalOptions="Start"
                             WidthRequest="2" />
 
@@ -618,7 +595,7 @@
                             Grid.RowSpan="5"
                             Grid.Column="1"
                             Margin="0,10,0,0"
-                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
                             HorizontalOptions="End"
                             WidthRequest="2" />
 
@@ -626,9 +603,9 @@
                             Grid.Row="4"
                             Grid.ColumnSpan="2"
                             Margin="0,0,0,-2"
-                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                            BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_4}}"
                             HeightRequest="2"
-                            VerticalOptions="End" />
+                            VerticalOptions="End" />-->
                     </Grid>
                 </Grid>
 
@@ -668,6 +645,7 @@
                                         FontAttributes="Bold"
                                         HorizontalTextAlignment="Center"
                                         Text="{Binding Path=Act_Category}"
+                                        TextColor="White"
                                         TextTransform="Uppercase"
                                         VerticalTextAlignment="Center" />
 
@@ -688,37 +666,33 @@
                                             Margin="10,0,6,0"
                                             FontSize="16"
                                             Style="{StaticResource lblImage}"
-                                            Text="people" />
+                                            Text="people"
+                                            TextColor="{Binding Path=_ActPersonList, Converter={StaticResource cvUserTaken}}" />
 
                                         <Label Text="{Binding Path=Workers, StringFormat='{0}'}" VerticalTextAlignment="Center" />
 
-                                        <Image
+                                        <cust:LabelIconButton
+                                            Command="{Binding Path=BindingContext.AddPersonCommand, Source={x:Reference mainPage}}"
+                                            CommandParameter="{Binding .}"
                                             HeightRequest="32"
                                             HorizontalOptions="EndAndExpand"
-                                            Source="person_add"
+                                            Text="person_add"
                                             VerticalOptions="Center"
                                             WidthRequest="32">
-                                            <Image.Behaviors>
-                                                <xct:AnimationBehavior Command="{Binding Path=BindingContext.AddPersonCommand, Source={x:Reference mainPage}}" CommandParameter="{Binding .}">
-                                                    <xct:AnimationBehavior.AnimationType>
-                                                        <xct:FadeAnimation />
-                                                    </xct:AnimationBehavior.AnimationType>
-                                                </xct:AnimationBehavior>
-                                            </Image.Behaviors>
-                                            <Image.Style>
-                                                <Style TargetType="Image">
+                                            <cust:LabelIconButton.Style>
+                                                <Style TargetType="cust:LabelIconButton">
                                                     <Setter Property="IsVisible" Value="false" />
                                                     <Style.Triggers>
                                                         <DataTrigger
                                                             Binding="{Binding Path=_ActPersonList, Converter={StaticResource cvUserTaken}}"
-                                                            TargetType="Image"
+                                                            TargetType="cust:LabelIconButton"
                                                             Value="Black">
                                                             <Setter Property="IsVisible" Value="true" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
-                                            </Image.Style>
-                                        </Image>
+                                            </cust:LabelIconButton.Style>
+                                        </cust:LabelIconButton>
                                     </StackLayout>
 
                                     <StackLayout Grid.Row="2" Orientation="Horizontal">

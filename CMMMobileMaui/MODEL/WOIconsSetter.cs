@@ -25,7 +25,10 @@ namespace CMMMobileMaui.MODEL
                     woIcons.Add(new DisplayImage("pan_tool", Colors.DarkGreen));
                 }
 
-                woIcons.Add(new DisplayImage("how_to_reg", Colors.DarkGreen));              
+                if (IsOtherUserTakeWO())
+                {
+                    woIcons.Add(new DisplayImage("how_to_reg", Colors.DarkGreen));
+                }
             }
             
             if (woItem.Part_Count > 0)
@@ -50,6 +53,9 @@ namespace CMMMobileMaui.MODEL
 
             return woIcons;
         }
+
+        private bool IsOtherUserTakeWO() =>
+            woItem._TakePersonsList.Any(x => x != API.MainObjects.Instance.CurrentUser!.PersonID);
 
         #endregion
 

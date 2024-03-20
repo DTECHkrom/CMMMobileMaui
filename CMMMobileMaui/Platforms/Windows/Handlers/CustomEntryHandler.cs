@@ -12,6 +12,7 @@ namespace CMMMobileMaui.Handlers
         protected override void DisconnectHandler(TextBox nativeView)
         {
             base.DisconnectHandler(nativeView);
+            nativeView.Tapped -= NativeView_Tapped;
         }
 
         protected override void ConnectHandler(TextBox nativeView)
@@ -21,6 +22,12 @@ namespace CMMMobileMaui.Handlers
             nativeView.Background = null;
             nativeView.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
             nativeView.BorderThickness = new Microsoft.UI.Xaml.Thickness(0);
+            nativeView.Tapped += NativeView_Tapped;
+        }
+
+        private void NativeView_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Console.WriteLine("tabbped");
         }
 
         public static void MapTextProperty(CustomEntryHandler handler, CustomEntry view)

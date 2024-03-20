@@ -80,7 +80,7 @@ namespace CMMMobileMaui.CUST
 
         #endregion
 
-        #region BINDABLEPROPERTY 
+        #region BINDABLEPROPERTY TextProperty
 
         public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(CustomListPicker), propertyChanged: OnTextChanged);
 
@@ -118,7 +118,6 @@ namespace CMMMobileMaui.CUST
             , defaultBindingMode : BindingMode.OneWay
             , propertyChanged: OnItemsSourceChanged);
 
-        private static bool wasInit = false;
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var custom = bindable as CustomListPicker;
@@ -130,11 +129,11 @@ namespace CMMMobileMaui.CUST
 
             if (items != null)
             {
-                if (!wasInit)
+                if (custom.orgList is null)
                 {
                     custom.orgList = items;
                     custom.ListItemsSource = items;
-                    wasInit = true;
+                    custom.ShowHideControls();
                 }
             }
             else
@@ -185,7 +184,7 @@ namespace CMMMobileMaui.CUST
 
         #endregion
 
-        #region PROPERTY IsControlEnabledProperty
+        #region BINDABLEPROPERTY IsControlEnabledProperty
 
         public static readonly BindableProperty IsControlEnabledProperty = BindableProperty.Create(nameof(IsControlEnabled)
             , typeof(bool)
@@ -212,6 +211,37 @@ namespace CMMMobileMaui.CUST
             set
             {
                 SetValue(IsControlEnabledProperty, value);
+            }
+        }
+
+        #endregion
+
+        #region BINDABLEPROPERTY HideWhenEmptySourceProperty
+
+        public static readonly BindableProperty HideWhenEmptySourceProperty = BindableProperty.Create(nameof(HideWhenEmptySource)
+            , typeof(bool)
+            , typeof(CustomListPicker)
+            , defaultValue: true
+            , BindingMode.TwoWay
+            , propertyChanged:
+            (control, oldValue, newValue) =>
+            {
+                if (control is CustomListPicker con)
+                {
+                    con.ShowHideControls();
+                }
+            });
+
+        public bool HideWhenEmptySource
+        {
+            get
+            {
+                return (bool)GetValue(HideWhenEmptySourceProperty);
+            }
+
+            set
+            {
+                SetValue(HideWhenEmptySourceProperty, value);
             }
         }
 
@@ -597,6 +627,21 @@ namespace CMMMobileMaui.CUST
         }
 
         #endregion
+
+        private void ShowHideControls()
+        {
+            if(HideWhenEmptySource)
+            {
+                if (ItemsSource is null || !ItemsSource.Any())
+                {
+                    IsVisible = false;
+                }
+                else
+                {
+                    IsVisible = true;
+                }
+            }
+        }
 
         #region METHOD SetBorderColor
 

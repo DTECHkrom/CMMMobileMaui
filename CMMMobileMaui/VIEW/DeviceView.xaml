@@ -324,6 +324,21 @@
                         Text="{cv:Translate dev_doc,
                                             IsUpper=True}" />
 
+                    <telerik:RadBusyIndicator
+                        x:Name="busyIndicator"
+                        Grid.RowSpan="6"
+                        Grid.ColumnSpan="2"
+                        AnimationContentColor="{Binding Source={x:Static com:SConsts.COLOR_1}}"
+                        AnimationContentHeightRequest="50"
+                        AnimationContentWidthRequest="50"
+                        AnimationType="Animation1"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                        IsVisible="{Binding Path=IsBusy, Mode=TwoWay}"
+                        VerticalOptions="Center"
+                        WidthRequest="50" />
+
                 </Grid>
 
                 <Grid Margin="1" VerticalOptions="FillAndExpand">

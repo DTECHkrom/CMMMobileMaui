@@ -6,7 +6,7 @@ namespace CMMMobileMaui.COMMON
     {
         #region PROPERTY WOCat
 
-        DictBase WOCat
+        DictBase? WOCat
         {
             get;
             set;
@@ -16,7 +16,7 @@ namespace CMMMobileMaui.COMMON
 
         #region PROPERTY WOReas
 
-        DictBase WOReas
+        DictBase? WOReas
         {
             get;
             set;

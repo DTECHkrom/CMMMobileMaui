@@ -56,6 +56,15 @@
                     TextColor="Black"
                     VerticalOptions="Center"
                     VerticalTextAlignment="Center" />
+
+                <Grid.Behaviors>
+                    <xct:AnimationBehavior Command="{Binding Path=ShowItemCommand}" CommandParameter="{Binding .}">
+                        <xct:AnimationBehavior.AnimationType>
+                            <xct:FadeAnimation />
+                        </xct:AnimationBehavior.AnimationType>
+                    </xct:AnimationBehavior>
+                </Grid.Behaviors>
+
             </Grid>
 
             <telerikPrimitives:RadBusyIndicator
@@ -72,7 +81,7 @@
                 VerticalOptions="Center"
                 WidthRequest="30" />
 
-            <Image
+            <!--<Image
                 Grid.Column="1"
                 Margin="2"
                 FlexLayout.AlignSelf="Center"
@@ -87,7 +96,7 @@
                         </xct:AnimationBehavior.AnimationType>
                     </xct:AnimationBehavior>
                 </Image.Behaviors>
-            </Image>
+            </Image>-->
         </Grid>
     </ViewCell.View>
 </ViewCell>

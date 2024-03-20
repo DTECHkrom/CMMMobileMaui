@@ -515,17 +515,38 @@ namespace CMMMobileMaui.VM
                 {
                     Lang = MainObjects.Instance.Lang,
                     MachineID = CurrentDevice.MachineID,
-                });
+                });               
 
-                var imageTask = deviceController.GetImage(new API.Contracts.v1.Requests.Device.GetByDeviceIDRequest
+                if(deviceImg == null)
                 {
-                    DeviceID = CurrentDevice.MachineID
-                });
+                    var imageTask = deviceController.GetImage(new API.Contracts.v1.Requests.Device.GetByDeviceIDRequest
+                    {
+                        DeviceID = CurrentDevice.MachineID
+                    });
 
-                await Task.WhenAll(stateTask, imageTask);
+                    await Task.WhenAll(stateTask, imageTask);
+
+                    var imageResult = imageTask.Result;
+
+                    if (imageResult.IsResponseWithData())
+                    {
+                        DeviceImg = imageTask.Result.Data!;
+                    }
+                }
+                else
+                {
+                    await stateTask;
+                }
+
+                //var imageTask = deviceController.GetImage(new API.Contracts.v1.Requests.Device.GetByDeviceIDRequest
+                //{
+                //    DeviceID = CurrentDevice.MachineID
+                //});
+
+                //await Task.WhenAll(stateTask, imageTask);
 
                 var stateResult = stateTask.Result;
-                var imageResult = imageTask.Result;
+             //   var imageResult = imageTask.Result;
 
                 if (stateResult.IsResponseWithData())
                 {
@@ -537,13 +558,13 @@ namespace CMMMobileMaui.VM
                     CurrentState = StateList.FirstOrDefault();
                 }
 
-                if (imageResult.IsResponseWithData())
-                {
-                    DeviceImg = imageTask.Result.Data!;
-                }
+                //if (imageResult.IsResponseWithData())
+                //{
+                //    DeviceImg = imageTask.Result.Data!;
+                //}
 
-                OnPropertyChanged(nameof(StateList));
-                OnPropertyChanged(nameof(DeviceImg));
+               // OnPropertyChanged(nameof(StateList));
+              //  OnPropertyChanged(nameof(DeviceImg));
             }
 
             IsBusy = false;
