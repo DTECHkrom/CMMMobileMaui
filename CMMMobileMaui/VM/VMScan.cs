@@ -23,12 +23,14 @@ namespace CMMMobileMaui.VM
     {
         private IEnumerable<ScanType>? _scanTypes;
         private IEnumerable<IScanType>? _zebraScanTypes;
+        private readonly Color defaultIconColor = Colors.White;
 
         private Action<string>? scanAction;
 
         #region PROPERTY IsScanning
 
         private bool isScanning;
+
         public bool IsScanning
         {
             get => isScanning;
@@ -37,6 +39,30 @@ namespace CMMMobileMaui.VM
                 SetProperty(ref isScanning, value);
                 IsBusy = !value;
             }
+        }
+
+        #endregion
+
+        #region PROPERTY Icon
+
+        private string icon;
+
+        public string Icon
+        {
+            get => icon;
+            set => SetProperty(ref icon, value);
+        }
+
+        #endregion
+
+        #region PROPERTY IconColor
+
+        private Color iconColor;
+
+        public Color IconColor
+        {
+            get => iconColor;
+            set => SetProperty(ref iconColor, value);
         }
 
         #endregion
@@ -65,7 +91,6 @@ namespace CMMMobileMaui.VM
             if (!string.IsNullOrEmpty(scanResult.Value))
             {
                 IsScanning = false;
-
                 scanAction?.Invoke(scanResult.Value);
             }
         }
@@ -100,8 +125,27 @@ namespace CMMMobileMaui.VM
                             break;
                         }
                     }
+                    else
+                    {
+                        IconColor = Colors.Red;
+                    }
                 }
             }
+
+            ChangeIconColorToDefaultAfterDelay();
+        }
+
+        #endregion
+
+        #region METHOD ChangeIconColorToDefaultAfterDelay
+
+        private void ChangeIconColorToDefaultAfterDelay()
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                IconColor = defaultIconColor;
+            });
         }
 
         #endregion
@@ -118,8 +162,11 @@ namespace CMMMobileMaui.VM
 
         #region METHOD SetScanType
 
-        public void SetScanType(IEnumerable<IScanType> scanTypes)
+        public void SetScanType(IEnumerable<IScanType> scanTypes
+            , string icon)
         {
+            Icon = icon;
+            IconColor = defaultIconColor;
             _zebraScanTypes = scanTypes;
             scanAction = ScanByZebraScanType;
         }
@@ -144,8 +191,15 @@ namespace CMMMobileMaui.VM
                     await scanType.ScanMethod();
 
                     break;
-                }              
+                }   
+                else
+                {
+                    IconColor = Colors.Red;
+                }
             }
+
+            IsScanning = true;
+            ChangeIconColorToDefaultAfterDelay();
         }
 
         #endregion

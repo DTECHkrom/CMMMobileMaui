@@ -5,7 +5,6 @@ using CMMMobileMaui.API.Interfaces;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.SCAN;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows.Input;
 
 namespace CMMMobileMaui.VM
@@ -114,10 +113,12 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY IsLogin
 
+        private bool isLogin;
+
         public bool IsLogin
         {
-            get;
-            set;
+            get => isLogin;
+            set => SetProperty(ref isLogin, value);
         }
 
         #endregion
@@ -263,6 +264,15 @@ namespace CMMMobileMaui.VM
 
         #endregion
 
+        #region COMMAND 
+
+        public ICommand LabelClickedCommand
+        {
+            get;
+        }
+
+        #endregion
+
         #region Cstr
         public VMTestPage(VMMainShell shellVM
             , IAPIManage apiManage
@@ -277,9 +287,18 @@ namespace CMMMobileMaui.VM
             this.identityController = identityController;
 
             SConsts.SetGlobalAction(SConsts.SUB_SCAN_PERSON_SETT, async () =>
-            {             
-                await Shell.Current.Navigation.PopModalAsync(); 
+            {
+                await Shell.Current.Navigation.PopModalAsync();
                 SetContentAfterLogin();
+            });
+
+
+            LabelClickedCommand = new Command(() =>
+            {
+                if (CanClick())
+                {
+                    IsLogin = !IsLogin;
+                }
             });
 
             SaveCommand = new Command(() => Save(),
@@ -679,6 +698,7 @@ namespace CMMMobileMaui.VM
             return scanTypes;
         }
 
+        public override string GetVisualScanPresentation() => "person";
         #endregion
 
     }

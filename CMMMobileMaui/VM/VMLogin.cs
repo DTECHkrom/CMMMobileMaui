@@ -395,6 +395,8 @@ namespace CMMMobileMaui.VM
             return scanTypes;
         }
 
+        public override string GetVisualScanPresentation() => "account_circle";
+
         #endregion
     }
 }

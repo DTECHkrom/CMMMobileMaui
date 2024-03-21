@@ -671,6 +671,8 @@ namespace CMMMobileMaui.VM
             return scanTypes;
         }
 
+        public override string GetVisualScanPresentation() => "extension";
+
         #endregion
     }
 }

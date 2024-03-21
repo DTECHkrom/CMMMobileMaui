@@ -3,7 +3,7 @@
 namespace CMMMobileMaui.SCAN
 {
     public interface IScanItems
-    {
+    {       
         IScanIcon? ScanIcon
         {
             get;

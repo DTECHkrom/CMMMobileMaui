@@ -42,9 +42,9 @@ namespace CMMMobileMaui
 
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    fiDevice.Items[4].IsVisible = MainObjects.Instance.CurrentUser.GetUserRightResponse.MD_Add;
-                    fiPart.Items[4].IsVisible = MainObjects.Instance.CurrentUser.GetUserRightResponse.PART_Add;
+                    fiDevice.Items[3].IsVisible = MainObjects.Instance.CurrentUser.GetUserRightResponse.MD_Add;
                     fiPart.Items[3].IsVisible = MainObjects.Instance.CurrentUser.GetUserRightResponse.PART_Add;
+                    fiPart.Items[2].IsVisible = MainObjects.Instance.CurrentUser.GetUserRightResponse.PART_Add;
                 });
             }
         }
@@ -61,14 +61,14 @@ namespace CMMMobileMaui
                 tabWO.Title = CONV.TranslateExtension.GetResourceText("sh_wo");
                 tabDevHist.Title = CONV.TranslateExtension.GetResourceText("history");
                 tabDevSearch.Title = CONV.TranslateExtension.GetResourceText("search");
-                tabDevScan.Title = CONV.TranslateExtension.GetResourceText("scan_code");
+           //     tabDevScan.Title = CONV.TranslateExtension.GetResourceText("scan_code");
                 tabDevAdd.Title = CONV.TranslateExtension.GetResourceText("add");
 
                 fiSet.Title = CONV.TranslateExtension.GetResourceText("sh_lines");
 
                 fiPart.Title = CONV.TranslateExtension.GetResourceText("wo_parts");
                 tabPartSearch.Title = CONV.TranslateExtension.GetResourceText("search");
-                tabPartScan.Title = CONV.TranslateExtension.GetResourceText("scan_code");
+             //   tabPartScan.Title = CONV.TranslateExtension.GetResourceText("scan_code");
                 tabPartGive.Title = CONV.TranslateExtension.GetResourceText("sh_part_give");
                 tabPartStock.Title = CONV.TranslateExtension.GetResourceText("sh_stocktaking");
                 tabPartAdd.Title = CONV.TranslateExtension.GetResourceText("add");

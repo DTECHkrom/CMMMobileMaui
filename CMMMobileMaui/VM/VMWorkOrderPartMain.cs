@@ -525,6 +525,8 @@ namespace CMMMobileMaui.VM
             return list;
         }
 
+        public override string GetVisualScanPresentation() => "extension";
+
         #endregion
     }
 }

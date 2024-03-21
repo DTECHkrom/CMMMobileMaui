@@ -1,7 +1,4 @@
-﻿using Mopups.Services;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CMMMobileMaui.API;
+﻿using CMMMobileMaui.API;
 using CMMMobileMaui.API.Contracts.v1.Requests.Act;
 using CMMMobileMaui.API.Contracts.v1.Requests.WO;
 using CMMMobileMaui.API.Contracts.v1.Responses;
@@ -13,7 +10,9 @@ using CMMMobileMaui.API.Contracts.v1.Responses.WO;
 using CMMMobileMaui.API.Interfaces;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.SCAN;
-using System.Reflection.Metadata.Ecma335;
+using Mopups.Services;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace CMMMobileMaui.VM
 {
@@ -801,7 +800,7 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
-                    var personToAssign = PersonList?.FirstOrDefault(tt=> tt.PersonID == MainObjects.Instance.CurrentUser!.PersonID);
+                    var personToAssign = PersonList?.FirstOrDefault(tt => tt.PersonID == MainObjects.Instance.CurrentUser!.PersonID);
 
                     if (personToAssign != null)
                     {
@@ -1383,7 +1382,7 @@ namespace CMMMobileMaui.VM
                 DepList = woDictionary.WODepartmentList;
 
                 Location = MainObjects.Instance.CurrentDevice.Location;
-                
+
             }
         }
 
@@ -1919,6 +1918,8 @@ namespace CMMMobileMaui.VM
 
             return scanTypes;
         }
+
+        public override string GetVisualScanPresentation() => "construction";
 
         #endregion
     }

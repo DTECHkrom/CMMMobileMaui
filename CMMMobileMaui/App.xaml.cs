@@ -114,9 +114,9 @@ namespace CMMMobileMaui
                 //  COMMON.Settings.WebAPI = "10.16.155.19:1234";
                 //    COMMON.Settings.WebAPI = "10.1.41.22:1234";
                 // COMMON.Settings.WebAPI = "10.1.41.22:4444";
-               //  COMMON.Settings.WebAPI = "10.1.40.128:1122";
+                 COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
 
-                 COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
+               //  COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
                 //   COMMON.Settings.WebAPI = "10.1.40.128:9999"; //CYMMES_AC ON 10.1.40.34
 
                 //    apiManage.IsSSL = true;

@@ -13,16 +13,18 @@ namespace CMMMobileMaui.COMMON
         }
 
         public ScannerViewModelBase()
-        {
+        {           
             TapCommand = new Command(async () =>
             {
                 if(CanClick())
                 {
-                    ScanView scanView = new ScanView(GetScanItems());
+                    ScanView scanView = new ScanView(GetScanItems(), GetVisualScanPresentation());
                     await OpenModalPage(scanView);
                 }
             });
         }
+
+        public abstract string GetVisualScanPresentation();
 
         public abstract IEnumerable<IScanType> GetScanItems();
 

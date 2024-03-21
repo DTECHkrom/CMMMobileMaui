@@ -430,6 +430,8 @@ namespace CMMMobileMaui.VM
             return scanTypes;
         }
 
+        public override string GetVisualScanPresentation() => "precision_manufacturing";
+
         #endregion
 
     }

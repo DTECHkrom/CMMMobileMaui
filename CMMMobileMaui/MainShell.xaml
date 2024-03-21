@@ -196,7 +196,7 @@
             <ShellContent ContentTemplate="{DataTemplate v:DeviceSearchView}" />
         </Tab>
 
-        <Tab
+        <!--<Tab
             x:Name="tabDevScan"
             Title="{cv:Translate scan_code}"
             Icon="barcode2">
@@ -211,7 +211,7 @@
                     </DataTemplate>
                 </ShellContent.ContentTemplate>
             </ShellContent>
-        </Tab>
+        </Tab>-->
 
         <Tab
             x:Name="tabDevAdd"
@@ -241,7 +241,7 @@
             <ShellContent ContentTemplate="{DataTemplate v:PartSearchView}" />
         </Tab>
 
-        <Tab
+        <!--<Tab
             x:Name="tabPartScan"
             Title="{cv:Translate scan_code}"
             Icon="barcode2">
@@ -256,7 +256,7 @@
                     </DataTemplate>
                 </ShellContent.ContentTemplate>
             </ShellContent>
-        </Tab>
+        </Tab>-->
 
         <Tab
             x:Name="tabPartGive"

@@ -19,7 +19,6 @@
             RowDefinitions="*"
             VerticalOptions="FillAndExpand">
 
-
             <zebra:CameraBarcodeReaderView
                 x:Name="codeScanner"
                 HorizontalOptions="FillAndExpand"
@@ -46,6 +45,18 @@
                 IsVisible="{Binding Path=IsBusy, Mode=OneWay}"
                 VerticalOptions="Center"
                 WidthRequest="60" />
+
+
+
+            <Label
+                Margin="20"
+                FontSize="42"
+                HorizontalOptions="Start"
+                Style="{StaticResource lblImage}"
+                Text="{Binding Path=Icon}"
+                TextColor="{Binding Path=IconColor}"
+                VerticalOptions="Start" />
+
 
         </Grid>
     </view:PageBase.Content>

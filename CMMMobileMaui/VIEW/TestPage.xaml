@@ -10,6 +10,7 @@
     xmlns:telerikInput="http://schemas.telerik.com/2022/xaml/maui"
     xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
     xmlns:vm="clr-namespace:CMMMobileMaui.VM"
+    xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="vm:VMTestPage"
     x:TypeArguments="vm:VMTestPage"
     Shell.FlyoutBehavior="Disabled"
@@ -157,7 +158,15 @@
                         Margin="10,0,0,0"
                         HorizontalOptions="Start"
                         Text="{cv:Translate cmm_login_start}"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center">
+                        <Label.Behaviors>
+                            <xct:AnimationBehavior Command="{Binding Path=LabelClickedCommand}">
+                                <xct:AnimationBehavior.AnimationType>
+                                    <xct:FadeAnimation Opacity="0.5" />
+                                </xct:AnimationBehavior.AnimationType>
+                            </xct:AnimationBehavior>
+                        </Label.Behaviors>
+                    </Label>
 
                 </StackLayout>
 

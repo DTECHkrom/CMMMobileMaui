@@ -802,6 +802,8 @@ namespace CMMMobileMaui.VM
             }
         }
 
+        public override string GetVisualScanPresentation() => "extension";
+
         #endregion
 
     }

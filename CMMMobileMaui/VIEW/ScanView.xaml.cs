@@ -69,9 +69,9 @@ namespace CMMMobileMaui.VIEW
             ViewModel.SetScanType(scanTypes);
         }
 
-        public ScanView(IEnumerable<IScanType> scanTypes) : this()
+        public ScanView(IEnumerable<IScanType> scanTypes, string icon) : this()
         {
-            ViewModel.SetScanType(scanTypes);
+            ViewModel.SetScanType(scanTypes, icon);
         }
 
         //private void CodeScanner_BarcodeDetected(object sender, BarcodeEventArgs args)

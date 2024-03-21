@@ -228,6 +228,8 @@ namespace CMMMobileMaui.VM
 
         public override IEnumerable<IScanType> GetScanItems() => scanTypes;
 
+        public override string GetVisualScanPresentation() => "qr_code_scanner";
+
         #endregion
     }
 }
