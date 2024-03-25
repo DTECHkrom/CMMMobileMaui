@@ -11,6 +11,7 @@ namespace CMMMobileMaui.VIEW
         public WorkOrderListAllView()
         {
             InitializeComponent();
+            OnPageUnload += (s, e) => ViewModel.Clear();
         }
 
         public WorkOrderListAllView(bool isPerson

@@ -21,7 +21,7 @@ namespace CMMMobileMaui.MODEL
         {
             var woFunctions = new List<FunctionItem>();
 
-            woFunctions.Add(new FunctionItem() { ImageInfo = new DisplayImage("more_horiz", Colors.Black), Command = vmWO.ShowItemCommand });
+            //woFunctions.Add(new FunctionItem() { ImageInfo = new DisplayImage("more_horiz", Colors.Black), Command = vmWO.ShowItemCommand });
 
             if (CanTakeWO())
             {

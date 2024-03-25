@@ -4,6 +4,8 @@ namespace DBMain
 {
     public class Engine
     {
+        public static event EventHandler<string>? OnExceptionCatch;
+
         #region PROPERTY MainCon
 
         public const SQLite.SQLiteOpenFlags Flags =
@@ -83,13 +85,21 @@ namespace DBMain
 
         public async Task<List<Model.History>> GetAllHistory(int personID)
         {
-            await Init();
+            try
+            { 
+                await Init();
 
-            return await mainCon!.Table<Model.History>()
-                .Where(tt => tt.PersonID == personID && tt.Type == "d")
-                .OrderByDescending(tt => tt.Mod_Date)
-                .Take(50)
-                .ToListAsync();
+                return await mainCon!.Table<Model.History>()
+                    .Where(tt => tt.PersonID == personID)
+                    .OrderByDescending(tt => tt.Mod_Date)
+                    .Take(50)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                OnExceptionCatch?.Invoke(this, ex.Message);
+                return new List<Model.History>();
+            }
         }
 
         #endregion
@@ -98,13 +108,21 @@ namespace DBMain
 
         public async Task<List<Model.History>> GetAllFilesHistory(int personID)
         {
-            await Init();
+            try
+            { 
+                await Init();
 
-            return await mainCon!.Table<Model.History>()
-                .Where(tt => tt.PersonID == personID && tt.Type == "f")
-                .OrderByDescending(tt => tt.Mod_Date)
-                .Take(50)
-                .ToListAsync();
+                return await mainCon!.Table<Model.History>()
+                    .Where(tt => tt.PersonID == personID && tt.Type == "f")
+                    .OrderByDescending(tt => tt.Mod_Date)
+                    .Take(50)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                OnExceptionCatch?.Invoke(this, ex.Message);
+                return new List<Model.History>();
+            }
         }
 
         #endregion
@@ -113,11 +131,19 @@ namespace DBMain
 
         public async Task<Model.History> GetSingleFileHistory(int personID, string name)
         {
-            await Init();
+            try
+            {
+                await Init();
 
-            return await mainCon!.Table<Model.History>()
-                .Where(tt => tt.PersonID == personID && tt.Type == "f" && tt.Name == name)
-                .FirstOrDefaultAsync();
+                return await mainCon!.Table<Model.History>()
+                    .Where(tt => tt.PersonID == personID && tt.Type == "f" && tt.Name == name)
+                    .FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                OnExceptionCatch?.Invoke(this, ex.Message);
+                return new Model.History();
+            }
         }
 
         #endregion

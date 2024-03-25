@@ -1,10 +1,11 @@
 ﻿using CMMMobileMaui.API.Contracts.v1.Responses.WO;
 using CMMMobileMaui.COMMON;
+using CMMMobileMaui.UIRefresh;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMMMobileMaui.MODEL
 {
-    public class WOModel : ObservableObject
+    public class WOModel : ObservableObject, IUIRefresh
     {
         #region FIELDS
 
@@ -65,9 +66,17 @@ namespace CMMMobileMaui.MODEL
 
         #region PROPERTY TakenTimeText
 
-        public string TakenTimeText =>
-            !IsTaken ? string.Empty :
-            SConsts.GetTimeTextFromMinutes(GetMinutesFromTaken());
+        //public string TakenTimeText =>
+        //    !IsTaken ? string.Empty :
+        //    SConsts.GetTimeTextFromMinutes(GetMinutesFromTaken());
+
+        private string? takenTimeText;
+
+        public string? TakenTimeText
+        {
+            get => takenTimeText;
+            set => SetProperty(ref takenTimeText, value);
+        }
 
 
         #endregion
@@ -79,6 +88,8 @@ namespace CMMMobileMaui.MODEL
             BaseItem = baseItem;
             woIconsSetter = new WOIconsSetter(baseItem);
             woFunctionsSetter = new WOFunctionsSetter(baseItem, vmWO);
+
+            InitTakenTime();
         }
 
         #endregion
@@ -95,6 +106,25 @@ namespace CMMMobileMaui.MODEL
         public decimal GetCalculatedWorkLoad() =>
             !BaseItem.Person_Take_Date.HasValue ? 0
             : (decimal)Math.Min(10, Math.Round((DateTime.Now - BaseItem.Person_Take_Date.Value).TotalHours, 2));
+
+        #endregion
+
+        #region METHOD UIRefresh
+
+        public void UIRefresh()
+        {
+            InitTakenTime();
+        }
+
+        #endregion
+
+        #region METHOD InitTakenTime
+
+        private void InitTakenTime()
+        {
+            TakenTimeText = !IsTaken ? string.Empty :
+                    SConsts.GetTimeTextFromMinutes(GetMinutesFromTaken());
+        }
 
         #endregion
     }

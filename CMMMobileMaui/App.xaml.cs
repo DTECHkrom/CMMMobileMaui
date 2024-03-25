@@ -1,7 +1,8 @@
-﻿using CMMMobileMaui.COMMON;
+﻿using Android.Widget;
+using CMMMobileMaui.COMMON;
 using CMMMobileMaui.COMMON.Resources;
+using DBMain;
 using Telerik.Maui;
-
 
 namespace CMMMobileMaui
 {
@@ -12,7 +13,7 @@ namespace CMMMobileMaui
         private static App instance;
         public static bool isHost = false;
         private static bool isLogin = false;
-        public static string Version = "2.0.0.2"; //była juz 1.0.0.9
+        public static string Version = "2.0.0.4"; //była juz 1.0.0.9
       //  private static COMMON.IScannerService Scanner;
         public static COMPANY.Company CompanyData;
         public static event EventHandler<string> OnStartMessage;
@@ -28,31 +29,28 @@ namespace CMMMobileMaui
 
         public App()
         {
-            //AppResource.Culture = CrossMultilingual.Current.DeviceCultureInfo;
-            //CultureInfo.DefaultThreadCurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("en-gb");
-            //AppResource.Culture = System.Globalization.CultureInfo.GetCultureInfo("en-us");
-            //CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en-gb");
             TelerikLocalizationManager.Manager = new COMMON.CustomTelerikLocalizationManager();
-
+            Engine.OnExceptionCatch += Engine_OnExceptionCatch;
             InitializeComponent();
-            instance = this;    
+            instance = this;
 
-            // TODO Xamarin.Forms.Device.SetFlags is not longer supported. For more details see https://learn.microsoft.com/en-us/dotnet/maui/migration/forms-projects#device-changes
-          //  Device.SetFlags(new[] { "SwipeView_Experimental",
-        //    "Shell_UWP_Experimental"
-        //    , "Shapes_Experimental"});
-
-
-         //   var scanner = DependencyService.Get<COMMON.IScannerService>();
-
-            COMMON.ServiceProviderInitializer.Init();
+            ServiceProviderInitializer.Init();
             InitHostLoginData();
 
             var page = new MainShell();
             MainPage = page;
         }
 
-        #endregion
+        private void Engine_OnExceptionCatch(object? sender, string e)
+        {
+            #if ANDROID
+
+            Toast.MakeText(Android.App.Application.Context, e, ToastLength.Long)?.Show();
+
+            #endif
+        }
+
+#endregion
 
         public static App GetInstance() => instance;
 
@@ -116,7 +114,7 @@ namespace CMMMobileMaui
                 // COMMON.Settings.WebAPI = "10.1.41.22:4444";
                  COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
 
-               //  COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
+                // COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
                 //   COMMON.Settings.WebAPI = "10.1.40.128:9999"; //CYMMES_AC ON 10.1.40.34
 
                 //    apiManage.IsSSL = true;

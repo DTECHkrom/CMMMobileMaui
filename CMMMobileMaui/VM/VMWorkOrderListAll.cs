@@ -10,6 +10,7 @@ using CMMMobileMaui.API.Interfaces;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.MODEL;
 using CommunityToolkit.Mvvm.Input;
+using CMMMobileMaui.UIRefresh;
 
 namespace CMMMobileMaui.VM
 {
@@ -22,7 +23,7 @@ namespace CMMMobileMaui.VM
         private readonly IWOController workOrderBLL;
         private readonly IDeviceController deviceCMMBLL;
         private readonly IActController actController;
-
+        private readonly RefreshTimer refreshTimer = new RefreshTimer(TimeSpan.FromSeconds(10));
         private GetWOsRequestBaseHandler currentWOsRequestHandler;
 
         #endregion
@@ -599,6 +600,7 @@ namespace CMMMobileMaui.VM
         {
             if (CanClick())
             {
+                refreshTimer.Stop();
                 ItemsList.Clear();
 
                 currentWOsRequestHandler.SetBaseUnselectableFilter(MainObjects.Instance.CurrentUser!.PersonID, DeviceID, null, MainObjects.Instance.Lang);
@@ -609,8 +611,8 @@ namespace CMMMobileMaui.VM
 
                 if (woListResponse.IsResponseWithData(this))
                 {
-                    tempWOsList = woListResponse.Data!.ToList();
-
+                    tempWOsList = SConsts.GetSortedList(woListResponse.Data!, currentWOsRequestHandler.GetWOsRequest()).ToList();
+                    refreshTimer.Start();
                     LoadNextItems();
                 }
             }
@@ -635,11 +637,27 @@ namespace CMMMobileMaui.VM
             {
                 int skipAmount = ItemsList.Count;
 
-                var items = tempWOsList.Skip(skipAmount).Take(incValue).ToList();
+                var items = tempWOsList
+                    .Skip(skipAmount)
+                    .Take(incValue)
+                    .ToList();
 
-                items.ForEach(tt=> ItemsList.Add(new WOModel(tt, this)));   
+                items.ForEach(tt =>
+                {
+                    var woModel = new WOModel(tt, this);
+                    ItemsList.Add(woModel);
+                    refreshTimer.AddItemToRefresh(woModel);
+                });
             }
+        }
 
+        #endregion
+
+        #region METHOD Clear
+
+        public void Clear()
+        {
+            refreshTimer.Stop();
         }
 
         #endregion

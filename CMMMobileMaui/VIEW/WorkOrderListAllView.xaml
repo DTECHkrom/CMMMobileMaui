@@ -76,7 +76,7 @@
                                         <ColumnDefinition Width="1" />
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="1" />
-                                        <ColumnDefinition Width="34" />
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <Label
@@ -136,7 +136,7 @@
                                                 <FormattedString>
                                                     <Span Text="{cv:Translate taken_by}" />
                                                     <Span Text=" " />
-                                                    <Span Text="{Binding Path=TakenTimeText, Mode=OneTime}" />
+                                                    <Span Text="{Binding Path=TakenTimeText, Mode=TwoWay}" />
                                                     <Span Text=" " />
                                                     <Span Text="{cv:Translate ago}" />
                                                 </FormattedString>
@@ -168,14 +168,17 @@
                                         Grid.Row="0"
                                         Grid.RowSpan="4"
                                         Grid.Column="4"
+                                        Margin="2"
                                         BindableLayout.ItemsSource="{Binding Path=WOFunctions}"
+                                        IsVisible="{Binding Path=WOFunctions.Count, Converter={cv:IsGreatherThenConv}}"
                                         Orientation="Vertical"
-                                        Spacing="2">
+                                        Spacing="5">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate x:DataType="com:FunctionItem">
                                                 <cust:LabelIconButton
                                                     Command="{Binding Path=Command}"
                                                     CommandParameter="{Binding Source={x:Reference slFunc}, Path=BindingContext}"
+                                                    FontSize="36"
                                                     Text="{Binding Path=ImageInfo.Source}" />
                                             </DataTemplate>
                                         </BindableLayout.ItemTemplate>
