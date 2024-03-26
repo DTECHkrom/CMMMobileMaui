@@ -1,4 +1,4 @@
-﻿using Android.Widget;
+﻿//using Android.Widget;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.COMMON.Resources;
 using DBMain;
@@ -13,8 +13,8 @@ namespace CMMMobileMaui
         private static App instance;
         public static bool isHost = false;
         private static bool isLogin = false;
-        public static string Version = "2.0.0.4"; //była juz 1.0.0.9
-      //  private static COMMON.IScannerService Scanner;
+        public static string Version = "2.0.0.5"; //była juz 1.0.0.9
+                                                  //  private static COMMON.IScannerService Scanner;
         public static COMPANY.Company CompanyData;
         public static event EventHandler<string> OnStartMessage;
         public static SCAN.ScanManager? CurrentScanManager;
@@ -43,11 +43,15 @@ namespace CMMMobileMaui
 
         private void Engine_OnExceptionCatch(object? sender, string e)
         {
-            #if ANDROID
+#if ANDROID
 
-            Toast.MakeText(Android.App.Application.Context, e, ToastLength.Long)?.Show();
+            Android.Widget.Toast.MakeText(Android.App.Application.Context, e, Android.Widget.ToastLength.Long)?.Show();
+#endif
+#if WINDOWS
+    
+#endif
 
-            #endif
+
         }
 
 #endregion
@@ -112,9 +116,9 @@ namespace CMMMobileMaui
                 //  COMMON.Settings.WebAPI = "10.16.155.19:1234";
                 //    COMMON.Settings.WebAPI = "10.1.41.22:1234";
                 // COMMON.Settings.WebAPI = "10.1.41.22:4444";
-                 COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
+                  COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
 
-                // COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
+              //  COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
                 //   COMMON.Settings.WebAPI = "10.1.40.128:9999"; //CYMMES_AC ON 10.1.40.34
 
                 //    apiManage.IsSSL = true;

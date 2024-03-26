@@ -72,7 +72,7 @@
                 <StackLayout
                     Margin="4,0"
                     HorizontalOptions="EndAndExpand"
-                    IsVisible="{Binding Path=CurrentWO.Ineffective_Count, Converter={xct:IsStringNotNullOrEmptyConverter}}"
+                    IsVisible="{Binding Path=CurrentWO.Ineffective_Count, Converter={cv:IsGreatherThenConv}}"
                     Orientation="Horizontal">
 
                     <Image

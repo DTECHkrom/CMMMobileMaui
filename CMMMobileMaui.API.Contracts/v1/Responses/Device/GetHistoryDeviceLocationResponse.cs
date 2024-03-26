@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CMMMobileMaui.API.Contracts.v1.Responses.Device
+﻿namespace CMMMobileMaui.API.Contracts.v1.Responses.Device
 {
     public class GetHistoryDeviceLocationResponse
     {
@@ -17,6 +15,12 @@ namespace CMMMobileMaui.API.Contracts.v1.Responses.Device
         }
 
         public string LocationName
+        {
+            get;
+            set;
+        }
+
+        public string Details
         {
             get;
             set;

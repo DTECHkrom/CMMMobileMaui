@@ -5,6 +5,7 @@ using CMMMobileMaui.API.Interfaces;
 using CMMMobileMaui.COMMON;
 using CMMMobileMaui.SCAN;
 using System.Collections.ObjectModel;
+using CMMMobileMaui.API;
 
 namespace CMMMobileMaui.VM
 {
@@ -14,12 +15,22 @@ namespace CMMMobileMaui.VM
 
         private IDeviceController deviceCMMBLL;
         private DBMain.Engine en = new DBMain.Engine();
+        private bool isFileHistoryVisible;
 
         #endregion
 
         #region COMMAND ShowDeviceCommand
 
         public ICommand ShowDeviceCommand
+        {
+            get;
+        }
+
+        #endregion
+
+        #region COMMAND AddWorkOrderCommand
+
+        public ICommand AddWorkOrderCommand
         {
             get;
         }
@@ -35,9 +46,9 @@ namespace CMMMobileMaui.VM
 
         #endregion
 
-        #region PROPERTY CurrentHistory
+        #region PROPERTY CurrentDeviceHistory
 
-        public MODEL.DeviceHistoryModel? CurrentHistory
+        public MODEL.DeviceHistoryModel? CurrentDeviceHistory
         {
             get;
             set;
@@ -67,10 +78,20 @@ namespace CMMMobileMaui.VM
 
         #region PROPERTY FilesHistoryList
 
-        public List<DBMain.Model.History>? FilesHistoryList
+        public ObservableCollection<DBMain.Model.History> FilesHistoryList
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region PROPERTY IsFileHistoryVisible
+
+        public bool IsFileHistoryVisible
+        {
+            get => isFileHistoryVisible;
+            set => SetProperty(ref isFileHistoryVisible, value);
         }
 
         #endregion
@@ -81,6 +102,7 @@ namespace CMMMobileMaui.VM
         {
             this.deviceCMMBLL = deviceCMMBLL;
             HistoryList = new ObservableCollection<MODEL.DeviceHistoryModel>();
+            FilesHistoryList = new ObservableCollection<DBMain.Model.History>();
 
             //SConsts.SetGlobalAction(SConsts.DEV_HIST_REF, async () =>
             //{
@@ -102,8 +124,7 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
-                    if (obj != null && obj
-                    is MODEL.DeviceHistoryModel histModel)
+                    if (obj is MODEL.DeviceHistoryModel histModel)
                     {
                         histModel.IsBusy = true;
                         histModel.BaseItem.Mod_Date = DateTime.Now;                     
@@ -112,7 +133,7 @@ namespace CMMMobileMaui.VM
 
                         if (histModel.BaseItem.Type == "d")
                         {
-                            ShowItem(obj);
+                            ShowDevice(histModel);
 
                             await Task.Delay(100);
 
@@ -126,21 +147,56 @@ namespace CMMMobileMaui.VM
             {
                 if (CanClick())
                 {
-                    if (obj != null && obj
-                    is DBMain.Model.History histModel)
+                    if (obj is DBMain.Model.History histModel)
                     {
                         histModel.Mod_Date = DateTime.Now;
 
                         int a = await en.UpdateHist(histModel);
 
                         var fileList = await en.GetAllFilesHistory(API.MainObjects.Instance.CurrentUser!.PersonID);
-                        FilesHistoryList = fileList.Distinct().ToList();
-
+                        FilesHistoryList = new ObservableCollection<DBMain.Model.History>(fileList.Distinct().ToList());
+                        IsFileHistoryVisible = FilesHistoryList.Count > 0;
                         OnPropertyChanged(nameof(FilesHistoryList));
                         ShowFileItem(histModel);
                     }
                 }
             });
+
+            AddWorkOrderCommand = new Command(async (obj) =>
+            {
+                if (CanClick())
+                {
+                    if (obj is MODEL.DeviceHistoryModel histModel)
+                    {
+                        histModel.IsBusy = true;
+                        histModel.BaseItem.Mod_Date = DateTime.Now;
+
+                        int a = await en.UpdateHist(histModel.BaseItem);
+
+                        if (histModel.BaseItem.Type == "d")
+                        {
+                            OpenWOItem(histModel);
+
+                            await Task.Delay(100);
+
+                            InitDeviceHistoryList();
+                        }
+                    }
+                }
+            });
+        }
+
+        #endregion
+
+        #region METHOD OpenWOItem
+
+        private async void OpenWOItem(MODEL.DeviceHistoryModel histModel)
+        {
+            if(histModel.CurrentDevice != null)
+            {
+                MainObjects.Instance.CurrentDevice = histModel.CurrentDevice;
+                await OpenModalPage(new VIEW.WorkOrderSingleView(null));           
+            }
         }
 
         #endregion
@@ -158,7 +214,9 @@ namespace CMMMobileMaui.VM
             {
                 histList.ForEach(tt =>
                 {
-                    var device = new MODEL.DeviceHistoryModel(tt, ShowDeviceCommand);
+                    var device = new MODEL.DeviceHistoryModel(tt
+                        , ShowDeviceCommand
+                        , AddWorkOrderCommand);
 
                     HistoryList.Add(device);
                 });
@@ -292,11 +350,16 @@ namespace CMMMobileMaui.VM
                     histOrg.Name = item.AssetNo;
                     histOrg.PersonID = API.MainObjects.Instance.CurrentUser!.PersonID;
                     int b = await en.InsertHist(histOrg);
+
+                    hist = new MODEL.DeviceHistoryModel(histOrg
+                                            , ShowDeviceCommand
+                                            , AddWorkOrderCommand);
                 }
 
+                hist.CurrentDevice = item;
                 InitDeviceHistoryList();
 
-                ShowItem(hist);
+                ShowDevice(hist);
             }
         }
 
@@ -304,17 +367,17 @@ namespace CMMMobileMaui.VM
 
         #region METHOD ShowItem
 
-        private async void ShowItem(object? obj)
+        private async void ShowDevice(MODEL.DeviceHistoryModel histModel)
         {
-            if (obj is MODEL.DeviceHistoryModel histModel)
-            {
-                CurrentHistory = histModel;
+            if(histModel.CurrentDevice == null)
+            { 
+                CurrentDeviceHistory = histModel;
 
-                if (CurrentHistory.BaseItem.Type == "d")
+                if (CurrentDeviceHistory.BaseItem.Type == "d")
                 {
                     var deviceResponse = await deviceCMMBLL.Get(new API.Contracts.v1.Requests.Device.GetDeviceByIDLangRequest
                     {
-                        MachineID = CurrentHistory.BaseItem.ID
+                        MachineID = CurrentDeviceHistory.BaseItem.ID
                     ,
                         Lang = API.MainObjects.Instance.Lang
                     });
@@ -325,9 +388,9 @@ namespace CMMMobileMaui.VM
                     }
                 }
             }
-            else if (obj is GetDeviceListResponse dev)
+            else
             {
-                await OpenModalPage(new VIEW.DeviceView(dev));
+                await OpenModalPage(new VIEW.DeviceView(histModel.CurrentDevice));
             }         
         }
 
@@ -356,7 +419,9 @@ namespace CMMMobileMaui.VM
             }
 
             var fileList = await en.GetAllFilesHistory(API.MainObjects.Instance.CurrentUser!.PersonID);
-            FilesHistoryList = fileList.Distinct().ToList();
+            FilesHistoryList = new ObservableCollection<DBMain.Model.History>(fileList.Distinct().ToList());
+
+            IsFileHistoryVisible = FilesHistoryList.Count > 0;
 
             en.CloseConnection();
             OnPropertyChanged(nameof(FilesHistoryList));

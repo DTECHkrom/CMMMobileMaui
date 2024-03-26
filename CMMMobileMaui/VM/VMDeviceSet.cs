@@ -175,14 +175,15 @@ namespace CMMMobileMaui.VM
                 || !subSetResult.IsResponseWithData(this)
                 || !deviceResult.IsResponseWithData(this))
             {
+                IsBusy = false;
                 return;
             }
+
+            Source.Clear();
 
             setList = setResult.Data!.ToList();
             subSetList = subSetResult.Data!.ToList();
             deviceList = deviceResult.Data!.ToList();
-            
-            IsBusy = false;
 
             FilterList(isFirstLoad);
         }
@@ -212,7 +213,8 @@ namespace CMMMobileMaui.VM
 
             if (setList != null && deviceList != null)
             {
-                Source = new ObservableCollection<DeviceSetModel>();
+
+                var tempList = new List<DeviceSetModel>();
 
                 foreach (var branchName in setList.Select(tt => tt.Branch_Name).Distinct())
                 {
@@ -263,11 +265,19 @@ namespace CMMMobileMaui.VM
                     {
                         try
                         {
-                            Source.Add(branch);
+                            tempList.Add(branch);
                         }
                         catch (Exception) { }
                     }
                 }
+
+             //   MainThread.BeginInvokeOnMainThread(() =>
+             //   {
+                    Source = new ObservableCollection<DeviceSetModel>(tempList);
+             //   });
+
+            //    Source.AddRange(tempList);
+                OnPropertyChanged(nameof(Source));
             }
 
             if (isFirstLoad

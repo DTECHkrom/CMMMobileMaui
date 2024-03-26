@@ -2,6 +2,7 @@
 using CMMMobileMaui.Handlers;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Mopups.Hosting;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using Telerik.Maui.Controls.Compatibility;
 using ZXing.Net.Maui.Controls;
@@ -20,6 +21,7 @@ namespace CMMMobileMaui
                 .UseSkiaSharp()
                 .UseTelerik()
                 .UseBarcodeReader()
+                .ConfigureMopups()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

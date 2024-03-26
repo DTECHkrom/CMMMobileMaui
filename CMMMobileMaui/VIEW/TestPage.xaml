@@ -215,6 +215,7 @@
                     AnimationType="Animation1"
                     HorizontalOptions="FillAndExpand"
                     IsBusy="{Binding Path=IsBusy, Mode=TwoWay}"
+                    IsVisible="{Binding Path=IsBusy, Mode=TwoWay}"
                     VerticalOptions="FillAndExpand" />
 
             </Grid>

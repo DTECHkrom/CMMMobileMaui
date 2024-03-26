@@ -42,16 +42,6 @@
                     Grid.Row="1"
                     Text="{Binding Path=FilterText, Mode=TwoWay}" />
 
-                <!--<ImageButton
-                    Grid.Row="1"
-                    Command="{Binding Path=ClearFilterCommand}"
-                    HeightRequest="32"
-                    HorizontalOptions="End"
-                    IsVisible="{Binding Path=FilterText, Converter={xct:IsStringNotNullOrEmptyConverter}}"
-                    Source="delete.png"
-                    VerticalOptions="Center"
-                    WidthRequest="32" />-->
-
                 <CollectionView
                     x:Name="cvMain"
                     Grid.Row="2"

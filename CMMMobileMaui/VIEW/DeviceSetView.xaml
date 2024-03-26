@@ -10,6 +10,7 @@
     xmlns:view="clr-namespace:CMMMobileMaui.VIEW"
     xmlns:vm="clr-namespace:CMMMobileMaui.VM"
     xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:DataType="vm:VMDeviceSet"
     x:TypeArguments="vm:VMDeviceSet"
     Shell.NavBarIsVisible="False">
 
@@ -28,53 +29,34 @@
                 Margin="10,2"
                 ColumnDefinitions="auto, *, auto, auto">
 
-                <Label Style="{StaticResource lblImage}" Text="update">
-                    <Label.Behaviors>
-                        <xct:AnimationBehavior Command="{Binding Path=LoadItemsCommand}">
-                            <xct:AnimationBehavior.AnimationType>
-                                <xct:FadeAnimation Opacity="0.5" />
-                            </xct:AnimationBehavior.AnimationType>
-                        </xct:AnimationBehavior>
-                    </Label.Behaviors>
-                </Label>
+                <cust:LabelIconButton
+                    Command="{Binding Path=LoadItemsCommand}"
+                    FontSize="40"
+                    Text="update" />
 
-                <Label
+                <cust:LabelIconButton
                     Grid.Column="2"
                     Margin="5,0"
-                    Style="{StaticResource lblImage}"
-                    Text="arrow_upward">
-                    <Label.Behaviors>
-                        <xct:AnimationBehavior Command="{Binding Path=CollapseAllCommand}">
-                            <xct:AnimationBehavior.AnimationType>
-                                <xct:FadeAnimation Opacity="0.5" />
-                            </xct:AnimationBehavior.AnimationType>
-                        </xct:AnimationBehavior>
-                    </Label.Behaviors>
-                </Label>
+                    Command="{Binding Path=CollapseAllCommand}"
+                    FontSize="40"
+                    Text="arrow_upward" />
 
-                <Label
+                <cust:LabelIconButton
                     Grid.Column="3"
                     Margin="5,0"
-                    Style="{StaticResource lblImage}"
-                    Text="arrow_downward">
-                    <Label.Behaviors>
-                        <xct:AnimationBehavior Command="{Binding Path=ExpandAllCommand}">
-                            <xct:AnimationBehavior.AnimationType>
-                                <xct:FadeAnimation Opacity="0.5" />
-                            </xct:AnimationBehavior.AnimationType>
-                        </xct:AnimationBehavior>
-                    </Label.Behaviors>
-                </Label>
+                    Command="{Binding Path=ExpandAllCommand}"
+                    FontSize="40"
+                    Text="arrow_downward" />
             </Grid>
 
             <telerik:RadTreeView
                 x:Name="treeView"
                 Grid.Row="2"
-                ItemsSource="{Binding Source}">
+                ItemsSource="{Binding Path=Source}">
                 <telerik:TreeViewDescriptor ItemsSourcePath="Children" TargetType="{x:Type com:DeviceSetModel}">
                     <telerik:TreeViewDescriptor.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="{Binding Path=Level, Converter={StaticResource levelToMarginConverter}}">
+                        <DataTemplate x:DataType="com:DeviceSetModel">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />

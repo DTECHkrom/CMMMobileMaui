@@ -87,6 +87,8 @@ namespace CMMMobileMaui.COMPANY
         {
             if (code.StartsWith("u:"))
             {
+
+
                 var serialNumber = DependencyService.Get<ISerialNumberService>()
                     .GetSerialNumber();
 
