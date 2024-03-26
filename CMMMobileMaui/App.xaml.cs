@@ -12,7 +12,7 @@ namespace CMMMobileMaui
         private static App instance;
         public static bool isHost = false;
         private static bool isLogin = false;
-        public static string Version = "2.0.0.4"; //była juz 1.0.0.9
+        public static string Version = "2.0.0.5"; //była juz 1.0.0.9
       //  private static COMMON.IScannerService Scanner;
         public static COMPANY.Company CompanyData;
         public static event EventHandler<string> OnStartMessage;
