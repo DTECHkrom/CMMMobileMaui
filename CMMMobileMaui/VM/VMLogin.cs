@@ -314,8 +314,13 @@ namespace CMMMobileMaui.VM
                 {
                     if (CanClick())
                     {
-                        var serialNumber = DependencyService.Get<ISerialNumberService>()
+
+                        string serialNumber = string.Empty;
+
+#if ANDROID
+                        serialNumber = DependencyService.Get<ISerialNumberService>()
                     .GetSerialNumber();
+#endif
 
                         var personResponse = await identityController.LoginPass(new API.Contracts.v1.Requests.Identity.LoginPassRequest
                         {
@@ -380,7 +385,7 @@ namespace CMMMobileMaui.VM
             return false;
         }
 
-        #endregion
+#endregion
 
         #region METHOD GetScanItems
 

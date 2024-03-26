@@ -1,5 +1,4 @@
-﻿using Android.Widget;
-using CMMMobileMaui.COMMON;
+﻿using CMMMobileMaui.COMMON;
 using CMMMobileMaui.COMMON.Resources;
 using DBMain;
 using Telerik.Maui;
@@ -45,12 +44,23 @@ namespace CMMMobileMaui
         {
             #if ANDROID
 
-            Toast.MakeText(Android.App.Application.Context, e, ToastLength.Long)?.Show();
+            Android.Widget.Toast.MakeText(Android.App.Application.Context, e, Android.Widget.ToastLength.Long)?.Show();
 
             #endif
         }
 
-#endregion
+        #endregion
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+#if WINDOWS
+            Window window = new Window();
+            
+#endif
+
+
+            return base.CreateWindow(activationState);
+        }
 
         public static App GetInstance() => instance;
 

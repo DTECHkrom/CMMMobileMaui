@@ -410,8 +410,12 @@ namespace CMMMobileMaui.VM
             }
             else
             {
-                var serialNumber = DependencyService.Get<ISerialNumberService>()
+                string serialNumber = string.Empty;
+
+#if ANDROID
+                serialNumber = DependencyService.Get<ISerialNumberService>()
                     .GetSerialNumber();
+#endif
 
                 var personResponse = await identityController.LoginPass(new API.Contracts.v1.Requests.Identity.LoginPassRequest
                 {
@@ -442,7 +446,7 @@ namespace CMMMobileMaui.VM
             }
         }
 
-        #endregion
+#endregion
 
         #region METHOD SetContentAfterLogin
 

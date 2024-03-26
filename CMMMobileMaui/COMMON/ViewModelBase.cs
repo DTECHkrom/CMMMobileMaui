@@ -1,5 +1,4 @@
-﻿using CMMMobileMaui.SCAN;
-using CMMMobileMaui.VIEW;
+﻿using CMMMobileMaui.VIEW;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Mopups.Pages;
 using Mopups.Services;
@@ -101,29 +100,6 @@ namespace CMMMobileMaui.COMMON
         }
 
         #endregion
-
-        //#region METHOD InitScanManager
-
-        //public void InitScanManager(IScanIcon icons, SCAN.IScanItems scanItems)
-        //{
-        //    if (App.IsZebraScanIconVisible)
-        //    {
-        //        App.CurrentScanManager?.Init(icons, scanItems);
-
-        ////        ScanManager = new SCAN.ScanManager(scaner, scanItems);
-        //    }
-        //}
-
-        //#endregion
-
-        //#region METHOD InitScanIcon
-
-        //public void InitScanIcon(SCAN.IScanIcon scanIcon)
-        //{
-        //    ScanManager?.InitScanIcon(scanIcon);
-        //}
-
-        //#endregion
 
         #region METHOD WaitForNextClick
 
@@ -350,7 +326,7 @@ namespace CMMMobileMaui.COMMON
                             if (pageData.page is PageBase page)
                             {
                                 // App.CurrentScanManager = ((ViewModelBase)page.BindingContext).ScanManager;
-                               // App.CurrentScanManager?.EnableScan();
+                                // App.CurrentScanManager?.EnableScan();
                             }
                         }
                     }

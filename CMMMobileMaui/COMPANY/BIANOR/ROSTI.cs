@@ -28,8 +28,13 @@ namespace CMMMobileMaui.COMPANY
                     code = RostiDecrypt(code.Replace("-POL", string.Empty));
                 }
 
-                var serialNumber = DependencyService.Get<ISerialNumberService>()
+                string serialNumber = string.Empty;
+
+#if ANDROID
+
+                serialNumber = DependencyService.Get<ISerialNumberService>()
                     .GetSerialNumber();
+#endif
 
                 var personResponse = await identityController.LoginCode(new API.Contracts.v1.Requests.Identity.LoginCodeRequest
                 {

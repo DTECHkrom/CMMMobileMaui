@@ -87,8 +87,12 @@ namespace CMMMobileMaui.COMPANY
         {
             if (code.StartsWith("u:"))
             {
-                var serialNumber = DependencyService.Get<ISerialNumberService>()
+                string serialNumber = string.Empty;
+
+#if ANDROID
+                 serialNumber = DependencyService.Get<ISerialNumberService>()
                     .GetSerialNumber();
+#endif
 
                 var personResponse = await identityController.LoginCode(new API.Contracts.v1.Requests.Identity.LoginCodeRequest
                 {
@@ -96,10 +100,9 @@ namespace CMMMobileMaui.COMPANY
                     , Mobile_Info = serialNumber
                 });
 
-                if (personResponse.IsValid)
+                if (personResponse.IsResponseWithData())
                 {
                     API.MainObjects.Instance.CurrentUser = personResponse.Data;
-
                     return true;
                 }              
             }
