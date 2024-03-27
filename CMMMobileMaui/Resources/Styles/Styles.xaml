@@ -17,9 +17,8 @@
     <Style x:Key="skiaBtnStyle" TargetType="cust:SKIAImageTextButton">
         <Setter Property="ButtonBackgroundColor" Value="{Binding Source={x:Static com:SConsts.COLOR_1}}" />
         <Setter Property="ButtonColor" Value="{Binding Source={x:Static com:SConsts.COLOR_4}}" />
-        <Setter Property="TextHeight" Value="14" />
-        <Setter Property="HeightRequest" Value="40" />
-
+        <Setter Property="TextHeight" Value="{OnPlatform Android=14, WinUI=20}" />
+        <Setter Property="HeightRequest" Value="{OnPlatform Android=40, WinUI=60}" />
     </Style>
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{Binding Source={x:Static com:SConsts.COLOR_1}}" />

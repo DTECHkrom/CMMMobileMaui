@@ -13,15 +13,15 @@ using CMMMobileMaui.CUST;
 
 namespace CMMMobileMaui.Handlers
 {
-    public partial class CustomEntryHandler
-    {
-        public static PropertyMapper mapper = new PropertyMapper<CustomEntry, CustomEntryHandler>(ViewHandler.ViewMapper)
-        {
-            [nameof(CustomEntry.Text)] = MapTextProperty
-        };
+    //public partial class CustomEntryHandler
+    //{
+    //    public static PropertyMapper mapper = new PropertyMapper<CustomEntry, CustomEntryHandler>(ViewHandler.ViewMapper)
+    //    {
+    //        [nameof(CustomEntry.Text)] = MapTextProperty
+    //    };
 
-        public CustomEntryHandler() : base(mapper)
-        {
-        }
-    }
+    //    public CustomEntryHandler() : base(mapper)
+    //    {
+    //    }
+    //}
 }

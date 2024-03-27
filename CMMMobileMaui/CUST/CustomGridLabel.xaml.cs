@@ -5,10 +5,10 @@
     {
         #region FIELDS
 
-        public COMMON.ViewModelBase parentVM;
-        public IEnumerable<object> orgList;
-        private bool isWindownOpened = false;
-        private string filterText;
+      //  public COMMON.ViewModelBase parentVM;
+      //  public IEnumerable<object> orgList;
+       // private bool isWindownOpened = false;
+//private string filterText;
 
         #endregion
 
@@ -18,9 +18,13 @@
 
         private static void OnFontSizeChangd(BindableObject bindable, object oldValue, object newValue)
         {
-            var custom = bindable as CustomGridLabel;
-            double fontSize = (double)newValue;
-            custom.lblValue.FontSize = fontSize;
+            if(bindable is CustomGridLabel custom)
+            {
+                double fontSize = (double)newValue;
+
+                if(fontSize > 0)
+                    custom.lblValue.FontSize = fontSize;
+            }
         }
 
         public double FontSize
@@ -44,8 +48,10 @@
 
         private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var custom = bindable as CustomGridLabel;
-            custom.lblTitle.Text = newValue.ToString().ToUpperInvariant();
+            if(bindable is CustomGridLabel custom)
+            {
+                custom.lblTitle.Text = newValue.ToString()?.ToUpperInvariant();
+            }
         }
 
         public string Title
@@ -69,16 +75,17 @@
 
         private static void OnTextChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var custom = bindable as CustomGridLabel;
-
-            string text = string.Empty;
-
-            if (newValue != null)
+            if (bindable is CustomGridLabel custom)
             {
-                text = newValue.ToString();
-            }
+                string text = string.Empty;
 
-            custom.lblValue.Text = text;
+                if (newValue is string str)
+                {
+                    text = str;
+                }
+
+                custom.lblValue.Text = text;
+            }
         }
 
         public string Text
@@ -101,17 +108,18 @@
         public static readonly BindableProperty TextMaxLinesProperty = BindableProperty.Create(nameof(TextMaxLines), typeof(int), typeof(CustomGridLabel), defaultValue: 2, propertyChanged: OnTextMaxLinesChanged);
         private static void OnTextMaxLinesChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as CustomGridLabel;
-            int value = (int)newValue;
-
-            if (value <= 0)
+            if (bindable is CustomGridLabel control)
             {
-                value = 1000;
-                //  control.lblValue2.IsVisible = false;
-                // control.mainScroll.IsVisible = true;
-            }
+                if (int.TryParse(newValue.ToString(), out int value))
+                {
+                    if (value <= 0)
+                    {
+                        value = 10;
+                    }
 
-            control.lblValue.MaxLines = value;
+                    control.lblValue.MaxLines = value;
+                }
+            }       
         }
 
         public int TextMaxLines
@@ -133,11 +141,14 @@
         public static readonly BindableProperty ScrollMaxHeightProperty = BindableProperty.Create(nameof(ScrollMaxHeight), typeof(double), typeof(CustomGridLabel), propertyChanged: OnScrollHeightChanged);
         private static void OnScrollHeightChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var control = bindable as CustomGridLabel;
-
-            if (newValue != null)
+            if(bindable is CustomGridLabel custom)
             {
-                control.mainScroll.HeightRequest = (double)newValue;
+                double height = (double)newValue;
+
+                if(height > 0)
+                {
+                    custom.mainScroll.HeightRequest = height;
+                }
             }
         }
 
@@ -168,10 +179,10 @@
 
         protected override void OnBindingContextChanged()
         {
-            if (this.BindingContext != null && this.BindingContext is COMMON.ViewModelBase vm)
-            {
-                this.parentVM = vm;
-            }
+            //if (this.BindingContext != null && this.BindingContext is COMMON.ViewModelBase vm)
+            //{
+            //    this.parentVM = vm;
+            //}
 
             base.OnBindingContextChanged();
         }

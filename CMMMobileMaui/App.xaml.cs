@@ -35,7 +35,7 @@ namespace CMMMobileMaui
 
             ServiceProviderInitializer.Init();
             InitHostLoginData();
-
+            
             var page = new MainShell();
             MainPage = page;
         }
@@ -53,13 +53,17 @@ namespace CMMMobileMaui
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
+            var window = base.CreateWindow(activationState);
+
 #if WINDOWS
-            Window window = new Window();
-            
+            window.Width = 600;
+            window.Height = 800;
+            window.MinimumWidth = 600;
+            window.MinimumHeight = 800;
+
 #endif
 
-
-            return base.CreateWindow(activationState);
+            return window;
         }
 
         public static App GetInstance() => instance;
@@ -122,9 +126,9 @@ namespace CMMMobileMaui
                 //  COMMON.Settings.WebAPI = "10.16.155.19:1234";
                 //    COMMON.Settings.WebAPI = "10.1.41.22:1234";
                 // COMMON.Settings.WebAPI = "10.1.41.22:4444";
-                 COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
+               //  COMMON.Settings.WebAPI = "10.1.40.128:1122"; //DTECH NEW
 
-                // COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
+                 COMMON.Settings.WebAPI = "10.1.42.10:1234"; //CEZAR
                 //   COMMON.Settings.WebAPI = "10.1.40.128:9999"; //CYMMES_AC ON 10.1.40.34
 
                 //    apiManage.IsSSL = true;

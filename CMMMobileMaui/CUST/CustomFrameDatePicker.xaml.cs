@@ -188,15 +188,8 @@ namespace CMMMobileMaui.CUST
                 tboxText.Focus();
             });
 
+            btnClear.Command = ClearSelectedItemCommand;
 
-            AnimationBehavior clearAnimation = new();
-            clearAnimation.Command = ClearSelectedItemCommand;
-            clearAnimation.AnimationType = new FadeAnimation();
-
-            btnClear.Behaviors.Add(clearAnimation);
-
-            //  TouchEffect.SetCommand(btnClear, ClearSelectedItemCommand);
-            // TouchEffect.SetCommand(lblTitle, FocusEditorCommand);
             lblTitle.GestureRecognizers.Add(new TapGestureRecognizer
             {
                 Command = FocusEditorCommand

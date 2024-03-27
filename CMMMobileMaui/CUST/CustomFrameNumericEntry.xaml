@@ -17,8 +17,7 @@
             RowSpacing="0">
             <Label
                 x:Name="lblTitle"
-                Margin="6,0,6,0"
-                Padding="0,0,0,-2"
+                Margin="6,0"
                 FontAttributes="Bold"
                 FontSize="10"
                 HorizontalTextAlignment="Start"
@@ -28,7 +27,7 @@
             <cust:NumericTextBox
                 x:Name="tboxText"
                 Grid.Row="1"
-                Margin="4,0,4,-10"
+                Margin="4,0,4,2"
                 BackgroundColor="Transparent"
                 HorizontalOptions="FillAndExpand"
                 HorizontalTextAlignment="Start"
@@ -36,13 +35,12 @@
                 VerticalOptions="FillAndExpand"
                 VerticalTextAlignment="Center" />
 
-            <Image
+            <cust:LabelIconButton
                 x:Name="btnClear"
                 Grid.RowSpan="2"
-                HeightRequest="30"
+                FontSize="40"
                 HorizontalOptions="End"
-                Source="delete.png"
-                WidthRequest="30" />
+                Text="clear" />
         </Grid>
     </Frame>
 </Grid>

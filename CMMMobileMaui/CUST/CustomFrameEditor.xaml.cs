@@ -209,7 +209,6 @@ namespace CMMMobileMaui.CUST
         {
             InitializeComponent();
             btnClear.IsVisible = false;
-            // btnImage.Source = "edit.png";
             tboxText.FontSize = 14;
             tboxText.TextChanged += TboxText_TextChanged;
 
@@ -218,11 +217,7 @@ namespace CMMMobileMaui.CUST
                 Text = string.Empty;
             });
 
-            btnClear.Behaviors.Add(new AnimationBehavior
-            {
-                Command = ClearSelectedItemCommand
-                , AnimationType = new FadeAnimation()
-            });
+            btnClear.Command = ClearSelectedItemCommand;
         }
 
         private void TboxText_TextChanged(object? sender, TextChangedEventArgs e)

@@ -14,10 +14,16 @@ namespace CMMMobileMaui.CUST
             BindingMode.TwoWay,
             propertyChanged: (bindable, oldValue, newValue) =>
             {
-                ((NumericTextBox)bindable).Text = newValue == null ? string.Empty : newValue.ToString();
-                SetDisplayFormat((NumericTextBox)bindable);
-            }
+              //  ((NumericTextBox)bindable).Text = newValue == null ? string.Empty : newValue.ToString();
 
+                if(bindable is NumericTextBox textBox)
+                {
+                    var value = (decimal?)newValue;
+
+                    textBox.SetDisplayFormat(value);
+                    
+                }
+            }
         );
 
         public static readonly BindableProperty NumericValueFormatProperty = BindableProperty.Create(
@@ -41,8 +47,6 @@ namespace CMMMobileMaui.CUST
             Keyboard = Keyboard.Numeric;
             //  Focused += OnFocused;
             // Unfocused += OnUnfocused;
-            Margin = new Thickness(0, 0, 0, 0);
-
             this.BackgroundColor = Colors.White;
             // this.TextChanged += NumericTextBox_TextChanged;
         }
@@ -120,28 +124,28 @@ namespace CMMMobileMaui.CUST
 
         #region Methods
 
-        private static void SetDisplayFormat(NumericTextBox textBox)
+        private void SetDisplayFormat(decimal? value)
         {
-            if (textBox.NumericValue.HasValue)
+            if (this.NumericValue.HasValue)
             {
-                var form = GetDisplaynumericFormat(textBox);
-                textBox.Text = textBox.NumericValue.Value.ToString(form);
+                var form = GetDisplaynumericFormat();
+                this.Text = NumericValue.Value.ToString(form);
             }
             else
             {
-                textBox.Text = string.Empty;
+                Text = string.Empty;
             }
         }
-        private static bool IsNumericFormatWithN(NumericTextBox textBox) =>
-            textBox.NumericValueFormat.StartsWith("N");
+        private bool IsNumericFormatWithN() =>
+            this.NumericValueFormat.StartsWith("N");
 
-        private static int GetDecimalPlaces(NumericTextBox textBox) =>
-            Convert.ToInt32(textBox.NumericValueFormat.Substring(1));
+        private int GetDecimalPlaces() =>
+            Convert.ToInt32(NumericValueFormat.Substring(1));
 
-        private static string GetDisplaynumericFormat(NumericTextBox textBox) =>
-            !IsNumericFormatWithN(textBox) ? string.Empty
-            : GetDecimalPlaces(textBox) == 0 ? string.Empty
-            : $"0.{new string('#', GetDecimalPlaces(textBox))}";
+        private string GetDisplaynumericFormat() =>
+            !IsNumericFormatWithN() ? string.Empty
+            : GetDecimalPlaces() == 0 ? string.Empty
+            : $"0.{new string('#', GetDecimalPlaces())}";
 
         #endregion
     }

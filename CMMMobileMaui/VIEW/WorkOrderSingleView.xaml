@@ -13,4 +13,8 @@
     Title="Zadanie"
     x:DataType="vm:VMWorkOrderSingle"
     x:TypeArguments="vm:VMWorkOrderSingle"
-    Shell.NavBarIsVisible="False" />
+    Shell.NavBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="{x:OnPlatform Android=false, WinUI=true}" />
+    </Shell.BackButtonBehavior>
+</view:PageBase>

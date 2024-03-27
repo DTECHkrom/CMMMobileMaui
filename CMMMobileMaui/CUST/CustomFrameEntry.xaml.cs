@@ -283,11 +283,7 @@ namespace CMMMobileMaui.CUST
                 tboxText.Focus();
             });
 
-            btnClear.Behaviors.Add(new AnimationBehavior
-            {
-                Command = ClearSelectedItemCommand,
-                AnimationType = new FadeAnimation()
-            });
+            btnClear.Command = ClearSelectedItemCommand;
 
             lblTitle.GestureRecognizers.Add(new TapGestureRecognizer
             {

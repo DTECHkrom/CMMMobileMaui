@@ -57,7 +57,7 @@
                     HeightRequest="40"
                     IsRequired="True"
                     NumericValue="{Binding Path=WorkLoad, Mode=TwoWay}"
-                    NumericValueFormat="0.##" />
+                    NumericValueFormat="N2" />
 
                 <cust:CustomFrameEditor
                     Title="{cv:Translate wo_desc}"

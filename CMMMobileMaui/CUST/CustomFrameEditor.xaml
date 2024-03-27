@@ -29,13 +29,12 @@
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand" />
 
-            <Image
+            <cust:LabelIconButton
                 x:Name="btnClear"
                 Grid.RowSpan="2"
-                HeightRequest="30"
+                FontSize="40"
                 HorizontalOptions="End"
-                Source="delete.png"
-                WidthRequest="30" />
+                Text="clear" />
         </Grid>
     </Frame>
 </Grid>

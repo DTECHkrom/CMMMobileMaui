@@ -1,15 +1,26 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <Grid
     x:Class="CMMMobileMaui.CUST.CustomGridLabel"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
+    xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
     xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Margin="0"
     Padding="1"
     BackgroundColor="Transparent">
 
-    <Frame x:Name="border" Style="{StaticResource customControlFrame}">
+    <telerik:RadBorder
+        x:Name="xxx"
+        Margin="0"
+        Padding="0"
+        BackgroundColor="White"
+        BorderColor="#000000"
+        BorderThickness="1"
+        CornerRadius="0"
+        HorizontalOptions="FillAndExpand"
+        InputTransparent="false"
+        VerticalOptions="FillAndExpand">
+
         <Grid
             x:Name="gMain"
             ColumnDefinitions="*, AUTO"
@@ -17,7 +28,7 @@
             RowSpacing="0">
             <Label
                 x:Name="lblTitle"
-                Margin="6,-2,4,0"
+                Margin="6,0,4,0"
                 Padding="0"
                 FontAttributes="Bold"
                 FontSize="10"
@@ -28,18 +39,20 @@
             <ScrollView
                 x:Name="mainScroll"
                 Grid.Row="1"
-                Margin="8,-4,4,2"
+                Margin="8,0,4,2"
                 HorizontalScrollBarVisibility="Never"
                 Orientation="Vertical"
                 VerticalOptions="FillAndExpand"
                 VerticalScrollBarVisibility="Default">
-                <ScrollView.Content>
+                <StackLayout>
                     <Label
                         x:Name="lblValue"
                         HorizontalTextAlignment="Start"
                         VerticalTextAlignment="Start" />
-                </ScrollView.Content>
+                </StackLayout>
+
             </ScrollView>
+
         </Grid>
-    </Frame>
+    </telerik:RadBorder>
 </Grid>

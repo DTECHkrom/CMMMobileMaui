@@ -1118,7 +1118,7 @@ namespace CMMMobileMaui.VM
                         woActs._WorkLoad = userWorkLoad;
                         woActs._IsAddPerson = true;
 
-                        OnPropertyChanged(nameof(ActsList));
+                       // OnPropertyChanged(nameof(ActsList));
                     }
                 }
             });
@@ -1153,7 +1153,7 @@ namespace CMMMobileMaui.VM
                     if (obj != null)
                     {
                         ((GetWOActsResponse)obj)._IsAddPerson = false;
-                        OnPropertyChanged(nameof(ActsList));
+                       // OnPropertyChanged(nameof(ActsList));
                     }
                 }
             });
@@ -1723,7 +1723,9 @@ namespace CMMMobileMaui.VM
 
                 if (actsResponse.IsResponseWithData(this))
                 {
-                    ActsList = new ObservableCollection<GetWOActsResponse>(actsResponse.Data!);
+
+                        ActsList = new ObservableCollection<GetWOActsResponse>(actsResponse.Data!);
+
                 }
 
                 if (CurrentWO.PlanID.HasValue)

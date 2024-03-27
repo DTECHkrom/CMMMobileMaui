@@ -17,7 +17,7 @@
     Title="Szukaj urządzenia"
     x:DataType="vm:VMDeviceSearch"
     x:TypeArguments="vm:VMDeviceSearch"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="false">
     <view:PageBase.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="devTemp" x:DataType="mod:DeviceModel">

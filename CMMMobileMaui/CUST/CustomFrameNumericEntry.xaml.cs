@@ -260,11 +260,8 @@ namespace CMMMobileMaui.CUST
                 tboxText.Focus();
             });
 
-            btnClear.Behaviors.Add(new AnimationBehavior
-            {
-                Command = ClearSelectedItemCommand,
-                AnimationType = new FadeAnimation()
-            });
+
+            btnClear.Command = ClearSelectedItemCommand;
 
             lblTitle.GestureRecognizers.Add(new TapGestureRecognizer
             {
@@ -275,7 +272,7 @@ namespace CMMMobileMaui.CUST
         private void OnUnfocused(object? sender, FocusEventArgs e)
         {
             tboxText.SetDisplayFormat();
-            NumericValue = tboxText.NumericValue;
+           // NumericValue = tboxText.NumericValue;
         }
 
         private void TboxText_TextChanged(object? sender, TextChangedEventArgs e)
@@ -283,7 +280,7 @@ namespace CMMMobileMaui.CUST
             SetBorderColor();
 
             tboxText.SetDisplayFormat();
-            NumericValue = tboxText.NumericValue;
+           // NumericValue = tboxText.NumericValue;
         }
 
         #endregion
