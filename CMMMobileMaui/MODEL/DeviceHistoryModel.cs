@@ -36,6 +36,16 @@ namespace CMMMobileMaui.MODEL
 
         #endregion
 
+        #region PROPERTY IsAddWorkOrderVisible
+
+        public bool IsAddWorkOrderVisible
+        {
+            get => isAddWorkOrderVisible;
+            set => SetProperty(ref isAddWorkOrderVisible, value);
+        }
+
+        #endregion
+
         #region PROPERTY DisplayIndex
 
         public int DisplayIndex
@@ -49,6 +59,7 @@ namespace CMMMobileMaui.MODEL
         #region PROPERTY CurrentDevice
 
         private GetDeviceListResponse currentDevice;
+        private bool isAddWorkOrderVisible;
 
         public GetDeviceListResponse CurrentDevice
         {
@@ -67,14 +78,27 @@ namespace CMMMobileMaui.MODEL
 
         #endregion
 
+        #region COMMAND AddWorkOrderCommand
+
+        public ICommand AddWorkOrderCommand
+        {
+            get;
+        }
+
+        #endregion
+
         #region Cstr
 
-        public DeviceHistoryModel(DBMain.Model.History baseItem, ICommand showItemCommand)
+        public DeviceHistoryModel(DBMain.Model.History baseItem
+            , ICommand showItemCommand
+            , ICommand addWorkOrderCommand)
         {
             BaseItem = baseItem;
             ShowItemCommand = showItemCommand;
+            AddWorkOrderCommand = addWorkOrderCommand;
             workerTask = SetDataForDevice();
             Task.Run(async () => await workerTask);
+
         }
 
         #endregion
@@ -95,6 +119,8 @@ namespace CMMMobileMaui.MODEL
             if (deviceResponse.IsResponseWithData())
             {
                 CurrentDevice = deviceResponse.Data!;
+
+                IsAddWorkOrderVisible = true;
             }
             else
             {

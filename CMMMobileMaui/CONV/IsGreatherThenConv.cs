@@ -16,7 +16,7 @@ namespace CMMMobileMaui.CONV
                 return intValue > 0;
             }
 
-            return true;
+            return false;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

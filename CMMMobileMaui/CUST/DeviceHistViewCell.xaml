@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:com="clr-namespace:CMMMobileMaui.COMMON"
+    xmlns:cust="clr-namespace:CMMMobileMaui.CUST"
     xmlns:cv="clr-namespace:CMMMobileMaui.CONV"
     xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,38 +15,33 @@
         <Grid BackgroundColor="{Binding Path=CurrentDevice.StateID, Converter={cv:DeviceStateColorConv}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="32" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid ColumnDefinitions="auto, *" RowDefinitions="*, *">
 
-                <StackLayout
+                <BoxView
+                    Grid.RowSpan="2"
                     Grid.Column="0"
-                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}"
+                    BackgroundColor="{Binding Source={x:Static com:SConsts.COLOR_3}}" />
+
+                <Label
+                    Grid.Row="0"
+                    Margin="2,1,2,0"
+                    FontSize="12"
                     HorizontalOptions="FillAndExpand"
-                    Orientation="Vertical">
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:yyyy-MM-dd}]'}"
+                    VerticalTextAlignment="Center" />
 
-                    <Label
-                        Margin="2,1,2,0"
-                        FontSize="12"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:yyyy-MM-dd}]'}"
-                        VerticalTextAlignment="Center" />
-
-                    <Label
-                        Margin="2,0,2,1"
-                        FontSize="12"
-                        HorizontalOptions="FillAndExpand"
-                        HorizontalTextAlignment="Center"
-                        Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:HH:mm}]'}"
-                        VerticalTextAlignment="Center" />
-
-                </StackLayout>
+                <Label
+                    Grid.Row="1"
+                    Margin="2,0,2,1"
+                    FontSize="12"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Path=BaseItem.Mod_Date, StringFormat='[{0:HH:mm}]'}"
+                    VerticalTextAlignment="Center" />
 
                 <Label
                     Grid.Column="1"
@@ -57,6 +53,18 @@
                     VerticalOptions="Center"
                     VerticalTextAlignment="Center" />
 
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    FontAttributes="Bold"
+                    FontSize="12"
+                    Text="{Binding Path=CurrentDevice.DeviceCategory}"
+                    TextColor="Black"
+                    VerticalOptions="Center"
+                    VerticalTextAlignment="Center" />
+
+
                 <Grid.Behaviors>
                     <xct:AnimationBehavior Command="{Binding Path=ShowItemCommand}" CommandParameter="{Binding .}">
                         <xct:AnimationBehavior.AnimationType>
@@ -66,6 +74,13 @@
                 </Grid.Behaviors>
 
             </Grid>
+
+            <cust:LabelIconButton
+                Grid.Column="1"
+                Command="{Binding Path=AddWorkOrderCommand}"
+                CommandParameter="{Binding .}"
+                FontSize="40"
+                Text="construction" />
 
             <telerikPrimitives:RadBusyIndicator
                 x:Name="busyIndicator"

@@ -145,6 +145,16 @@ namespace CMMMobileMaui.COMMON
 
         #endregion
 
+        #region PROPERTY Level
+
+        public int Level
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
         #region Cstr
         private DeviceSetModel()
         {
